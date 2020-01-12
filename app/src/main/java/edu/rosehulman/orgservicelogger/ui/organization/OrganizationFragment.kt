@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.home
+package edu.rosehulman.orgservicelogger.ui.organization
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import edu.rosehulman.orgservicelogger.R
 
-class HomeFragment : Fragment() {
+class OrganizationFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var organizationViewModel: OrganizationViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(this, Observer {
+        organizationViewModel =
+                ViewModelProviders.of(this).get(OrganizationViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_organization, container, false)
+        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        organizationViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

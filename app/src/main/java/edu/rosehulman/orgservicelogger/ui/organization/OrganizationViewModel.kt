@@ -1,13 +1,13 @@
-package edu.rosehulman.orgservicelogger.ui.home
+package edu.rosehulman.orgservicelogger.ui.organization
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class OrganizationViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "This is organization Fragment"
     }
     val text: LiveData<String> = _text
 }
