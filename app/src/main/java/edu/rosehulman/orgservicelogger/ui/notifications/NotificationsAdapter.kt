@@ -43,17 +43,17 @@ class NotificationsAdapter(private val context: Context) :
         when (notifications[position]) {
             Notification.Confirm -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_confirm)
-                holder.title.setText("Confirm Event Attendance")
+                holder.title.setText(R.string.text_notification_confirm)
                 holder.description.setText("Ryves Hall 5:30-7:30pm Thursday 12/19/2019")
             }
             Notification.Reminder -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_reminder)
-                holder.title.setText("Event Reminder")
+                holder.title.setText(R.string.text_notification_reminder)
                 holder.description.setText("Ryves Hall 5:30-7:30pm Thursday 12/19/2019")
             }
             Notification.NeedsReplacement -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_replacement)
-                holder.title.setText("Aden needs a replacement")
+                holder.title.setText(context.getString(R.string.text_notification_replacement).format("Aden"))
                 holder.description.setText("Legion Dishes 6:00-9:00m Friday 12/20/2019")
             }
         }
