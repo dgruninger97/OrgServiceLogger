@@ -22,17 +22,17 @@ class NotificationsAdapter(private val context: Context) :
         val view = LayoutInflater.from(context).inflate(R.layout.notification_view, parent, false)
         val holder = NotificationViewHolder(view)
         view.setOnClickListener {
-            when (notifications[holder.adapterPosition]) {
-                Notification.Confirm -> {
-                    Log.d("OSL", "Clicked Confirm")
-                }
-                Notification.Reminder -> {
-                    Log.d("OSL", "Clicked Reminder")
-                }
-                Notification.NeedsReplacement -> {
-                    Log.d("OSL", "Clicked NeedsReplacement")
-                }
-            }
+//            when (notifications[holder.adapterPosition]) {
+//                Notification.Confirm -> {
+//                    Log.d("OSL", "Clicked Confirm")
+//                }
+//                Notification.Reminder -> {
+//                    Log.d("OSL", "Clicked Reminder")
+//                }
+//                Notification.NeedsReplacement -> {
+//                    Log.d("OSL", "Clicked NeedsReplacement")
+//                }
+//            }
         }
         return holder
     }
