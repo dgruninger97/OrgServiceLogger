@@ -8,6 +8,6 @@ data class Person(
     val email: String,
     val phoneNumber: String,
     val canDrive: Boolean,
-    val events: List<EventInstance>,
+    val events: MutableList<EventInstance>,
     val notifications: List<Notification>
 )

@@ -8,4 +8,6 @@
     <string name="text_notification_confirm">Confirm Event Attendance</string>
     <string name="text_notification_reminder">Event Reminder</string>
     <string name="text_notification_replacement">%s needs a replacement</string>
+    <string name="text_directions">Directions:</string>
+    <string name="text_attendees">Attendees:</string>
 </resources>
