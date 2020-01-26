@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.users
+package edu.rosehulman.orgservicelogger.ui.userList
 
 
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.*
+import edu.rosehulman.orgservicelogger.ui.userInfo.UserInfoFragment
 
 class UserListAdapter(var context: FragmentActivity) : RecyclerView.Adapter<UserViewHolder>() {
     private var users = arrayListOf(david, chris)
@@ -25,7 +26,9 @@ class UserListAdapter(var context: FragmentActivity) : RecyclerView.Adapter<User
     }
 
     private fun showUserInfo(position: Int) {
-        launchFragment(context, UserInfoFragment(users[position]))
+        launchFragment(context,
+            UserInfoFragment(users[position])
+        )
     }
 
     override fun getItemCount() = users.size

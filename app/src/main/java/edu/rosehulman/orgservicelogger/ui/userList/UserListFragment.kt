@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.users
+package edu.rosehulman.orgservicelogger.ui.userList
 
 import android.os.Bundle
 import android.view.LayoutInflater

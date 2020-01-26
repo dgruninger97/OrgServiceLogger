@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.launchFragment
-import edu.rosehulman.orgservicelogger.ui.users.UserListFragment
+import edu.rosehulman.orgservicelogger.ui.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
 import kotlinx.android.synthetic.main.fragment_organization.view.*
 
