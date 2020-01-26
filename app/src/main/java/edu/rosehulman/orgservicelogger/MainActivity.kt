@@ -15,8 +15,7 @@ import edu.rosehulman.orgservicelogger.ui.notifications.NotificationsFragment
 import edu.rosehulman.orgservicelogger.ui.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.ui.settings.SettingsFragment
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
-    BottomNavigationView.OnNavigationItemReselectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(this)
-        navView.setOnNavigationItemReselectedListener(this)
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.nav_container, NotificationsFragment())
@@ -32,6 +30,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        for (i in 0..supportFragmentManager.backStackEntryCount) {
+            supportFragmentManager.popBackStack()
+        }
         when (menuItem.itemId) {
             R.id.navigation_notifications -> {
                 launchFragment(NotificationsFragment())
@@ -51,12 +52,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun launchFragment(fragment: Fragment) {
         launchFragment(this, fragment)
-    }
-
-    override fun onNavigationItemReselected(menuItem: MenuItem) {
-        for (i in 0..supportFragmentManager.backStackEntryCount) {
-            supportFragmentManager.popBackStack()
-        }
     }
 }
 
