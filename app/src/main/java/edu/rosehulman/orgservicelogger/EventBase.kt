@@ -3,16 +3,16 @@ package edu.rosehulman.orgservicelogger
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 
-data class EventBase(
-    val name: String,
-    val address: String,
-    val description: String,
-    val organization: Organization,
-    val minPeople: Int,
-    val maxPeople: Int,
+class EventBase(
+    var name: String,
+    var address: String,
+    var description: String,
+    var organization: Organization,
+    var minPeople: Int,
+    var maxPeople: Int,
     var timeStart: Timestamp,
     var timeEnd: Timestamp,
-    val weeklyRecurrence: List<Boolean>
+    var weeklyRecurrence: List<Boolean>
 ) {
     fun formatTimeSpan(): String = formatTimeSpan(timeStart, timeEnd)
 }

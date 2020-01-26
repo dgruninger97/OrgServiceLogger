@@ -4,9 +4,9 @@ import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 
 data class EventInstance(
-    val base: EventBase,
+    var base: EventBase,
     var date: Timestamp,
-    val people: List<Person>
+    var people: List<Person>
 ) {
     fun formatDate(): String = formatDate(date)
 }

@@ -1,6 +1,6 @@
 package edu.rosehulman.orgservicelogger
 
-data class Person(
+class Person(
     var organizations: List<Organization>,
     var administrating: List<Organization>,
     var name: String,

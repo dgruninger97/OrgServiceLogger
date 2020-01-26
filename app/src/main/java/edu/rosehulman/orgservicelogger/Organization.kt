@@ -1,9 +1,9 @@
 package edu.rosehulman.orgservicelogger
 
-data class Organization(
-    val name: String,
-    val members: MutableList<Person>,
-    val eventBases: List<EventBase>,
-    val eventInstances: List<EventInstance>,
-    val hoursRequirement: Int?
+class Organization(
+    var name: String,
+    var members: MutableList<Person>,
+    var eventBases: List<EventBase>,
+    var eventInstances: List<EventInstance>,
+    var hoursRequirement: Int?
 )
