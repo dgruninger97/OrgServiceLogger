@@ -31,8 +31,7 @@ class EventsFragment : Fragment() {
     private val chris = Person(
         arrayListOf(lambdaChi),
         arrayListOf(),
-        "Chris",
-        "Gregory",
+        "Chris Gregory",
         "gregorcj@rose-hulman.edu",
         "541 740 7370",
         true,
@@ -42,8 +41,7 @@ class EventsFragment : Fragment() {
     private val david = Person(
         arrayListOf(lambdaChi),
         arrayListOf(),
-        "David",
-        "Gruninger",
+        "David Gruninger",
         "grunindm@rose-hulman.edu",
         "317 605 5636",
         true,
@@ -75,7 +73,7 @@ class EventsFragment : Fragment() {
         list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         root.fragment_event_fab.setOnClickListener {
-            launchFragment(activity!!, EditEventFragment())
+//            launchFragment(activity!!, EditEventFragment())
         }
 
         return root

@@ -16,7 +16,7 @@ class EditEventFragment(val event: EventInstance) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_event, container, false)
-        view.fragment_edit_event_date.setText(event.date)
+//        view.fragment_edit_event_date.setText(event.date)
         view.fragment_edit_event_address.setText(event.base.address)
         view.fragment_edit_event_fab.setOnClickListener {
             activity!!.supportFragmentManager.popBackStack()

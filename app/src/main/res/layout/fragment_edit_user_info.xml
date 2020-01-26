@@ -34,7 +34,9 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Change User Name" />
+                android:hint="Change User Name"
+                android:id="@+id/fragment_edit_user_info_name_edit_text"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -52,7 +54,9 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Change user email" />
+                android:hint="Change user email"
+                android:id="@+id/fragment_edit_user_info_email_edit_text"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +74,8 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Change user Phone" />
+                android:hint="Change user Phone"
+                android:id="@+id/fragment_edit_user_info_phone_edit_text"/>
 
         </LinearLayout>
 
@@ -88,7 +93,8 @@
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_edit_user_info_checkbox"/>
         </LinearLayout>
 
         <TextView
@@ -108,6 +114,7 @@
                 android:textSize="30sp" />
 
             <Button
+                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -119,13 +126,13 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/user_info_confirm_fab"
+        android:id="@+id/fragment_edit_user_info_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:tint="#FFFFFF"
-        app:srcCompat="@drawable/ic_edit" />
+        app:srcCompat="@drawable/ic_check" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

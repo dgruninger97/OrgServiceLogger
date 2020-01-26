@@ -1,13 +1,12 @@
 package edu.rosehulman.orgservicelogger
 
 data class Person(
-    val organizations: List<Organization>,
-    val administrating: List<Organization>,
-    val firstName: String,
-    val lastName: String,
-    val email: String,
-    val phoneNumber: String,
-    val canDrive: Boolean,
-    val events: MutableList<EventInstance>,
-    val notifications: List<Notification>
+    var organizations: List<Organization>,
+    var administrating: List<Organization>,
+    var name: String,
+    var email: String,
+    var phoneNumber: String,
+    var canDrive: Boolean,
+    var events: MutableList<EventInstance>,
+    var notifications: List<Notification>
 )
