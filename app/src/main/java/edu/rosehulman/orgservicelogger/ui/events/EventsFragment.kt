@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import edu.rosehulman.orgservicelogger.*
+import edu.rosehulman.orgservicelogger.ui.event.EditEventFragment
+import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
 import java.util.*
 
-class EventsFragment() : Fragment() {
+class EventsFragment : Fragment() {
     private val lambdaChi = Organization("Lambda Chi Alpha", listOf(), listOf(), listOf(), 4)
     private val ryvesHallBase = EventBase(
         "Ryves Hall",
@@ -71,6 +73,11 @@ class EventsFragment() : Fragment() {
         list.adapter = EventGroupsAdapter(context!! as FragmentActivity, events)
         list.layoutManager = LinearLayoutManager(context)
         list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+        root.fragment_event_fab.setOnClickListener {
+            launchFragment(activity!!, EditEventFragment())
+        }
+
         return root
     }
 }
