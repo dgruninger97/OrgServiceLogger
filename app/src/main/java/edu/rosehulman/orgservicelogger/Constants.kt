@@ -1,5 +1,5 @@
 package edu.rosehulman.orgservicelogger
 
 object Constants {
-    val TAG = "ORGLOGGER"
+    const val TAG = "OSL"
 }

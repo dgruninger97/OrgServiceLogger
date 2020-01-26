@@ -23,13 +23,13 @@ class NotificationsAdapter(private val context: Context) :
         view.setOnClickListener {
 //            when (notifications[holder.adapterPosition]) {
 //                Notification.Confirm -> {
-//                    Log.d("OSL", "Clicked Confirm")
+//                    Log.d(Constants.TAG, "Clicked Confirm")
 //                }
 //                Notification.Reminder -> {
-//                    Log.d("OSL", "Clicked Reminder")
+//                    Log.d(Constants.TAG, "Clicked Reminder")
 //                }
 //                Notification.NeedsReplacement -> {
-//                    Log.d("OSL", "Clicked NeedsReplacement")
+//                    Log.d(Constants.TAG, "Clicked NeedsReplacement")
 //                }
 //            }
         }
