@@ -12,7 +12,7 @@ class EventBase(
     var maxPeople: Int,
     var timeStart: Timestamp,
     var timeEnd: Timestamp,
-    var weeklyRecurrence: List<Boolean>
+    var weeklyRecurrence: MutableList<Boolean>
 ) {
     fun formatTimeSpan(): String = formatTimeSpan(timeStart, timeEnd)
 }

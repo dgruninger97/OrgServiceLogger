@@ -45,7 +45,7 @@ val ryvesHallBase = EventBase(
     2,
     Timestamp(Date(119, 11, 12, 17, 30, 0)), // 12/19/2019 5:30:00pm
     Timestamp(Date(119, 11, 12, 19, 30, 0)), // 12/19/2019 7:30:00pm,
-    listOf(false, false, false, false, true, false, false) // Sunday, ..., Saturday
+    mutableListOf(false, false, false, false, true, false, false) // Sunday, ..., Saturday
 )
 
 val ryvesHallDec12 = EventInstance(
