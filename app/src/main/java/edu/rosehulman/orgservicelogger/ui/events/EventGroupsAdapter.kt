@@ -15,7 +15,7 @@ class EventGroupsAdapter(
     private val context: FragmentActivity,
     private val events: List<EventInstance>
 ) :
-    RecyclerView.Adapter<EventGroupsViewHolder>() {
+    RecyclerView.Adapter<EventGroupViewHolder>() {
     private val eventDays: MutableMap<Date, Int>
 
     init {
@@ -28,8 +28,8 @@ class EventGroupsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventGroupsViewHolder {
-        val holder = EventGroupsViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventGroupViewHolder {
+        val holder = EventGroupViewHolder(
             LayoutInflater.from(context).inflate(
                 R.layout.view_event_group,
                 parent,
@@ -49,7 +49,7 @@ class EventGroupsAdapter(
 
     override fun getItemCount() = events.size
 
-    override fun onBindViewHolder(holder: EventGroupsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EventGroupViewHolder, position: Int) {
         val event = events[position]
         val date: Date = event.date.toDate()
         holder.day.text = SimpleDateFormat("EEEE MMM/dd/yyyy").format(date)
