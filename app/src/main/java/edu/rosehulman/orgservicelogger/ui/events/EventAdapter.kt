@@ -8,7 +8,6 @@ import edu.rosehulman.orgservicelogger.EventInstance
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.launchFragment
 import edu.rosehulman.orgservicelogger.ui.event.EventFragment
-import java.text.SimpleDateFormat
 
 class EventAdapter(
     private val context: FragmentActivity
@@ -38,7 +37,7 @@ class EventAdapter(
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = events[position]
         holder.title.text = event.base.name
-        holder.time.text = event.base.formatTime()
+        holder.time.text = event.base.formatTimeSpan()
     }
 
     fun resetTo(es: List<EventInstance>) {

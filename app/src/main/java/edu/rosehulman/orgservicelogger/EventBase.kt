@@ -14,9 +14,14 @@ data class EventBase(
     var timeEnd: Timestamp,
     val weeklyRecurrence: List<Boolean>
 ) {
-    fun formatTime(): String {
-        val start = SimpleDateFormat("h:m").format(timeStart.toDate())
-        val end = SimpleDateFormat("h:ma").format(timeEnd.toDate())
-        return start + "-" + end
-    }
+    fun formatTimeSpan(): String = formatTimeSpan(timeStart, timeEnd)
 }
+
+fun formatTimeSpan(timeStart: Timestamp, timeEnd: Timestamp): String =
+    formatTime(timeStart) + "-" + formatTimeAmPm(timeEnd)
+
+private fun formatTime(timeStart: Timestamp) =
+    SimpleDateFormat("h:m").format(timeStart.toDate())
+
+private fun formatTimeAmPm(timeEnd: Timestamp) =
+    SimpleDateFormat("h:ma").format(timeEnd.toDate())

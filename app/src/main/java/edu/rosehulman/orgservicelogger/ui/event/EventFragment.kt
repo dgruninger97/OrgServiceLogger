@@ -19,7 +19,7 @@ class EventFragment(private val event: EventInstance) : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_event, container, false)
         val day = SimpleDateFormat("EEEE MMM/dd/yyyy").format(event.date.toDate())
-        view.fragment_event_date.text = day + " " + event.base.formatTime()
+        view.fragment_event_date.text = day + " " + event.base.formatTimeSpan()
         view.fragment_event_description.text = event.base.description
         view.fragment_event_directions.text = event.base.address
 

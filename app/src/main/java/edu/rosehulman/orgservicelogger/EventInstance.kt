@@ -8,7 +8,7 @@ data class EventInstance(
     var date: Timestamp,
     val people: List<Person>
 ) {
-    fun formatDate(): String {
-        return SimpleDateFormat("EEEE MMM/dd/yyyy").format(date.toDate())
-    }
+    fun formatDate(): String = formatDate(date)
 }
+
+fun formatDate(date: Timestamp) = SimpleDateFormat("EEEE MMM/dd/yyyy").format(date.toDate())
