@@ -3,7 +3,7 @@ package edu.rosehulman.orgservicelogger
 import com.google.firebase.Timestamp
 import java.util.*
 
-val lambdaChi = Organization("Lambda Chi Alpha", listOf(), listOf(), listOf(), 4)
+val lambdaChi = Organization("Lambda Chi Alpha", mutableListOf(), listOf(), listOf(), 4)
 val ryvesHallBase = EventBase(
     "Ryves Hall",
     "1356 Locust St, Terre Haute, IN 47807",
@@ -24,7 +24,7 @@ val chris = Person(
     true,
     arrayListOf(),
     arrayListOf()
-)
+).also { lambdaChi.members.add(it) }
 val david = Person(
     arrayListOf(lambdaChi),
     arrayListOf(),
@@ -34,7 +34,7 @@ val david = Person(
     true,
     arrayListOf(),
     arrayListOf()
-)
+).also { lambdaChi.members.add(it) }
 val events = listOf(
     EventInstance(
         ryvesHallBase,
