@@ -38,10 +38,7 @@ class EventAdapter(
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = events[position]
         holder.title.text = event.base.name
-
-        val start = SimpleDateFormat("h:m").format(event.base.timeStart.toDate())
-        val end = SimpleDateFormat("h:ma").format(event.base.timeEnd.toDate())
-        holder.time.text = "$start-$end"
+        holder.time.text = event.base.formatTime()
     }
 
     fun resetTo(es: List<EventInstance>) {
