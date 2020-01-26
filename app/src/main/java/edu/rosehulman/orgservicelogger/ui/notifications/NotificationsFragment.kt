@@ -17,7 +17,7 @@ class NotificationsFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val recyclerView = inflater.inflate(R.layout.fragment_notifications, container, false) as RecyclerView
-        recyclerView.adapter = NotificationsAdapter(context!!)
+        recyclerView.adapter = NotificationsAdapter(activity!!)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         return recyclerView

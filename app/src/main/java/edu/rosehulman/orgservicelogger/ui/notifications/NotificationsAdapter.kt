@@ -1,37 +1,37 @@
 package edu.rosehulman.orgservicelogger.ui.notifications
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.*
+import edu.rosehulman.orgservicelogger.ui.event.EventFragment
 
-class NotificationsAdapter(private val context: Context) :
+class NotificationsAdapter(private val context: FragmentActivity) :
     RecyclerView.Adapter<NotificationViewHolder>() {
 
-    enum class Notification {
-        Confirm, Reminder, NeedsReplacement
-    }
-
     private val notifications = arrayListOf(
-        Notification.Confirm, Notification.Reminder, Notification.NeedsReplacement
+        NeedsReplacementNotification(ryvesHallDec19, aden),
+        ConfirmNotification(ryvesHallDec12),
+        ReminderNotification(ryvesHallDec12)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.view_notification, parent, false)
         val holder = NotificationViewHolder(view)
         view.setOnClickListener {
-//            when (notifications[holder.adapterPosition]) {
-//                Notification.Confirm -> {
-//                    Log.d(Constants.TAG, "Clicked Confirm")
-//                }
-//                Notification.Reminder -> {
-//                    Log.d(Constants.TAG, "Clicked Reminder")
-//                }
-//                Notification.NeedsReplacement -> {
-//                    Log.d(Constants.TAG, "Clicked NeedsReplacement")
-//                }
-//            }
+            val notification = notifications[holder.adapterPosition]
+            when (notification) {
+                is ConfirmNotification -> {
+                    TODO()
+                }
+                is ReminderNotification -> {
+                    launchFragment(context, EventFragment(notification.event))
+                }
+                is NeedsReplacementNotification -> {
+                    TODO()
+                }
+            }
         }
         return holder
     }
@@ -39,22 +39,28 @@ class NotificationsAdapter(private val context: Context) :
     override fun getItemCount() = notifications.size
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        when (notifications[position]) {
-            Notification.Confirm -> {
+        val notification = notifications[position]
+        when (notification) {
+            is ConfirmNotification -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_confirm)
                 holder.title.setText(R.string.text_notification_confirm)
-                holder.description.setText("Ryves Hall 5:30-7:30pm Thursday 12/19/2019")
             }
-            Notification.Reminder -> {
+            is ReminderNotification -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_reminder)
                 holder.title.setText(R.string.text_notification_reminder)
-                holder.description.setText("Ryves Hall 5:30-7:30pm Thursday 12/19/2019")
             }
-            Notification.NeedsReplacement -> {
+            is NeedsReplacementNotification -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_replacement)
-                holder.title.setText(context.getString(R.string.text_notification_replacement).format("Aden"))
-                holder.description.setText("Legion Dishes 6:00-9:00m Friday 12/20/2019")
+                holder.title.setText(
+                    context.getString(R.string.text_notification_replacement).format(
+                        notification.person.name
+                    )
+                )
             }
         }
+
+        holder.description.setText(
+            notification.event.base.name + " " + notification.event.formatDate() + " " + notification.event.base.formatTimeSpan()
+        )
     }
 }
