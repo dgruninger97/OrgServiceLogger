@@ -1,7 +1,6 @@
 package edu.rosehulman.orgservicelogger.ui.users
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
@@ -20,12 +19,12 @@ class UserListAdapter(var context: FragmentActivity) : RecyclerView.Adapter<User
             )
         )
         holder.itemView.setOnClickListener {
-            launchEvent(holder.adapterPosition)
+            showUserInfo(holder.adapterPosition)
         }
         return holder
     }
 
-    fun launchEvent(position: Int) {
+    private fun showUserInfo(position: Int) {
         launchFragment(context, UserInfoFragment(users[position]))
     }
 
