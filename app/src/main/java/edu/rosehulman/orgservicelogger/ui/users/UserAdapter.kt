@@ -14,7 +14,7 @@ class UserAdapter(var context: FragmentActivity): RecyclerView.Adapter<UserViewH
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val holder = UserViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.user_info,
+                R.layout.fragment_user_info,
                 parent,
                 false
             )

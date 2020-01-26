@@ -9,20 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import edu.rosehulman.orgservicelogger.Person
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.launchFragment
+import kotlinx.android.synthetic.main.fragment_user_info.*
 
-class UserInfoFragment(person: Person) : Fragment() {
+class UserInfoFragment(var person: Person) : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        user_info_edit_fab.setOnClickListener {
+            launchFragment(activity!!, UserInfoEditFragment(person))
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.user_info, container, false)
+        return inflater.inflate(R.layout.fragment_user_info, container, false)
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)

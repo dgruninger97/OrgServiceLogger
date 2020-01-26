@@ -52,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="See Group Members"
+            android:id="@+id/see_group_members"
             android:textSize="24sp" />
 
         <TextView

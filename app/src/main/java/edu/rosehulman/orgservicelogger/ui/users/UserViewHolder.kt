@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.Person
-import kotlinx.android.synthetic.main.user_info.view.*
+import kotlinx.android.synthetic.main.fragment_user_info.view.*
 
 class UserViewHolder(view:View): RecyclerView.ViewHolder(view) {
     var user_info = view.user_info_text_view as TextView
