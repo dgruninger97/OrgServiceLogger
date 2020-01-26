@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="4dp"
                 android:text="Minimum hour requirement:"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/fragment_organization_min_hours"
@@ -45,19 +45,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Actions:"
-            android:textSize="24sp" />
+            android:textSize="26sp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="See Group Members"
             android:id="@+id/see_group_members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="See Group Members"
             android:textSize="24sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:text="Add Event"
             android:textSize="24sp" />
     </LinearLayout>

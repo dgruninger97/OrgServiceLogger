@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="4dp">
 
     <TextView
         android:id="@+id/view_event_title"
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
-        android:textSize="22sp" />
+        android:textSize="26sp" />
 
     <LinearLayout
         android:id="@+id/view_event_people"
@@ -39,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="8dp"
-        android:textSize="18sp"
+        android:layout_marginEnd="16dp"
+        android:textSize="20sp"
         android:textStyle="italic" />
 </RelativeLayout>
