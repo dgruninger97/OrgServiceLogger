@@ -1,7 +1,6 @@
 package edu.rosehulman.orgservicelogger.ui.notifications
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +18,7 @@ class NotificationsAdapter(private val context: Context) :
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.notification_view, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.view_notification, parent, false)
         val holder = NotificationViewHolder(view)
         view.setOnClickListener {
 //            when (notifications[holder.adapterPosition]) {

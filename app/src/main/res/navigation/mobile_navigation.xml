@@ -21,7 +21,7 @@
         android:id="@+id/navigation_organization"
         android:name="edu.rosehulman.orgservicelogger.ui.organization.OrganizationFragment"
         android:label="@string/title_organization"
-        tools:layout="@layout/fragment_organization" />
+        tools:layout="@layout/dialog_edit_organization" />
 
     <fragment
         android:id="@+id/navigation_settings"
