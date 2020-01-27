@@ -37,20 +37,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         for (i in 0..supportFragmentManager.backStackEntryCount) {
             supportFragmentManager.popBackStack()
         }
-        when (menuItem.itemId) {
-            R.id.navigation_notifications -> {
-                launchFragment(this, NotificationsFragment())
-            }
-            R.id.navigation_events -> {
-                launchFragment(this, EventsFragment())
-            }
-            R.id.navigation_organization -> {
-                launchFragment(this, OrganizationFragment())
-            }
-            R.id.navigation_settings -> {
-                launchFragment(this, SettingsFragment())
-            }
+        val fragment = when (menuItem.itemId) {
+            R.id.navigation_notifications -> NotificationsFragment()
+            R.id.navigation_events -> EventsFragment()
+            R.id.navigation_organization -> OrganizationFragment()
+            R.id.navigation_settings -> SettingsFragment()
+            else -> TODO("Unimplemented navigation item")
         }
+        launchFragment(this, fragment)
         return true
     }
 
@@ -68,13 +62,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         authStateListener = FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
             val user = auth.currentUser
             Log.d(Constants.TAG, "In the auth listener, user is $user")
-            val transaction = supportFragmentManager.beginTransaction()
-            if (user != null) {
+
+            val fragment = if (user != null) {
                 userId = user.uid
-                transaction.replace(R.id.nav_container, NotificationsFragment())
+                NotificationsFragment()
             } else {
-                transaction.replace(R.id.nav_container, SplashFragment(this))
+                SplashFragment(this)
             }
+
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_container, fragment)
             transaction.commit()
         }
     }
