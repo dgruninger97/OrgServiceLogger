@@ -7,10 +7,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import edu.rosehulman.orgservicelogger.ui.events.EventsFragment
@@ -20,55 +16,12 @@ import edu.rosehulman.orgservicelogger.ui.notifications.NotificationsFragment
 import edu.rosehulman.orgservicelogger.ui.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.ui.settings.SettingsFragment
 
+private const val RC_SIGN_IN = 1
+
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     OnLoginButtonPressedListener {
-    private val RC_SIGN_IN = 1
-    lateinit var userId:String
-    lateinit var authStateListener: FirebaseAuth.AuthStateListener
-    override fun onLoginButtonPressed() {
-        launchLoginScreen()
-        initializeListeners()
-    }
-
-    fun initializeListeners(){
-        authStateListener = FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
-            val user = auth.currentUser
-            Log.d(Constants.TAG, "In the auth listener, user is $user")
-            if(user != null){
-                userId = user.uid
-                switchToHomeFragment()
-            }else{
-                switchToSplashFragment()
-            }
-        }
-    }
-
-    fun switchToHomeFragment(){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.nav_container, NotificationsFragment())
-        transaction.commit()
-
-    }
-
-    fun switchToSplashFragment(){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.nav_container, SplashFragment())
-        transaction.commit()
-    }
-
-
-    fun launchLoginScreen(){
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        val loginIntent =             AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .build()
-        startActivityForResult(loginIntent,RC_SIGN_IN)
-    }
+    private lateinit var userId: String
+    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +30,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(this)
 
-
+        makeAuthStateListener()
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -103,6 +56,43 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun launchFragment(fragment: Fragment) {
         launchFragment(this, fragment)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        FirebaseAuth.getInstance().removeAuthStateListener(authStateListener)
+    }
+
+    private fun makeAuthStateListener() {
+        authStateListener = FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
+            val user = auth.currentUser
+            Log.d(Constants.TAG, "In the auth listener, user is $user")
+            val transaction = supportFragmentManager.beginTransaction()
+            if (user != null) {
+                userId = user.uid
+                transaction.replace(R.id.nav_container, NotificationsFragment())
+            } else {
+                transaction.replace(R.id.nav_container, SplashFragment(this))
+            }
+            transaction.commit()
+        }
+    }
+
+    override fun onLoginButtonPressed() {
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+        val loginIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+        startActivityForResult(loginIntent, RC_SIGN_IN)
     }
 }
 
