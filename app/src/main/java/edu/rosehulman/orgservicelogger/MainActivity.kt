@@ -39,23 +39,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         when (menuItem.itemId) {
             R.id.navigation_notifications -> {
-                launchFragment(NotificationsFragment())
+                launchFragment(this, NotificationsFragment())
             }
             R.id.navigation_events -> {
-                launchFragment(EventsFragment())
+                launchFragment(this, EventsFragment())
             }
             R.id.navigation_organization -> {
-                launchFragment(OrganizationFragment())
+                launchFragment(this, OrganizationFragment())
             }
             R.id.navigation_settings -> {
-                launchFragment(SettingsFragment())
+                launchFragment(this, SettingsFragment())
             }
         }
         return true
-    }
-
-    private fun launchFragment(fragment: Fragment) {
-        launchFragment(this, fragment)
     }
 
     override fun onStart() {
