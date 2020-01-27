@@ -1,11 +1,13 @@
 package edu.rosehulman.orgservicelogger.ui.userList
 
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.*
+import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.chris
+import edu.rosehulman.orgservicelogger.david
+import edu.rosehulman.orgservicelogger.ui.home.launchFragment
 import edu.rosehulman.orgservicelogger.ui.userInfo.UserInfoFragment
 
 class UserListAdapter(var context: FragmentActivity) : RecyclerView.Adapter<UserNameViewHolder>() {

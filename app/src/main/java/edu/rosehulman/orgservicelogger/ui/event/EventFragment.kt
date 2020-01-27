@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.EventInstance
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.launchFragment
+import edu.rosehulman.orgservicelogger.ui.home.launchFragment
 import kotlinx.android.synthetic.main.fragment_event.view.*
 import java.text.SimpleDateFormat
 

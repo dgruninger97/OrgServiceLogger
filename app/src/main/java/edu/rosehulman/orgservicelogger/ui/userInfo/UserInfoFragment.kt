@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.Person
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.launchFragment
+import edu.rosehulman.orgservicelogger.ui.home.launchFragment
 import kotlinx.android.synthetic.main.fragment_user_info.view.*
 
 class UserInfoFragment(var person: Person) : Fragment() {

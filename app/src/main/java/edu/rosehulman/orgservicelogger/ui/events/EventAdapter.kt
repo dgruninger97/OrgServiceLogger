@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.EventInstance
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.launchFragment
 import edu.rosehulman.orgservicelogger.ui.event.EventFragment
+import edu.rosehulman.orgservicelogger.ui.home.launchFragment
 
 class EventAdapter(
     private val context: FragmentActivity

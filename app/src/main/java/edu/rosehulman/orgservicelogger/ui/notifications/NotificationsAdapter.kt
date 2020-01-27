@@ -8,11 +8,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.*
 import edu.rosehulman.orgservicelogger.ui.event.EventFragment
+import edu.rosehulman.orgservicelogger.ui.home.launchFragment
 import kotlinx.android.synthetic.main.dialog_confirm_event_attendance.view.*
 import kotlinx.android.synthetic.main.dialog_edit_event_attendance.view.*
-import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.time.milliseconds
 
 class NotificationsAdapter(private val context: FragmentActivity) :
     RecyclerView.Adapter<NotificationViewHolder>() {
