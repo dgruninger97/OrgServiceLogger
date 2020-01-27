@@ -13,7 +13,7 @@ class UserListAdapter(var context: FragmentActivity) : RecyclerView.Adapter<User
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserNameViewHolder {
         val holder = UserNameViewHolder(
-            LayoutInflater.from(context).inflate(
+            context.layoutInflater.inflate(
                 R.layout.view_user_name,
                 parent,
                 false
