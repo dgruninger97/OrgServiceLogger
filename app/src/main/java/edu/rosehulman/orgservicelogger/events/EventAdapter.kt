@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.EventInstance
+import edu.rosehulman.orgservicelogger.EventOccurrence
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
@@ -12,7 +12,7 @@ import edu.rosehulman.orgservicelogger.home.launchFragment
 class EventAdapter(
     private val context: FragmentActivity
 ) : RecyclerView.Adapter<EventViewHolder>() {
-    private lateinit var events: List<EventInstance>
+    private lateinit var events: List<EventOccurrence>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val holder = EventViewHolder(
@@ -36,11 +36,11 @@ class EventAdapter(
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = events[position]
-        holder.title.text = event.base.name
-        holder.time.text = event.base.formatTimeSpan()
+        holder.title.text = event.series.name
+        holder.time.text = event.series.formatTimeSpan()
     }
 
-    fun resetTo(es: List<EventInstance>) {
+    fun resetTo(es: List<EventOccurrence>) {
         events = es
         notifyDataSetChanged()
     }

@@ -3,7 +3,7 @@ package edu.rosehulman.orgservicelogger
 class Organization(
     var name: String,
     var members: MutableList<Person>,
-    var eventBases: List<EventBase>,
-    var eventInstances: List<EventInstance>,
+    var eventSeries: List<EventSeries>,
+    var eventOccurrences: List<EventOccurrence>,
     var hoursRequirement: Int?
 )

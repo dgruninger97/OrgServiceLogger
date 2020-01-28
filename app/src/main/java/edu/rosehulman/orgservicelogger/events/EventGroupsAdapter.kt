@@ -6,14 +6,14 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.EventInstance
+import edu.rosehulman.orgservicelogger.EventOccurrence
 import edu.rosehulman.orgservicelogger.R
 import java.text.SimpleDateFormat
 import java.util.*
 
 class EventGroupsAdapter(
     private val context: FragmentActivity,
-    private val events: List<EventInstance>
+    private val events: List<EventOccurrence>
 ) :
     RecyclerView.Adapter<EventGroupViewHolder>() {
     private val eventDays: MutableMap<Date, Int>

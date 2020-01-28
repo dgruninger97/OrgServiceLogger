@@ -1,7 +1,7 @@
 package edu.rosehulman.orgservicelogger
 
-sealed class Notification(var event: EventInstance)
+sealed class Notification(var event: EventOccurrence)
 
-class ConfirmNotification(event: EventInstance) : Notification(event)
-class ReminderNotification(event: EventInstance) : Notification(event)
-class NeedsReplacementNotification(event: EventInstance, var person: Person) : Notification(event)
+class ConfirmNotification(event: EventOccurrence) : Notification(event)
+class ReminderNotification(event: EventOccurrence) : Notification(event)
+class NeedsReplacementNotification(event: EventOccurrence, var person: Person) : Notification(event)

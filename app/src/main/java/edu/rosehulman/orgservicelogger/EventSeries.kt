@@ -3,7 +3,7 @@ package edu.rosehulman.orgservicelogger
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 
-class EventBase(
+class EventSeries(
     var name: String,
     var address: String,
     var description: String,
@@ -20,8 +20,8 @@ class EventBase(
 fun formatTimeSpan(timeStart: Timestamp, timeEnd: Timestamp): String =
     formatTime(timeStart) + "-" + formatTimeAmPm(timeEnd)
 
-private fun formatTime(timeStart: Timestamp) =
+private fun formatTime(timeStart: Timestamp): String =
     SimpleDateFormat("h:m").format(timeStart.toDate())
 
-private fun formatTimeAmPm(timeEnd: Timestamp) =
+private fun formatTimeAmPm(timeEnd: Timestamp): String =
     SimpleDateFormat("h:ma").format(timeEnd.toDate())

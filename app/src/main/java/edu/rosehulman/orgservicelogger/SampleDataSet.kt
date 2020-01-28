@@ -36,7 +36,7 @@ val aden = Person(
     arrayListOf()
 ).also { lambdaChi.members.add(it) }
 
-val ryvesHallBase = EventBase(
+val ryvesHallBase = EventSeries(
     "Ryves Hall",
     "1356 Locust St, Terre Haute, IN 47807",
     "Volunteer at the local Ryves Hall youth center.  This often involves light physical activity such as installing wiring, setting up for events, or painting.",
@@ -48,12 +48,12 @@ val ryvesHallBase = EventBase(
     mutableListOf(false, false, false, false, true, false, false) // Sunday, ..., Saturday
 )
 
-val ryvesHallDec12 = EventInstance(
+val ryvesHallDec12 = EventOccurrence(
     ryvesHallBase,
     Timestamp(Date(119, 11, 12)),
     arrayListOf(chris, david)
 ).also { chris.events.add(it); david.events.add(it) }
-val ryvesHallDec19 = EventInstance(
+val ryvesHallDec19 = EventOccurrence(
     ryvesHallBase,
     Timestamp(Date(119, 11, 19)),
     arrayListOf(chris)

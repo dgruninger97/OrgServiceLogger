@@ -7,6 +7,6 @@ class Person(
     var email: String,
     var phoneNumber: String,
     var canDrive: Boolean,
-    var events: MutableList<EventInstance>,
+    var events: MutableList<EventOccurrence>,
     var notifications: List<Notification>
 )

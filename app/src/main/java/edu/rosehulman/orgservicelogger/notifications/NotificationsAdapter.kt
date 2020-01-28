@@ -76,8 +76,8 @@ class NotificationsAdapter(private val context: FragmentActivity) :
         dialogView.dialog_edit_event_attendance_time_text.text =
             "How long did you attend for?"
         dialogView.dialog_edit_event_attendance_time_picker.setIs24HourView(true)
-        val endTime = notification.event.base.timeEnd.toDate().time
-        val startTime = notification.event.base.timeStart.toDate().time
+        val endTime = notification.event.series.timeEnd.toDate().time
+        val startTime = notification.event.series.timeStart.toDate().time
         val millis = endTime - startTime
         dialogView.dialog_edit_event_attendance_time_picker.currentHour =
             TimeUnit.MILLISECONDS.toHours(millis).toInt()
@@ -125,6 +125,6 @@ class NotificationsAdapter(private val context: FragmentActivity) :
         holder.description.text = formatEvent(notification.event)
     }
 
-    private fun formatEvent(event: EventInstance) =
-        event.base.name + " " + event.formatDate() + " " + event.base.formatTimeSpan()
+    private fun formatEvent(event: EventOccurrence) =
+        event.series.name + " " + event.formatDate() + " " + event.series.formatTimeSpan()
 }
