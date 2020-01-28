@@ -22,15 +22,6 @@ class EditEventFragment(eventId: String) : Fragment() {
     private var event = EventOccurrence().also { it.id = eventId }
     private var series = EventSeries()
 
-    override fun onResume() {
-        super.onResume()
-        retrieveEvent(event.id!!) { event, series ->
-            this.event = event
-            this.series = series
-            view?.also(this::bindView)
-        }
-    }
-
     private val recurrences = listOf(
         Recurrence("S"),
         Recurrence("M"),
@@ -51,7 +42,11 @@ class EditEventFragment(eventId: String) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_event, container, false)
-        bindView(view)
+        retrieveEvent(event.id!!) { event, series ->
+            this.event = event
+            this.series = series
+            bindView(view)
+        }
         return view
     }
 
