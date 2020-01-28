@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.EventOccurrence
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.EventOccurrence
 import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 

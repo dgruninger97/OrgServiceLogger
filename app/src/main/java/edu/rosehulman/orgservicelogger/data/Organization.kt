@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger
+package edu.rosehulman.orgservicelogger.data
 
 class Organization(
     var name: String,

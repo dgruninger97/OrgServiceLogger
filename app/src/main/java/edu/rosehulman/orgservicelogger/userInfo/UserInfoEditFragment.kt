@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import edu.rosehulman.orgservicelogger.Person
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.Person
 import kotlinx.android.synthetic.main.fragment_edit_user_info.view.*
 
 class UserInfoEditFragment(var person: Person) : Fragment() {

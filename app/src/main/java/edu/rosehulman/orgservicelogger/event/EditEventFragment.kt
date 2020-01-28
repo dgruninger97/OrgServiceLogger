@@ -12,10 +12,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
-import edu.rosehulman.orgservicelogger.EventOccurrence
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.formatDate
-import edu.rosehulman.orgservicelogger.formatTimeSpan
+import edu.rosehulman.orgservicelogger.data.EventOccurrence
+import edu.rosehulman.orgservicelogger.data.formatDate
+import edu.rosehulman.orgservicelogger.data.formatTimeSpan
 import kotlinx.android.synthetic.main.fragment_edit_event.view.*
 import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
 import java.util.*

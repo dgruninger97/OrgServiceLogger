@@ -1,6 +1,10 @@
 package edu.rosehulman.orgservicelogger
 
 import com.google.firebase.Timestamp
+import edu.rosehulman.orgservicelogger.data.EventOccurrence
+import edu.rosehulman.orgservicelogger.data.EventSeries
+import edu.rosehulman.orgservicelogger.data.Organization
+import edu.rosehulman.orgservicelogger.data.Person
 import java.util.*
 
 val lambdaChi = Organization("Lambda Chi Alpha", mutableListOf(), listOf(), listOf(), 4)

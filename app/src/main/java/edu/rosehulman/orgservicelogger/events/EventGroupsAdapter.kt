@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.EventOccurrence
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.EventOccurrence
 import java.text.SimpleDateFormat
 import java.util.*
 

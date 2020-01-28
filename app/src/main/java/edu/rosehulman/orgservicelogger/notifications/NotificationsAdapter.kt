@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.*
+import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.aden
+import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
+import edu.rosehulman.orgservicelogger.ryvesHallDec12
+import edu.rosehulman.orgservicelogger.ryvesHallDec19
 import kotlinx.android.synthetic.main.dialog_confirm_event_attendance.view.*
 import kotlinx.android.synthetic.main.dialog_edit_event_attendance.view.*
 import java.util.concurrent.TimeUnit

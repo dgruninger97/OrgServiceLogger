@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger
+package edu.rosehulman.orgservicelogger.data
 
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat

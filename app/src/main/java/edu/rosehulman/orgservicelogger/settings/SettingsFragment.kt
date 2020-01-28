@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import edu.rosehulman.orgservicelogger.Organization
-import edu.rosehulman.orgservicelogger.Person
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.Organization
+import edu.rosehulman.orgservicelogger.data.Person
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 class SettingsFragment() : Fragment() {
