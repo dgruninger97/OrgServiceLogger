@@ -1,6 +1,5 @@
 package edu.rosehulman.orgservicelogger.events
 
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import edu.rosehulman.orgservicelogger.data.EventOccurrence
@@ -12,13 +11,19 @@ fun retrieveEventsForOrganization(
     callback: (MutableList<EventOccurrence>, MutableList<EventSeries>) -> Unit
 ) {
     FirebaseFirestore.getInstance().collection("event_occurrence")
-        .whereEqualTo(FieldPath.of("series", "organization"), organization)
         .orderBy("date", Query.Direction.ASCENDING)
         .get()
         .addOnSuccessListener { snapshot ->
             val seriesCollected = AtomicInteger()
-            val events = snapshot.toObjects(EventOccurrence::class.java)
-            val series = ArrayList<EventSeries?>()
+
+            val events = mutableListOf<EventOccurrence>()
+            for (document in snapshot.documents) {
+                val event = document.toObject(EventOccurrence::class.java)!!
+                event.id = document.id
+                events.add(event)
+            }
+
+            val series = mutableListOf<EventSeries?>()
 
             for (localEvent in events) {
                 series.add(null)
@@ -30,12 +35,14 @@ fun retrieveEventsForOrganization(
                     .addOnSuccessListener { seriesSnapshot ->
                         val s = seriesSnapshot.toObject(EventSeries::class.java)!!
                         s.id = seriesSnapshot.id
-                        series[index] = s
+                        if (s.organization == organization) {
+                            series[index] = s
+                        }
 
                         val current = seriesCollected.incrementAndGet()
                         if (current == events.size) {
                             val seriesNonNull = mutableListOf<EventSeries>()
-                            series.mapTo(seriesNonNull, { it!! })
+                            series.filterNotNullTo(seriesNonNull)
                             callback(events, seriesNonNull)
                         }
                     }
