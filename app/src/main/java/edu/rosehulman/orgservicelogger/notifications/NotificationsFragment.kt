@@ -30,10 +30,12 @@ class NotificationsFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
+
         val swipeRefresh = view.fragment_notifications_swipe_refresh
         swipeRefresh.setOnRefreshListener {
             refreshItems()
         }
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
 
         return view
     }
