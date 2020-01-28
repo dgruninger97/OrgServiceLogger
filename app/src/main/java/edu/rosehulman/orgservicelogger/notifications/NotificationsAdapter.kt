@@ -7,38 +7,46 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.aden
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
-import edu.rosehulman.orgservicelogger.ryvesHallDec12
-import edu.rosehulman.orgservicelogger.ryvesHallDec19
 import kotlinx.android.synthetic.main.dialog_confirm_event_attendance.view.*
 import kotlinx.android.synthetic.main.dialog_edit_event_attendance.view.*
 import java.util.concurrent.TimeUnit
 
 class NotificationsAdapter(private val context: FragmentActivity) :
     RecyclerView.Adapter<NotificationViewHolder>() {
+    var notifications = listOf<Notification>()
 
-    private val notifications = arrayListOf(
-        NeedsReplacementNotification(ryvesHallDec19, aden),
-        ConfirmNotification(ryvesHallDec12),
-        ReminderNotification(ryvesHallDec12)
-    )
+    fun loadNotifications(personId: String) {
+        retrieveNotifications(personId) { notifications = it; notifyDataSetChanged() }
+        for (notification in notifications) {
+            retrieveEvent(notification.event) { event, series ->
+                notification.eventValue = event
+                notification.seriesValue = series
+            }
+            retrievePerson(notification.owner) { notification.ownerValue = it }
+            notification.personToReplace?.also { personToReplace ->
+                retrievePerson(personToReplace) {
+                    notification.personToReplaceValue = it
+                }
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.view_notification, parent, false)
         val holder = NotificationViewHolder(view)
         view.setOnClickListener {
             val notification = notifications[holder.adapterPosition]
-            when (notification) {
-                is ConfirmNotification -> {
+            when (notification.type) {
+                "confirmNotification" -> {
                     showConfirmDialog(notification)
                 }
-                is ReminderNotification -> {
+                "reminderNotification" -> {
                     launchFragment(context, EventFragment(notification.event))
                 }
-                is NeedsReplacementNotification -> {
+                "needsReplacementNotification" -> {
                     launchFragment(context, EventFragment(notification.event))
                 }
             }
@@ -51,8 +59,10 @@ class NotificationsAdapter(private val context: FragmentActivity) :
             R.layout.dialog_confirm_event_attendance,
             null
         )
+
         dialogView.dialog_confirm_event_attendance_event.text =
-            formatEvent(notification.event)
+            formatEvent(notification.eventValue!!, notification.seriesValue!!)
+
         dialogView.dialog_confirm_event_attendance_time.text =
             "Did you attend for the full time?"
 
@@ -75,13 +85,16 @@ class NotificationsAdapter(private val context: FragmentActivity) :
             R.layout.dialog_edit_event_attendance,
             null
         )
+
         dialogView.dialog_edit_event_attendance_event.text =
-            formatEvent(notification.event)
+            formatEvent(notification.eventValue!!, notification.seriesValue!!)
+
         dialogView.dialog_edit_event_attendance_time_text.text =
             "How long did you attend for?"
+
         dialogView.dialog_edit_event_attendance_time_picker.setIs24HourView(true)
-        val endTime = notification.event.series.timeEnd.toDate().time
-        val startTime = notification.event.series.timeStart.toDate().time
+        val endTime = notification.seriesValue!!.timeEnd.toDate().time
+        val startTime = notification.seriesValue!!.timeStart.toDate().time
         val millis = endTime - startTime
         dialogView.dialog_edit_event_attendance_time_picker.currentHour =
             TimeUnit.MILLISECONDS.toHours(millis).toInt()
@@ -107,28 +120,28 @@ class NotificationsAdapter(private val context: FragmentActivity) :
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val notification = notifications[position]
-        when (notification) {
-            is ConfirmNotification -> {
+        when (notification.type) {
+            "confirmNotification" -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_confirm)
                 holder.title.setText(R.string.text_notification_confirm)
             }
-            is ReminderNotification -> {
+            "reminderNotification" -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_reminder)
                 holder.title.setText(R.string.text_notification_reminder)
             }
-            is NeedsReplacementNotification -> {
+            "needsReplacementNotification" -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_replacement)
                 holder.title.setText(
                     context.getString(R.string.text_notification_replacement).format(
-                        notification.person.name
+                        notification.personToReplaceValue!!.name
                     )
                 )
             }
         }
 
-        holder.description.text = formatEvent(notification.event)
+        holder.description.text = formatEvent(notification.eventValue!!, notification.seriesValue!!)
     }
 
-    private fun formatEvent(event: EventOccurrence) =
-        event.series.name + " " + event.formatDate() + " " + event.series.formatTimeSpan()
+    private fun formatEvent(event: EventOccurrence, series: EventSeries) =
+        series.name + " " + event.formatDate() + " " + series.formatTimeSpan()
 }

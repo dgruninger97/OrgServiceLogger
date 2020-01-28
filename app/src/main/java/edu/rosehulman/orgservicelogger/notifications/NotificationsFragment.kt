@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
 
 class NotificationsFragment : Fragment() {
+    lateinit var adapter: NotificationsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -18,7 +20,8 @@ class NotificationsFragment : Fragment() {
     ): View? {
         val recyclerView =
             inflater.inflate(R.layout.fragment_notifications, container, false) as RecyclerView
-        recyclerView.adapter = NotificationsAdapter(activity!!)
+        adapter = NotificationsAdapter(activity!!)
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -27,5 +30,10 @@ class NotificationsFragment : Fragment() {
             )
         )
         return recyclerView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.loadNotifications("sample_person")
     }
 }

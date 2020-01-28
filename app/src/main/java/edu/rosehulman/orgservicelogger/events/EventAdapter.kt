@@ -29,7 +29,7 @@ class EventAdapter(
     }
 
     private fun launchEvent(index: Int) {
-        launchFragment(context, EventFragment(events[index]))
+        launchFragment(context, EventFragment(events[index].id!!))
     }
 
     override fun getItemCount() = events.size

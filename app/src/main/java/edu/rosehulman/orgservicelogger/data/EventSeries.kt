@@ -13,7 +13,7 @@ class EventSeries(
     var maxPeople: Int = 0,
     var timeStart: Timestamp = Timestamp(0, 0),
     var timeEnd: Timestamp = Timestamp(0, 0),
-    var weeklyRecurrence: Map<String, Boolean> = mapOf() // key = name of day (lowercase), presence dictates if it is recurring
+    var weeklyRecurrence: MutableMap<String, Boolean> = mutableMapOf() // key = name of day (lowercase), presence dictates if it is recurring
 ) {
     @get:Exclude
     var id: String? = null
