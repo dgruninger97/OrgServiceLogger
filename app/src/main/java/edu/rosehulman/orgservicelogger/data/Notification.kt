@@ -12,15 +12,6 @@ class Notification(
 
     var personToReplace: String? = null
 
-    @get:Exclude
-    var eventValue: EventOccurrence? = null
-    @get:Exclude
-    var seriesValue: EventSeries? = null
-    @get:Exclude
-    var ownerValue: Person? = null
-    @get:Exclude
-    var personToReplaceValue: Person? = null
-
     companion object {
         fun needsReplacement(event: String, person: String, personToReplace: String): Notification {
             return Notification(event, "needsReplacement", person).also { it.personToReplace = personToReplace }

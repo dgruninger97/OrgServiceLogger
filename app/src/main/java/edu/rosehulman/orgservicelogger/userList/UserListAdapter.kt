@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.chris
-import edu.rosehulman.orgservicelogger.david
+import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 
 class UserListAdapter(var context: FragmentActivity) : RecyclerView.Adapter<UserNameViewHolder>() {
-    private var users = arrayListOf(david, chris)
+    // TODO: fix this
+    private var users = arrayListOf<Person>() //david, chris)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserNameViewHolder {
         val holder = UserNameViewHolder(

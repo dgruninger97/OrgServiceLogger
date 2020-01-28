@@ -25,7 +25,7 @@ fun formatTimeSpan(timeStart: Timestamp, timeEnd: Timestamp): String =
     formatTime(timeStart) + "-" + formatTimeAmPm(timeEnd)
 
 private fun formatTime(timeStart: Timestamp): String =
-    SimpleDateFormat("h:m").format(timeStart.toDate())
+    SimpleDateFormat("h:mm").format(timeStart.toDate())
 
 private fun formatTimeAmPm(timeEnd: Timestamp): String =
-    SimpleDateFormat("h:ma").format(timeEnd.toDate())
+    SimpleDateFormat("h:mma").format(timeEnd.toDate())

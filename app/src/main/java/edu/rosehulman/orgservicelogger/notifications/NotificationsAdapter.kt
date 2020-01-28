@@ -1,11 +1,13 @@
 package edu.rosehulman.orgservicelogger.notifications
 
 import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.event.EventFragment
@@ -16,22 +18,10 @@ import java.util.concurrent.TimeUnit
 
 class NotificationsAdapter(private val context: FragmentActivity) :
     RecyclerView.Adapter<NotificationViewHolder>() {
-    var notifications = listOf<Notification>()
+    private var notifications = listOf<Notification>()
 
     fun loadNotifications(personId: String) {
         retrieveNotifications(personId) { notifications = it; notifyDataSetChanged() }
-        for (notification in notifications) {
-            retrieveEvent(notification.event) { event, series ->
-                notification.eventValue = event
-                notification.seriesValue = series
-            }
-            retrievePerson(notification.owner) { notification.ownerValue = it }
-            notification.personToReplace?.also { personToReplace ->
-                retrievePerson(personToReplace) {
-                    notification.personToReplaceValue = it
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
@@ -60,8 +50,10 @@ class NotificationsAdapter(private val context: FragmentActivity) :
             null
         )
 
-        dialogView.dialog_confirm_event_attendance_event.text =
-            formatEvent(notification.eventValue!!, notification.seriesValue!!)
+        retrieveEvent(notification.event) { event, series ->
+            dialogView.dialog_confirm_event_attendance_event.text =
+                formatEvent(event, series)
+        }
 
         dialogView.dialog_confirm_event_attendance_time.text =
             "Did you attend for the full time?"
@@ -81,35 +73,34 @@ class NotificationsAdapter(private val context: FragmentActivity) :
     }
 
     private fun showEditDialog(notification: Notification) {
-        val dialogView = context.layoutInflater.inflate(
-            R.layout.dialog_edit_event_attendance,
-            null
-        )
+        retrieveEvent(notification.event) { event, series ->
+            val dialogView = context.layoutInflater.inflate(
+                R.layout.dialog_edit_event_attendance,
+                null
+            )
 
-        dialogView.dialog_edit_event_attendance_event.text =
-            formatEvent(notification.eventValue!!, notification.seriesValue!!)
+            dialogView.dialog_edit_event_attendance_event.text = formatEvent(event, series)
+            dialogView.dialog_edit_event_attendance_time_text.text = "How long did you attend for?"
 
-        dialogView.dialog_edit_event_attendance_time_text.text =
-            "How long did you attend for?"
+            dialogView.dialog_edit_event_attendance_time_picker.setIs24HourView(true)
+            val endTime = series.timeEnd.toDate().time
+            val startTime = series.timeStart.toDate().time
+            val millis = endTime - startTime
+            dialogView.dialog_edit_event_attendance_time_picker.currentHour =
+                TimeUnit.MILLISECONDS.toHours(millis).toInt()
+            dialogView.dialog_edit_event_attendance_time_picker.currentMinute =
+                TimeUnit.MILLISECONDS.toMinutes(millis).toInt() % 60
 
-        dialogView.dialog_edit_event_attendance_time_picker.setIs24HourView(true)
-        val endTime = notification.seriesValue!!.timeEnd.toDate().time
-        val startTime = notification.seriesValue!!.timeStart.toDate().time
-        val millis = endTime - startTime
-        dialogView.dialog_edit_event_attendance_time_picker.currentHour =
-            TimeUnit.MILLISECONDS.toHours(millis).toInt()
-        dialogView.dialog_edit_event_attendance_time_picker.currentMinute =
-            TimeUnit.MILLISECONDS.toMinutes(millis).toInt() % 60
-
-        AlertDialog.Builder(context)
-            .setTitle("Edit event attendance")
-            .setView(dialogView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                // TODO: set in database
-                showConfirmationToast()
-            }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            .create().show()
+            AlertDialog.Builder(context)
+                .setTitle("Edit event attendance")
+                .setView(dialogView)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    // TODO: set in database
+                    showConfirmationToast()
+                }
+                .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                .create().show()
+        }
     }
 
     private fun showConfirmationToast() {
@@ -131,15 +122,23 @@ class NotificationsAdapter(private val context: FragmentActivity) :
             }
             "needsReplacementNotification" -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_replacement)
-                holder.title.setText(
-                    context.getString(R.string.text_notification_replacement).format(
-                        notification.personToReplaceValue!!.name
+                holder.title.setText(context.getString(R.string.text_notification_replacement).format(
+                    "Someone"
+                ))
+                retrievePerson(notification.personToReplace!!) { personToReplace ->
+                    holder.title.setText(
+                        context.getString(R.string.text_notification_replacement).format(
+                            personToReplace.name
+                        )
                     )
-                )
+                }
             }
         }
 
-        holder.description.text = formatEvent(notification.eventValue!!, notification.seriesValue!!)
+        retrieveEvent(notification.event) { event, series ->
+            holder.description.text =
+                formatEvent(event, series)
+        }
     }
 
     private fun formatEvent(event: EventOccurrence, series: EventSeries) =

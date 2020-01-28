@@ -1,6 +1,8 @@
 package edu.rosehulman.orgservicelogger.data
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.orgservicelogger.Constants
 
 val weekDays = listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
 
