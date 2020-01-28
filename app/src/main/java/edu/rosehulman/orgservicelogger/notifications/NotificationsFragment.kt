@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.notifications
+package edu.rosehulman.orgservicelogger.notifications
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +12,20 @@ import edu.rosehulman.orgservicelogger.R
 
 class NotificationsFragment : Fragment() {
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val recyclerView = inflater.inflate(R.layout.fragment_notifications, container, false) as RecyclerView
+        val recyclerView =
+            inflater.inflate(R.layout.fragment_notifications, container, false) as RecyclerView
         recyclerView.adapter = NotificationsAdapter(activity!!)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         return recyclerView
     }
 }

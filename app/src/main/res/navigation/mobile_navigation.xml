@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="edu.rosehulman.orgservicelogger.ui.notifications.NotificationsFragment"
+        android:name="edu.rosehulman.orgservicelogger.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/navigation_events"
-        android:name="edu.rosehulman.orgservicelogger.ui.events.EventsFragment"
+        android:name="edu.rosehulman.orgservicelogger.events.EventsFragment"
         android:label="@string/title_events"
         tools:layout="@layout/fragment_events" />
 
     <fragment
         android:id="@+id/navigation_organization"
-        android:name="edu.rosehulman.orgservicelogger.ui.organization.OrganizationFragment"
+        android:name="edu.rosehulman.orgservicelogger.organization.OrganizationFragment"
         android:label="@string/title_organization"
         tools:layout="@layout/dialog_edit_organization" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="edu.rosehulman.orgservicelogger.ui.settings.SettingsFragment"
+        android:name="edu.rosehulman.orgservicelogger.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

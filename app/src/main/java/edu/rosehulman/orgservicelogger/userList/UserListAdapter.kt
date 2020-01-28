@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.userList
+package edu.rosehulman.orgservicelogger.userList
 
 
 import android.view.ViewGroup
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.chris
 import edu.rosehulman.orgservicelogger.david
-import edu.rosehulman.orgservicelogger.ui.home.launchFragment
-import edu.rosehulman.orgservicelogger.ui.userInfo.UserInfoFragment
+import edu.rosehulman.orgservicelogger.home.launchFragment
+import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 
 class UserListAdapter(var context: FragmentActivity) : RecyclerView.Adapter<UserNameViewHolder>() {
     private var users = arrayListOf(david, chris)

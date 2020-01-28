@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.events
+package edu.rosehulman.orgservicelogger.events
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.Timestamp
 import edu.rosehulman.orgservicelogger.*
-import edu.rosehulman.orgservicelogger.ui.event.EditEventFragment
-import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
-import java.util.*
 
 class EventsFragment : Fragment() {
     override fun onCreateView(

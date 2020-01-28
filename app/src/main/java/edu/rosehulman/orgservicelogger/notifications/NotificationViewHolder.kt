@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.notifications
+package edu.rosehulman.orgservicelogger.notifications
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

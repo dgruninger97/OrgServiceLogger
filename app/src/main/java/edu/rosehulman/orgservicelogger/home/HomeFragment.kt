@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.home
+package edu.rosehulman.orgservicelogger.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.ui.events.EventsFragment
-import edu.rosehulman.orgservicelogger.ui.notifications.NotificationsFragment
-import edu.rosehulman.orgservicelogger.ui.organization.OrganizationFragment
-import edu.rosehulman.orgservicelogger.ui.settings.SettingsFragment
+import edu.rosehulman.orgservicelogger.events.EventsFragment
+import edu.rosehulman.orgservicelogger.notifications.NotificationsFragment
+import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
+import edu.rosehulman.orgservicelogger.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {

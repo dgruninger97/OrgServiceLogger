@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.login
+package edu.rosehulman.orgservicelogger.login
 
 
 import android.os.Bundle

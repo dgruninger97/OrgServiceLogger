@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.events
+package edu.rosehulman.orgservicelogger.events
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

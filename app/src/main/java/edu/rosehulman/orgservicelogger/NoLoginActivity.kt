@@ -2,7 +2,7 @@ package edu.rosehulman.orgservicelogger
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import edu.rosehulman.orgservicelogger.ui.home.HomeFragment
+import edu.rosehulman.orgservicelogger.home.HomeFragment
 
 class NoLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

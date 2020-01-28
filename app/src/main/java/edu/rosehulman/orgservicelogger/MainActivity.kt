@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import edu.rosehulman.orgservicelogger.ui.home.HomeFragment
-import edu.rosehulman.orgservicelogger.ui.login.OnLoginButtonPressedListener
-import edu.rosehulman.orgservicelogger.ui.login.SplashFragment
+import edu.rosehulman.orgservicelogger.home.HomeFragment
+import edu.rosehulman.orgservicelogger.login.OnLoginButtonPressedListener
+import edu.rosehulman.orgservicelogger.login.SplashFragment
 
 private const val RC_SIGN_IN = 1
 

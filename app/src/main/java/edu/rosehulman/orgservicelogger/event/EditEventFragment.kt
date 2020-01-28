@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.event
+package edu.rosehulman.orgservicelogger.event
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog

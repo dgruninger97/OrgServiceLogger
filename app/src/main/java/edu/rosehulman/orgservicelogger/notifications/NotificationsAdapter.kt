@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.notifications
+package edu.rosehulman.orgservicelogger.notifications
 
 import android.app.AlertDialog
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.*
-import edu.rosehulman.orgservicelogger.ui.event.EventFragment
-import edu.rosehulman.orgservicelogger.ui.home.launchFragment
+import edu.rosehulman.orgservicelogger.event.EventFragment
+import edu.rosehulman.orgservicelogger.home.launchFragment
 import kotlinx.android.synthetic.main.dialog_confirm_event_attendance.view.*
 import kotlinx.android.synthetic.main.dialog_edit_event_attendance.view.*
 import java.util.concurrent.TimeUnit

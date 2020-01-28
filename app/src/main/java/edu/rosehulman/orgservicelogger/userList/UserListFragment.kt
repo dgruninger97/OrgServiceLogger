@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.userList
+package edu.rosehulman.orgservicelogger.userList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.userList.UserListAdapter
 
 class UserListFragment : Fragment() {
     override fun onCreateView(

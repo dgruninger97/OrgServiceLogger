@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.organization
+package edu.rosehulman.orgservicelogger.organization
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -7,15 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.ui.event.AddEvent
-import edu.rosehulman.orgservicelogger.ui.home.launchFragment
-import edu.rosehulman.orgservicelogger.ui.userList.UserListFragment
+import edu.rosehulman.orgservicelogger.event.AddEvent
+import edu.rosehulman.orgservicelogger.home.launchFragment
+import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
 import kotlinx.android.synthetic.main.fragment_organization.view.*
 
 class OrganizationFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
 
@@ -39,7 +40,10 @@ class OrganizationFragment : Fragment() {
         }
 
         view.see_group_members.setOnClickListener {
-            launchFragment(activity!!, UserListFragment())
+            launchFragment(
+                activity!!,
+                UserListFragment()
+            )
         }
 
         view.fragment_organization_add_event.setOnClickListener {
@@ -47,7 +51,7 @@ class OrganizationFragment : Fragment() {
         }
 
         view.fragment_organization_edit_event.setOnClickListener {
-//            launchFragment(activity!!, EditEventFragment())
+            //            launchFragment(activity!!, EditEventFragment())
         }
 
         return view

@@ -1,4 +1,4 @@
-package edu.rosehulman.orgservicelogger.ui.events
+package edu.rosehulman.orgservicelogger.events
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

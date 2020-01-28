@@ -1,12 +1,10 @@
-package edu.rosehulman.orgservicelogger.ui.settings
+package edu.rosehulman.orgservicelogger.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.Organization
 import edu.rosehulman.orgservicelogger.Person
 import edu.rosehulman.orgservicelogger.R
@@ -36,10 +34,11 @@ class SettingsFragment() : Fragment() {
         arrayListOf(),
         arrayListOf()
     ).also { lambdaChi.members.add(it) }
+
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         view.fragment_settings_org_1_hours.setText("3 / ${david.organizations.get(0).hoursRequirement} hours")
