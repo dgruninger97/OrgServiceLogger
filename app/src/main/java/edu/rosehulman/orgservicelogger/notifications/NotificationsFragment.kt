@@ -46,7 +46,7 @@ class NotificationsFragment : Fragment() {
     private fun refreshItems() {
         retrieveNotifications("sample_person") {
             adapter.setNotifications(it)
-            view!!.fragment_notifications_swipe_refresh.isRefreshing = false
+            view?.also { view -> view.fragment_notifications_swipe_refresh.isRefreshing = false }
         }
     }
 }
