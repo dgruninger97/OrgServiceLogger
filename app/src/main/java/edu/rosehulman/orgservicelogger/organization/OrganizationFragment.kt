@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.event.AddEvent
+import edu.rosehulman.orgservicelogger.event.AddEventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
@@ -47,7 +47,7 @@ class OrganizationFragment : Fragment() {
         }
 
         view.fragment_organization_add_event.setOnClickListener {
-            launchFragment(activity!!, AddEvent())
+            launchFragment(activity!!, AddEventFragment())
         }
 
         view.fragment_organization_edit_event.setOnClickListener {
