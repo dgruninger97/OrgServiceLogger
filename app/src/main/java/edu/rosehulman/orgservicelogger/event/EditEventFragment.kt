@@ -109,6 +109,10 @@ class EditEventFragment(eventId: String) : Fragment() {
         }
 
         view.fragment_edit_event_fab.setOnClickListener {
+            series.name = view.fragment_edit_event_name.text.toString()
+            series.address = view.fragment_edit_event_address.text.toString()
+            series.description = view.fragment_edit_event_description.text.toString()
+
             writeEventOccurrence(event)
             writeEventSeries(series)
 
