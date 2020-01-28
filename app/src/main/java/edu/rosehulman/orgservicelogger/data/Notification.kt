@@ -1,7 +1,14 @@
 package edu.rosehulman.orgservicelogger.data
 
-sealed class Notification(var event: EventOccurrence)
+import com.google.firebase.firestore.Exclude
 
-class ConfirmNotification(event: EventOccurrence) : Notification(event)
-class ReminderNotification(event: EventOccurrence) : Notification(event)
-class NeedsReplacementNotification(event: EventOccurrence, var person: Person) : Notification(event)
+class Notification(
+    var event: String = "",
+    var type: String = "",
+    var person: String = ""
+) {
+    @get:Exclude
+    var id: String? = null
+
+    var personToReplace: String? = null
+}
