@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.retrieveNotifications
+import kotlinx.android.synthetic.main.fragment_notifications.view.*
 
 class NotificationsFragment : Fragment() {
     lateinit var adapter: NotificationsAdapter
@@ -18,8 +19,8 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val recyclerView =
-            inflater.inflate(R.layout.fragment_notifications, container, false) as RecyclerView
+        val view = inflater.inflate(R.layout.fragment_notifications, container, false)
+        val recyclerView = view.fragment_notifications_recycler
         adapter = NotificationsAdapter(activity!!)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -29,11 +30,23 @@ class NotificationsFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-        return recyclerView
+        val swipeRefresh = view.fragment_notifications_swipe_refresh
+        swipeRefresh.setOnRefreshListener {
+            refreshItems()
+        }
+
+        return view
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.loadNotifications("sample_person")
+        refreshItems()
+    }
+
+    private fun refreshItems() {
+        retrieveNotifications("sample_person") {
+            adapter.setNotifications(it)
+            view!!.fragment_notifications_swipe_refresh.isRefreshing = false
+        }
     }
 }

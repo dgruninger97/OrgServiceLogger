@@ -20,8 +20,9 @@ class NotificationsAdapter(private val context: FragmentActivity) :
     RecyclerView.Adapter<NotificationViewHolder>() {
     private var notifications = listOf<Notification>()
 
-    fun loadNotifications(personId: String) {
-        retrieveNotifications(personId) { notifications = it; notifyDataSetChanged() }
+    fun setNotifications(notifications: List<Notification>) {
+        this.notifications = notifications
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
@@ -122,9 +123,11 @@ class NotificationsAdapter(private val context: FragmentActivity) :
             }
             "needsReplacementNotification" -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_replacement)
-                holder.title.setText(context.getString(R.string.text_notification_replacement).format(
-                    "Someone"
-                ))
+                holder.title.setText(
+                    context.getString(R.string.text_notification_replacement).format(
+                        "Someone"
+                    )
+                )
                 retrievePerson(notification.personToReplace!!) { personToReplace ->
                     holder.title.setText(
                         context.getString(R.string.text_notification_replacement).format(
