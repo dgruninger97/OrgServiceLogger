@@ -1,13 +1,13 @@
 package edu.rosehulman.orgservicelogger.data
 
-import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.DocumentId
 
 class Notification(
     var event: String = "",
     var type: String = "",
     var owner: String = ""
 ) {
-    @get:Exclude
+    @DocumentId
     var id: String? = null
 
     var personToReplace: String? = null

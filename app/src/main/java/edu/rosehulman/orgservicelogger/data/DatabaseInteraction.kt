@@ -1,26 +1,20 @@
 package edu.rosehulman.orgservicelogger.data
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import edu.rosehulman.orgservicelogger.Constants
 
 val weekDays = listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
 
 fun retrieveEventSeries(seriesId: String, callback: (EventSeries) -> Unit) {
     FirebaseFirestore.getInstance().collection("event_series").document(seriesId).get()
         .addOnSuccessListener {
-            val series = it.toObject(EventSeries::class.java)!!
-            series.id = seriesId
-            callback(series)
+            callback(it.toObject(EventSeries::class.java)!!)
         }
 }
 
 fun retrieveEventOccurrence(eventId: String, callback: (EventOccurrence) -> Unit) {
     FirebaseFirestore.getInstance().collection("event_occurrence").document(eventId).get()
         .addOnSuccessListener {
-            val event = it.toObject(EventOccurrence::class.java)!!
-            event.id = eventId
-            callback(event)
+            callback(it.toObject(EventOccurrence::class.java)!!)
         }
 }
 
@@ -41,9 +35,7 @@ fun retrieveNotifications(personId: String, callback: (List<Notification>) -> Un
 fun retrievePerson(personId: String, callback: (Person) -> Unit) {
     FirebaseFirestore.getInstance().collection("person").document(personId).get()
         .addOnSuccessListener {
-            val person = it.toObject(Person::class.java)!!
-            person.id = personId
-            callback(person)
+            callback(it.toObject(Person::class.java)!!)
         }
 }
 

@@ -1,9 +1,7 @@
 package edu.rosehulman.orgservicelogger.data
 
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.model.value.ReferenceValue
+import com.google.firebase.firestore.DocumentId
 import java.text.SimpleDateFormat
 
 data class EventOccurrence(
@@ -11,7 +9,7 @@ data class EventOccurrence(
     var date: Timestamp = Timestamp(0, 0),
     var people: Map<String, Boolean> = mapOf() // values are always true
 ) {
-    @get:Exclude
+    @DocumentId
     var id: String? = null
 
     fun formatDate(): String = formatDate(date)

@@ -1,6 +1,6 @@
 package edu.rosehulman.orgservicelogger.data
 
-import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.DocumentId
 
 class Person(
     var name: String = "",
@@ -8,6 +8,6 @@ class Person(
     var phoneNumber: String = "",
     var canDrive: Boolean = false
 ) {
-    @get:Exclude
+    @DocumentId
     var id: String? = null
 }

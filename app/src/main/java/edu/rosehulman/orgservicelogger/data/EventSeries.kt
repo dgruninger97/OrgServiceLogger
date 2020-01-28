@@ -1,7 +1,7 @@
 package edu.rosehulman.orgservicelogger.data
 
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.DocumentId
 import java.text.SimpleDateFormat
 
 class EventSeries(
@@ -15,7 +15,7 @@ class EventSeries(
     var timeEnd: Timestamp = Timestamp(0, 0),
     var weeklyRecurrence: MutableMap<String, Boolean> = mutableMapOf() // key = name of day (lowercase), presence dictates if it is recurring
 ) {
-    @get:Exclude
+    @DocumentId
     var id: String? = null
 
     fun formatTimeSpan(): String = formatTimeSpan(timeStart, timeEnd)

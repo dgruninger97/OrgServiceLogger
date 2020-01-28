@@ -16,13 +16,7 @@ fun retrieveEventsForOrganization(
         .addOnSuccessListener { snapshot ->
             val seriesCollected = AtomicInteger()
 
-            val events = mutableListOf<EventOccurrence>()
-            for (document in snapshot.documents) {
-                val event = document.toObject(EventOccurrence::class.java)!!
-                event.id = document.id
-                events.add(event)
-            }
-
+            val events = snapshot.toObjects(EventOccurrence::class.java)
             val series = mutableListOf<EventSeries?>()
 
             for (localEvent in events) {
@@ -34,7 +28,6 @@ fun retrieveEventsForOrganization(
                     .get()
                     .addOnSuccessListener { seriesSnapshot ->
                         val s = seriesSnapshot.toObject(EventSeries::class.java)!!
-                        s.id = seriesSnapshot.id
                         if (s.organization == organization) {
                             series[index] = s
                         }
