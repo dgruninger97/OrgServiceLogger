@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(activity_main_toolbar)
         makeAuthStateListener()
     }
 
