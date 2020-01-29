@@ -13,17 +13,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.data.EventOccurrence
-import edu.rosehulman.orgservicelogger.data.formatDate
-import edu.rosehulman.orgservicelogger.data.formatTimeSpan
+import edu.rosehulman.orgservicelogger.data.*
 import kotlinx.android.synthetic.main.fragment_edit_event.view.*
 import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
 import java.util.*
 
-class EditEventFragment(private val event: EventOccurrence) : Fragment() {
-    private var date = event.date
-    private var timeStart = event.series.timeStart
-    private var timeEnd = event.series.timeEnd
+class EditEventFragment(eventId: String) : Fragment() {
+    private var event = EventOccurrence().also { it.id = eventId }
+    private var series = EventSeries()
 
     private val recurrences = listOf(
         Recurrence("S"),
@@ -45,17 +42,36 @@ class EditEventFragment(private val event: EventOccurrence) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_event, container, false)
-        view.fragment_edit_event_name.setText(event.series.name)
-        view.fragment_edit_event_address.setText(event.series.address)
-        view.fragment_edit_event_description.setText(event.series.description)
-        view.fragment_edit_event_time.text = formatTimeSpan(timeStart, timeEnd)
-        view.fragment_edit_event_date.text = formatDate(date)
+        retrieveEvent(event.id!!) { event, series ->
+            this.event = event
+            this.series = series
+            bindView(view)
+        }
+        return view
+    }
 
+    private fun bindView(view: View) {
+        view.fragment_edit_event_name.setText(series.name)
+        view.fragment_edit_event_address.setText(series.address)
+        view.fragment_edit_event_description.setText(series.description)
+        view.fragment_edit_event_time.text = formatTimeSpan(series.timeStart, series.timeEnd)
+        view.fragment_edit_event_date.text = formatDate(event.date)
+
+        view.fragment_edit_event_weekly_recurrence_container.removeAllViews()
         for ((index, recurrence) in recurrences.withIndex()) {
             val recurrenceView = layoutInflater.inflate(R.layout.view_edit_recurrence_day, null)
             recurrenceView.view_edit_recurrence_day_text.text = recurrence.title
             recurrence.checkBox = recurrenceView.view_edit_recurrence_day_check
-            recurrence.checkBox.isChecked = event.series.weeklyRecurrence[index]
+            recurrence.checkBox.isChecked = series.weeklyRecurrence.containsKey(weekDays[index])
+
+            recurrence.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    series.weeklyRecurrence[weekDays[index]] = true
+                } else {
+                    series.weeklyRecurrence.remove(weekDays[index])
+                }
+            }
+
             view.fragment_edit_event_weekly_recurrence_container.addView(recurrenceView)
         }
 
@@ -63,8 +79,8 @@ class EditEventFragment(private val event: EventOccurrence) : Fragment() {
             DatePickerDialog(
                 context!!,
                 { _, year, month, day ->
-                    date = Timestamp(Date(year - 1900, month, day))
-                    view.fragment_edit_event_date.text = formatDate(date)
+                    event.date = Timestamp(Date(year - 1900, month, day))
+                    view.fragment_edit_event_date.text = formatDate(event.date)
                 },
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
@@ -74,8 +90,8 @@ class EditEventFragment(private val event: EventOccurrence) : Fragment() {
         }
 
         view.fragment_edit_event_time.setOnClickListener {
-            showTimePicker(timeStart.toDate()) { start ->
-                showTimePicker(timeEnd.toDate()) { end ->
+            showTimePicker(series.timeStart.toDate()) { start ->
+                showTimePicker(series.timeEnd.toDate()) { end ->
                     if (end.toDate().before(start.toDate())) {
                         Snackbar.make(
                             view.fragment_edit_event_coordinator,
@@ -84,25 +100,25 @@ class EditEventFragment(private val event: EventOccurrence) : Fragment() {
                         ).show()
                         return@showTimePicker
                     }
-                    timeStart = start
-                    timeEnd = end
-                    view.fragment_edit_event_time.text = formatTimeSpan(timeStart, timeEnd)
+                    series.timeStart = start
+                    series.timeEnd = end
+                    view.fragment_edit_event_time.text =
+                        formatTimeSpan(series.timeStart, series.timeEnd)
                 }
             }
         }
 
         view.fragment_edit_event_fab.setOnClickListener {
-            event.date = date
-            event.series.timeStart = timeStart
-            event.series.timeEnd = timeEnd
-            for ((index, recurrence) in recurrences.withIndex()) {
-                event.series.weeklyRecurrence[index] = recurrence.checkBox.isChecked
-            }
+            series.name = view.fragment_edit_event_name.text.toString()
+            series.address = view.fragment_edit_event_address.text.toString()
+            series.description = view.fragment_edit_event_description.text.toString()
+
+            writeEventOccurrence(event)
+            writeEventSeries(series)
+
             activity!!.supportFragmentManager.popBackStack()
             Toast.makeText(context, "Event has been updated", Toast.LENGTH_SHORT).show()
         }
-
-        return view
     }
 
     private fun showTimePicker(date: Date, callback: (Timestamp) -> Unit) {

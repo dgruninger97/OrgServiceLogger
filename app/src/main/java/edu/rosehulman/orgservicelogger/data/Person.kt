@@ -1,12 +1,13 @@
 package edu.rosehulman.orgservicelogger.data
 
+import com.google.firebase.firestore.DocumentId
+
 class Person(
-    var organizations: List<Organization>,
-    var administrating: List<Organization>,
-    var name: String,
-    var email: String,
-    var phoneNumber: String,
-    var canDrive: Boolean,
-    var events: MutableList<EventOccurrence>,
-    var notifications: List<Notification>
-)
+    var name: String = "",
+    var email: String = "",
+    var phoneNumber: String = "",
+    var canDrive: Boolean = false
+) {
+    @DocumentId
+    var id: String? = null
+}

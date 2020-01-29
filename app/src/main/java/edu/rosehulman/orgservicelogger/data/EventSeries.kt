@@ -1,19 +1,23 @@
 package edu.rosehulman.orgservicelogger.data
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 import java.text.SimpleDateFormat
 
 class EventSeries(
-    var name: String,
-    var address: String,
-    var description: String,
-    var organization: Organization,
-    var minPeople: Int,
-    var maxPeople: Int,
-    var timeStart: Timestamp,
-    var timeEnd: Timestamp,
-    var weeklyRecurrence: MutableList<Boolean>
+    var name: String = "",
+    var address: String = "",
+    var description: String = "",
+    var organization: String = "",
+    var minPeople: Int = 0,
+    var maxPeople: Int = 0,
+    var timeStart: Timestamp = Timestamp(0, 0),
+    var timeEnd: Timestamp = Timestamp(0, 0),
+    var weeklyRecurrence: MutableMap<String, Boolean> = mutableMapOf() // key = name of day (lowercase), presence dictates if it is recurring
 ) {
+    @DocumentId
+    var id: String? = null
+
     fun formatTimeSpan(): String = formatTimeSpan(timeStart, timeEnd)
 }
 
@@ -21,7 +25,7 @@ fun formatTimeSpan(timeStart: Timestamp, timeEnd: Timestamp): String =
     formatTime(timeStart) + "-" + formatTimeAmPm(timeEnd)
 
 private fun formatTime(timeStart: Timestamp): String =
-    SimpleDateFormat("h:m").format(timeStart.toDate())
+    SimpleDateFormat("h:mm").format(timeStart.toDate())
 
 private fun formatTimeAmPm(timeEnd: Timestamp): String =
-    SimpleDateFormat("h:ma").format(timeEnd.toDate())
+    SimpleDateFormat("h:mma").format(timeEnd.toDate())

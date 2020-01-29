@@ -8,17 +8,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.EventOccurrence
+import edu.rosehulman.orgservicelogger.data.EventSeries
 import java.text.SimpleDateFormat
 import java.util.*
 
 class EventGroupsAdapter(
-    private val context: FragmentActivity,
-    private val events: List<EventOccurrence>
+    private val context: FragmentActivity
 ) :
     RecyclerView.Adapter<EventGroupViewHolder>() {
-    private val eventDays: MutableMap<Date, Int>
+    private var events = listOf<EventOccurrence>()
+    private var serieses = listOf<EventSeries>()
+    private var eventDays = mutableMapOf<Date, Int>()
 
-    init {
+    fun resetTo(events: List<EventOccurrence>, serieses: List<EventSeries>) {
+        this.events = events
+        this.serieses = serieses
+
         eventDays = HashMap()
         for ((index, event) in events.withIndex()) {
             val baseDate = baseDate(event.date.toDate())
@@ -26,6 +31,8 @@ class EventGroupsAdapter(
                 eventDays[baseDate] = index
             }
         }
+
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventGroupViewHolder {

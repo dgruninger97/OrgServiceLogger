@@ -19,7 +19,11 @@ class EventsFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_events, container, false)
         val list = root.fragment_events_list
-        list.adapter = EventGroupsAdapter(context!! as FragmentActivity, events)
+
+        val adapter = EventGroupsAdapter(context!! as FragmentActivity)
+        list.adapter = adapter
+        retrieveEventsForOrganization("soup_kitchen", adapter::resetTo)
+
         list.layoutManager = LinearLayoutManager(context)
         list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         return root

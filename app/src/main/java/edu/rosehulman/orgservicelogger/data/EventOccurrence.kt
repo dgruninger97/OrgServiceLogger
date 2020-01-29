@@ -1,13 +1,17 @@
 package edu.rosehulman.orgservicelogger.data
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 import java.text.SimpleDateFormat
 
 data class EventOccurrence(
-    var series: EventSeries,
-    var date: Timestamp,
-    var people: List<Person>
+    var series: String = "",
+    var date: Timestamp = Timestamp(0, 0),
+    var people: Map<String, Boolean> = mapOf() // values are always true
 ) {
+    @DocumentId
+    var id: String? = null
+
     fun formatDate(): String = formatDate(date)
 }
 

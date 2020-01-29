@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.EventOccurrence
+import edu.rosehulman.orgservicelogger.data.retrieveEventSeries
 import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 
@@ -29,15 +30,16 @@ class EventAdapter(
     }
 
     private fun launchEvent(index: Int) {
-        launchFragment(context, EventFragment(events[index]))
+        launchFragment(context, EventFragment(events[index].id!!))
     }
 
     override fun getItemCount() = events.size
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val event = events[position]
-        holder.title.text = event.series.name
-        holder.time.text = event.series.formatTimeSpan()
+        retrieveEventSeries(events[position].series) { series ->
+            holder.title.text = series.name
+            holder.time.text = series.formatTimeSpan()
+        }
     }
 
     fun resetTo(es: List<EventOccurrence>) {

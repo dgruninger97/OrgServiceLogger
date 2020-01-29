@@ -1,7 +1,28 @@
 package edu.rosehulman.orgservicelogger.data
 
-sealed class Notification(var event: EventOccurrence)
+import com.google.firebase.firestore.DocumentId
 
-class ConfirmNotification(event: EventOccurrence) : Notification(event)
-class ReminderNotification(event: EventOccurrence) : Notification(event)
-class NeedsReplacementNotification(event: EventOccurrence, var person: Person) : Notification(event)
+class Notification(
+    var event: String = "",
+    var type: String = "",
+    var owner: String = ""
+) {
+    @DocumentId
+    var id: String? = null
+
+    var personToReplace: String? = null
+
+    companion object {
+        fun needsReplacement(event: String, person: String, personToReplace: String): Notification {
+            return Notification(event, "needsReplacement", person).also { it.personToReplace = personToReplace }
+        }
+
+        fun confirm(event: String, person: String): Notification {
+            return Notification(event, "confirm", person)
+        }
+
+        fun reminder(event: String, person: String): Notification {
+            return Notification(event, "reminder", person)
+        }
+    }
+}
