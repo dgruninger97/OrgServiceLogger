@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import edu.rosehulman.orgservicelogger.home.HomeFragment
-import kotlinx.android.synthetic.main.activity_no_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class NoLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_no_login)
-        setSupportActionBar(activity_no_login_toolbar)
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(activity_main_toolbar)
 
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.activity_no_login_frame, HomeFragment())
+        transaction.replace(R.id.activity_main_frame, HomeFragment())
         transaction.commit()
     }
 
