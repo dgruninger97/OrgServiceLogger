@@ -46,3 +46,15 @@ fun writeEventSeries(series: EventSeries) {
 fun writeEventOccurrence(event: EventOccurrence) {
     FirebaseFirestore.getInstance().collection("event_occurrence").document(event.id!!).set(event)
 }
+
+fun writePerson(person:Person){
+    FirebaseFirestore.getInstance().collection("person").document(person.id!!).set(person)
+}
+
+fun writeOrganization(organization: Organization){
+    FirebaseFirestore.getInstance().collection("organization").document(organization.id!!).set(organization)
+}
+
+fun writeNotification(notification: Notification){
+    FirebaseFirestore.getInstance().collection("notification").document(notification.id!!).set(notification)
+}
