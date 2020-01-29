@@ -13,16 +13,22 @@ class Notification(
     var personToReplace: String? = null
 
     companion object {
+        const val TYPE_NEEDS_REPLACEMENT = "NEEDS_REPLACEMENT"
+        const val TYPE_CONFIRM = "CONFIRM"
+        const val TYPE_REMINDER = "REMINDER"
+
         fun needsReplacement(event: String, person: String, personToReplace: String): Notification {
-            return Notification(event, "needsReplacement", person).also { it.personToReplace = personToReplace }
+            return Notification(event, TYPE_NEEDS_REPLACEMENT, person).also {
+                it.personToReplace = personToReplace
+            }
         }
 
         fun confirm(event: String, person: String): Notification {
-            return Notification(event, "confirm", person)
+            return Notification(event, TYPE_CONFIRM, person)
         }
 
         fun reminder(event: String, person: String): Notification {
-            return Notification(event, "reminder", person)
+            return Notification(event, TYPE_REMINDER, person)
         }
     }
 }

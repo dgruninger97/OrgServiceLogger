@@ -1,13 +1,11 @@
 package edu.rosehulman.orgservicelogger.notifications
 
 import android.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.event.EventFragment
@@ -31,13 +29,13 @@ class NotificationsAdapter(private val context: FragmentActivity) :
         view.setOnClickListener {
             val notification = notifications[holder.adapterPosition]
             when (notification.type) {
-                "confirmNotification" -> {
+                Notification.TYPE_CONFIRM -> {
                     showConfirmDialog(notification)
                 }
-                "reminderNotification" -> {
+                Notification.TYPE_REMINDER -> {
                     launchFragment(context, EventFragment(notification.event))
                 }
-                "needsReplacementNotification" -> {
+                Notification.TYPE_NEEDS_REPLACEMENT -> {
                     launchFragment(context, EventFragment(notification.event))
                 }
             }
@@ -113,15 +111,15 @@ class NotificationsAdapter(private val context: FragmentActivity) :
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val notification = notifications[position]
         when (notification.type) {
-            "confirmNotification" -> {
+            Notification.TYPE_CONFIRM -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_confirm)
                 holder.title.setText(R.string.text_notification_confirm)
             }
-            "reminderNotification" -> {
+            Notification.TYPE_REMINDER -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_reminder)
                 holder.title.setText(R.string.text_notification_reminder)
             }
-            "needsReplacementNotification" -> {
+            Notification.TYPE_NEEDS_REPLACEMENT -> {
                 holder.icon.setImageResource(R.drawable.ic_notification_replacement)
                 holder.title.setText(
                     context.getString(R.string.text_notification_replacement).format(
