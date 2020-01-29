@@ -58,3 +58,10 @@ fun writeOrganization(organization: Organization){
 fun writeNotification(notification: Notification){
     FirebaseFirestore.getInstance().collection("notification").document(notification.id!!).set(notification)
 }
+
+fun retrieveOrganization(organizationId: String, callback: (Organization) -> Unit){
+    FirebaseFirestore.getInstance().collection("organization").document(organizationId).get()
+        .addOnSuccessListener {
+            callback(it.toObject(Organization::class.java)!!)
+        }
+}

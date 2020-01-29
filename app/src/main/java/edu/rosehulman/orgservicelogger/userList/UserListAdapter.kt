@@ -1,25 +1,34 @@
 package edu.rosehulman.orgservicelogger.userList
 
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Organization
 import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 
-class UserListAdapter(var context: FragmentActivity, var organization: Organization) : RecyclerView.Adapter<UserNameViewHolder>() {
+class UserListAdapter(var context: FragmentActivity, var organizationId: String) : RecyclerView.Adapter<UserNameViewHolder>() {
     // TODO: fix this
-    private var users = arrayListOf<Person>()
-//    private var userRef = FirebaseFirestore
-//        .getInstance()
-//        .collection("organization")
-//        .whereEqualTo(organization.toString())
+    private var users = mutableListOf<Person>()
+    private var userRef = FirebaseFirestore
+        .getInstance()
+        .collection("organization")
+        .document(organizationId)
+        .collection("members")
     init{
-
+        userRef.addSnapshotListener { snapshot, exception ->
+            if(exception != null){
+                Log.d(Constants.TAG, "Error retreiving the users, exception: $exception")
+                return@addSnapshotListener
+            }
+            users = snapshot!!.toObjects(Person::class.java)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserNameViewHolder {

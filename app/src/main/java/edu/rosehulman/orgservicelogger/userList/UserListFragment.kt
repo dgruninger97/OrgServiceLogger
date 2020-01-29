@@ -20,7 +20,7 @@ class UserListFragment : Fragment() {
         val recyclerView =
             inflater.inflate(R.layout.fragment_user_list, container, false) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = UserListAdapter(activity!!)
+        recyclerView.adapter = UserListAdapter(activity!!, "soup_kitchen")
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 context,

@@ -1,6 +1,7 @@
 package edu.rosehulman.orgservicelogger.data
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.DocumentSnapshot
 
 class Person(
     var name: String = "",
@@ -10,4 +11,5 @@ class Person(
 ) {
     @DocumentId
     var id: String? = null
+
 }

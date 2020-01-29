@@ -7,19 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.Organization
 import edu.rosehulman.orgservicelogger.event.AddEventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
 import kotlinx.android.synthetic.main.fragment_organization.view.*
 
-class OrganizationFragment : Fragment() {
+class OrganizationFragment(var organization: Organization) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
-
+        view.fragment_organization_name.text = organization.name
         // TODO: hide fab if doesn't have organization edit permissions (see hide method)
 
         view.fragment_organization_fab.setOnClickListener {
