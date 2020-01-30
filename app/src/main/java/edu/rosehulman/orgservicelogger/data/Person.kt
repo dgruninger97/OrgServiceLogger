@@ -6,7 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 class Person(
     var name: String = "",
     var email: String = "",
-    var phoneNumber: String = "",
+    var phone: String = "",
     var canDrive: Boolean = false
 ) {
     @DocumentId

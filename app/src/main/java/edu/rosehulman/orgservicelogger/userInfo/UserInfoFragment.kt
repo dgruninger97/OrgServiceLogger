@@ -24,7 +24,7 @@ class UserInfoFragment(var person: Person) : Fragment() {
                 "Can't drive to events"
             }
         view.fragment_user_info_email_text_view.text = person.email
-        view.fragment_user_info_phone_text_view.text = person.phoneNumber
+        view.fragment_user_info_phone_text_view.text = person.phone
         view.user_info_edit_fab.setOnClickListener {
             launchFragment(activity!!, UserInfoEditFragment(person))
         }

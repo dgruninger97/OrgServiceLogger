@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentId
 class Notification(
     var event: String = "",
     var type: String = "",
-    var owner: String = ""
+    var person: String = ""
 ) {
     @DocumentId
     var id: String? = null
