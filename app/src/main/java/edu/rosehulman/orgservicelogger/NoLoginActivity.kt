@@ -1,9 +1,17 @@
 package edu.rosehulman.orgservicelogger
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.home.HomeFragment
+import edu.rosehulman.orgservicelogger.notifications.CreateNotificationService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class NoLoginActivity : AppCompatActivity() {
@@ -15,6 +23,28 @@ class NoLoginActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.activity_main_frame, HomeFragment())
         transaction.commit()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel(
+                    Notification.TYPE_REMINDER,
+                    "Reminder",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+            channel.description = "Reminder description"
+            val notificationService =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationService.createNotificationChannel(channel)
+        }
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = CreateNotificationService.createIntent(this, "sample_event_occurrence")
+        val pendingIntent = PendingIntent.getService(this, 0, intent, 0)
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + 2000,
+            pendingIntent
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
