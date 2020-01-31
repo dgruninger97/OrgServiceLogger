@@ -47,6 +47,10 @@ class Notification(
         }
     }
 
+    fun getDescription(callback: (String) -> Unit) {
+        retrieveEvent(event) { event, series -> callback(formatEvent(event, series)) }
+    }
+
     companion object {
         const val TYPE_NEEDS_REPLACEMENT = "NEEDS_REPLACEMENT"
         const val TYPE_CONFIRM = "CONFIRM"
@@ -67,3 +71,6 @@ class Notification(
         }
     }
 }
+
+fun formatEvent(event: EventOccurrence, series: EventSeries) =
+    series.name + " " + event.formatDate() + " " + series.formatTimeSpan()

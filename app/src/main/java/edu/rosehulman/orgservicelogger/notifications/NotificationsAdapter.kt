@@ -49,10 +49,7 @@ class NotificationsAdapter(private val context: FragmentActivity) :
             null
         )
 
-        retrieveEvent(notification.event) { event, series ->
-            dialogView.dialog_confirm_event_attendance_event.text =
-                formatEvent(event, series)
-        }
+        notification.getDescription { dialogView.dialog_confirm_event_attendance_event.text = it }
 
         dialogView.dialog_confirm_event_attendance_time.text =
             "Did you attend for the full time?"
@@ -119,12 +116,6 @@ class NotificationsAdapter(private val context: FragmentActivity) :
         }
         notification.getTitle(context) { holder.title.text = it }
 
-        retrieveEvent(notification.event) { event, series ->
-            holder.description.text =
-                formatEvent(event, series)
-        }
+        notification.getDescription { holder.description.text = it }
     }
-
-    private fun formatEvent(event: EventOccurrence, series: EventSeries) =
-        series.name + " " + event.formatDate() + " " + series.formatTimeSpan()
 }
