@@ -1,10 +1,12 @@
 package edu.rosehulman.orgservicelogger.notifications
 
 import android.app.IntentService
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import edu.rosehulman.orgservicelogger.NoLoginActivity
 import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveNotification
 
@@ -21,12 +23,16 @@ class CreateNotificationService : IntentService("ViewEventService") {
     private fun showNotification(notification: Notification) {
         notification.getTitle(this) { title ->
             notification.getDescription { description ->
+                val intent = Intent(this, NoLoginActivity::class.java)
+                intent.putExtra("notification", notification.id)
+                val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
                 val builder = NotificationCompat.Builder(this, Notification.TYPE_REMINDER)
                     .setSmallIcon(notification.getIconRes())
                     .setContentTitle(title)
                     .setContentText(description)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
                 NotificationManagerCompat.from(this).notify(420, builder.build())
             }
         }

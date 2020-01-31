@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.Organization
+import edu.rosehulman.orgservicelogger.data.retrieveNotification
 import edu.rosehulman.orgservicelogger.data.retrieveOrganization
+import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.events.EventsFragment
 import edu.rosehulman.orgservicelogger.notifications.NotificationsFragment
 import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
@@ -20,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
     private var realOrganization: Organization? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,11 +31,36 @@ class HomeFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         view.nav_view.setOnNavigationItemSelectedListener(this)
 
-        val transaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.nav_container, NotificationsFragment())
-        transaction.commit()
+        val fragment = NotificationsFragment()
+
+        val notificationId = arguments?.getString("notification")
+        if (notificationId != null) {
+            retrieveNotification(notificationId) { notification ->
+                when (notification.type) {
+                    Notification.TYPE_CONFIRM -> {
+                        fragment.arguments = Bundle().apply {
+                            putString("notification", notificationId)
+                        }
+
+                        switchToFragment(fragment)
+                    }
+                    Notification.TYPE_NEEDS_REPLACEMENT, Notification.TYPE_REMINDER -> {
+                        switchToFragment(fragment)
+                        launchFragment(activity!!, EventFragment(notification.event))
+                    }
+                }
+            }
+        } else {
+            switchToFragment(fragment)
+        }
 
         return view
+    }
+
+    private fun switchToFragment(fragment: NotificationsFragment) {
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.nav_container, fragment)
+        transaction.commit()
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -57,7 +85,8 @@ class HomeFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
     override fun onResume() {
         super.onResume()
-        retrieveOrganization("soup_kitchen") { organization -> realOrganization = organization
+        retrieveOrganization("soup_kitchen") { organization ->
+            realOrganization = organization
         }
     }
 }

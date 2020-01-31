@@ -20,10 +20,6 @@ class NoLoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(activity_main_toolbar)
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.activity_main_frame, HomeFragment())
-        transaction.commit()
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(
@@ -37,14 +33,28 @@ class NoLoginActivity : AppCompatActivity() {
             notificationService.createNotificationChannel(channel)
         }
 
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = CreateNotificationService.createIntent(this, "sample_notification")
-        val pendingIntent = PendingIntent.getService(this, 0, intent, 0)
-        alarmManager.set(
-            AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + 2000,
-            pendingIntent
-        )
+        val notificationId = intent.getStringExtra("notification")
+        val fragment = HomeFragment()
+        if (notificationId != null) {
+            fragment.arguments = Bundle().apply {
+                putString("notification", notificationId)
+            }
+        }
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.activity_main_frame, fragment)
+        transaction.commit()
+
+        if (notificationId == null) {
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = CreateNotificationService.createIntent(this, "sample_notification")
+            val pendingIntent = PendingIntent.getService(this, 0, intent, 0)
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + 2000,
+                pendingIntent
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
