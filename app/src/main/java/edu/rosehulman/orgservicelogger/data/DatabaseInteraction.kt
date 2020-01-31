@@ -26,6 +26,13 @@ fun retrieveEvent(eventId: String, callback: (EventOccurrence, EventSeries) -> U
     }
 }
 
+fun retrieveNotification(notificationId: String, callback: (Notification) -> Unit) {
+    FirebaseFirestore.getInstance().collection("notification").document(notificationId).get()
+        .addOnSuccessListener {
+            callback(it.toObject(Notification::class.java)!!)
+        }
+}
+
 fun retrieveNotifications(personId: String, callback: (List<Notification>) -> Unit) {
     FirebaseFirestore.getInstance().collection("notification")
         .whereEqualTo("person", personId).get()

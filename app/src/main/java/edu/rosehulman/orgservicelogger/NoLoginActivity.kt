@@ -38,7 +38,7 @@ class NoLoginActivity : AppCompatActivity() {
         }
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = CreateNotificationService.createIntent(this, "sample_event_occurrence")
+        val intent = CreateNotificationService.createIntent(this, "sample_notification")
         val pendingIntent = PendingIntent.getService(this, 0, intent, 0)
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
