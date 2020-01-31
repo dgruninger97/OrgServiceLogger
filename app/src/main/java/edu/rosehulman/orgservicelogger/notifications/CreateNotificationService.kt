@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.google.firebase.firestore.FirebaseFirestore
-import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveNotification
 
@@ -21,13 +19,17 @@ class CreateNotificationService : IntentService("ViewEventService") {
     }
 
     private fun showNotification(notification: Notification) {
-        val builder = NotificationCompat.Builder(this, Notification.TYPE_REMINDER)
-            .setSmallIcon(R.drawable.ic_notification_reminder)
-            .setContentTitle("Event Title")
-            .setContentText("Event")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-        NotificationManagerCompat.from(this).notify(420, builder.build())
+        notification.getTitle(this) { title ->
+            notification.getDescription { description ->
+                val builder = NotificationCompat.Builder(this, Notification.TYPE_REMINDER)
+                    .setSmallIcon(notification.getIconRes())
+                    .setContentTitle(title)
+                    .setContentText(description)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true)
+                NotificationManagerCompat.from(this).notify(420, builder.build())
+            }
+        }
     }
 
     companion object {
