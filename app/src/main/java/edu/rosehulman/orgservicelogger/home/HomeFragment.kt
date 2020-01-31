@@ -1,6 +1,7 @@
 package edu.rosehulman.orgservicelogger.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Organization
 import edu.rosehulman.orgservicelogger.data.retrieveOrganization
@@ -18,8 +20,13 @@ import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class HomeFragment(var userId: String) : Fragment(),
+    BottomNavigationView.OnNavigationItemSelectedListener {
     private var realOrganization: Organization? = null
+    private var orgRef = FirebaseFirestore
+        .getInstance()
+        .collection("organization")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +64,29 @@ class HomeFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
     override fun onResume() {
         super.onResume()
-        retrieveOrganization("soup_kitchen") { organization -> realOrganization = organization
+        orgRef.addSnapshotListener { snapshot, exception ->
+            if (exception != null) {
+                Log.e(
+                    Constants.TAG,
+                    "Error in retrieving the organization, exception is $exception"
+                )
+            }
+            for (doc in snapshot!!.documents) {
+                val organization = Organization.fromSnapshot(doc)
+                var foundPerson: Boolean = false
+                for ((name, bool) in organization.members) {
+                    if (name.equals(userId) && bool) {
+                        foundPerson = true
+                    }
+                }
+                if (foundPerson) {
+                    retrieveOrganization("soup_kitchen") { organization ->
+                        realOrganization = organization
+                    }
+                } else {
+                    //TODO: Launch new user fragment
+                }
+            }
         }
     }
 }
