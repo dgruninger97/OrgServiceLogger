@@ -33,7 +33,9 @@ class CreateNotificationService : IntentService("ViewEventService") {
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-                NotificationManagerCompat.from(this).notify(420, builder.build())
+
+                val id = notification.id!!.hashCode()
+                NotificationManagerCompat.from(this).notify(id, builder.build())
             }
         }
     }
