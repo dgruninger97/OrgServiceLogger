@@ -30,7 +30,7 @@ class CreateNotificationService : IntentService("ViewEventService") {
                     .setSmallIcon(notification.getIconRes())
                     .setContentTitle(title)
                     .setContentText(description)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                 NotificationManagerCompat.from(this).notify(420, builder.build())

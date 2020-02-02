@@ -25,7 +25,7 @@ class NoLoginActivity : AppCompatActivity() {
                 NotificationChannel(
                     Notification.TYPE_REMINDER,
                     "Reminder",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
                 )
             channel.description = "Reminder description"
             val notificationService =
