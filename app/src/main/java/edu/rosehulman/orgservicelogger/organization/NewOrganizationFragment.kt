@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
 
 class NewOrganizationFragment : Fragment() {
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

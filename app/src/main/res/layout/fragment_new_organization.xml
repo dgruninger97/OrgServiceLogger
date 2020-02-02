@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/fragment_new_organization_text_view_welcome"
-        android:text="Would you like to create a new organization?"
+        android:text="You are currently not in any organizations. Would you like to create a new organization?"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
@@ -33,20 +33,20 @@
         android:layout_centerVertical="true"
         >
         <Button
-            android:id="@+id/fragment_new_organization_yes_button"
+            android:id="@+id/fragment_new_organization_create_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_new_organization_text_view"
             android:layout_margin="5dp"
-            android:text="Yes" />
+            android:text="Create New Organization" />
 
         <Button
-            android:id="@+id/fragment_new_organization_no_button"
+            android:id="@+id/fragment_new_organization_logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_below="@id/fragment_new_organization_text_view"
-            android:text="No" />
+            android:text="Logout" />
     </LinearLayout>
 
 </RelativeLayout>
