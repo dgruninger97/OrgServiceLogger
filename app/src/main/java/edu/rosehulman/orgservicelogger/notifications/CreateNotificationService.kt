@@ -25,7 +25,7 @@ class CreateNotificationService : IntentService("ViewEventService") {
             notification.getDescription { description ->
                 val intent = Intent(this, NoLoginActivity::class.java)
                 intent.putExtra("notification", notification.id)
-                val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+                val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
                 val builder = NotificationCompat.Builder(this, Notification.TYPE_REMINDER)
                     .setSmallIcon(notification.getIconRes())
                     .setContentTitle(title)
