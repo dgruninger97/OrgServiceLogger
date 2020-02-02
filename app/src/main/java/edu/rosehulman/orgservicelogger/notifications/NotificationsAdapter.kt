@@ -49,10 +49,7 @@ class NotificationsAdapter(private val context: FragmentActivity) :
             null
         )
 
-        retrieveEvent(notification.event) { event, series ->
-            dialogView.dialog_confirm_event_attendance_event.text =
-                formatEvent(event, series)
-        }
+        notification.getDescription { dialogView.dialog_confirm_event_attendance_event.text = it }
 
         dialogView.dialog_confirm_event_attendance_time.text =
             "Did you attend for the full time?"
@@ -110,38 +107,15 @@ class NotificationsAdapter(private val context: FragmentActivity) :
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val notification = notifications[position]
-        when (notification.type) {
-            Notification.TYPE_CONFIRM -> {
-                holder.icon.setImageResource(R.drawable.ic_notification_confirm)
-                holder.title.setText(R.string.text_notification_confirm)
-            }
-            Notification.TYPE_REMINDER -> {
-                holder.icon.setImageResource(R.drawable.ic_notification_reminder)
-                holder.title.setText(R.string.text_notification_reminder)
-            }
-            Notification.TYPE_NEEDS_REPLACEMENT -> {
-                holder.icon.setImageResource(R.drawable.ic_notification_replacement)
-                holder.title.setText(
-                    context.getString(R.string.text_notification_replacement).format(
-                        "Someone"
-                    )
-                )
-                retrievePerson(notification.personToReplace!!) { personToReplace ->
-                    holder.title.setText(
-                        context.getString(R.string.text_notification_replacement).format(
-                            personToReplace.name
-                        )
-                    )
-                }
-            }
-        }
 
-        retrieveEvent(notification.event) { event, series ->
-            holder.description.text =
-                formatEvent(event, series)
+        holder.icon.setImageResource(notification.getIconRes())
+
+        if (notification.type == Notification.TYPE_NEEDS_REPLACEMENT) {
+            holder.title.text = context.getString(R.string.text_notification_replacement)
+                .format("Someone")
         }
+        notification.getTitle(context) { holder.title.text = it }
+
+        notification.getDescription { holder.description.text = it }
     }
-
-    private fun formatEvent(event: EventOccurrence, series: EventSeries) =
-        series.name + " " + event.formatDate() + " " + series.formatTimeSpan()
 }

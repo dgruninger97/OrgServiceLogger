@@ -1,16 +1,57 @@
 package edu.rosehulman.orgservicelogger.data
 
+import android.content.Context
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
+import edu.rosehulman.orgservicelogger.R
 
 class Notification(
     var event: String = "",
     var type: String = "",
-    var person: String = ""
+    var person: String = "",
+    var time: Timestamp = Timestamp.now()
 ) {
     @DocumentId
     var id: String? = null
 
     var personToReplace: String? = null
+
+    fun getIconRes(): Int {
+        return when (type) {
+            TYPE_CONFIRM -> {
+                R.drawable.ic_notification_confirm
+            }
+            TYPE_REMINDER -> {
+                R.drawable.ic_notification_reminder
+            }
+            TYPE_NEEDS_REPLACEMENT -> {
+                R.drawable.ic_notification_replacement
+            }
+            else -> TODO("Unimplemented icon for notification type")
+        }
+    }
+
+    fun getTitle(context: Context, callback: (String) -> Unit) {
+        return when (type) {
+            TYPE_CONFIRM ->
+                callback(context.getString(R.string.text_notification_confirm))
+            TYPE_REMINDER ->
+                callback(context.getString(R.string.text_notification_reminder))
+            TYPE_NEEDS_REPLACEMENT ->
+                retrievePerson(personToReplace!!) { personToReplace ->
+                    callback(
+                        context.getString(R.string.text_notification_replacement).format(
+                            personToReplace.name
+                        )
+                    )
+                }
+            else -> TODO("Unimplemented title for notification type")
+        }
+    }
+
+    fun getDescription(callback: (String) -> Unit) {
+        retrieveEvent(event) { event, series -> callback(formatEvent(event, series)) }
+    }
 
     companion object {
         const val TYPE_NEEDS_REPLACEMENT = "NEEDS_REPLACEMENT"
@@ -32,3 +73,6 @@ class Notification(
         }
     }
 }
+
+fun formatEvent(event: EventOccurrence, series: EventSeries) =
+    series.name + " " + event.formatDate() + " " + series.formatTimeSpan()
