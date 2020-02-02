@@ -21,16 +21,34 @@ class NoLoginActivity : AppCompatActivity() {
         setSupportActionBar(activity_main_toolbar)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
+            val reminderChannel =
                 NotificationChannel(
                     Notification.TYPE_REMINDER,
                     "Reminder",
                     NotificationManager.IMPORTANCE_HIGH
                 )
-            channel.description = "Reminder description"
+            reminderChannel.description = "Reminder to attend event"
             val notificationService =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationService.createNotificationChannel(channel)
+            notificationService.createNotificationChannel(reminderChannel)
+
+            val confirmChannel =
+                NotificationChannel(
+                    Notification.TYPE_CONFIRM,
+                    "Confirm",
+                    NotificationManager.IMPORTANCE_HIGH
+                )
+            confirmChannel.description = "Reminder to confirm event attendance"
+            notificationService.createNotificationChannel(confirmChannel)
+
+            val needsReplacementChannel =
+                NotificationChannel(
+                    Notification.TYPE_NEEDS_REPLACEMENT,
+                    "Needs Replacement",
+                    NotificationManager.IMPORTANCE_HIGH
+                )
+            needsReplacementChannel.description = "A member of your organization needs a replacement"
+            notificationService.createNotificationChannel(needsReplacementChannel)
         }
 
         val notificationId = intent.getStringExtra("notification")
