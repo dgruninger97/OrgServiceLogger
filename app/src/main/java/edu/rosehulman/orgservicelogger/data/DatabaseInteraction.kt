@@ -1,5 +1,6 @@
 package edu.rosehulman.orgservicelogger.data
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
 val weekDays = listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
@@ -36,6 +37,14 @@ fun retrieveNotification(notificationId: String, callback: (Notification) -> Uni
 fun retrieveNotifications(personId: String, callback: (List<Notification>) -> Unit) {
     FirebaseFirestore.getInstance().collection("notification")
         .whereEqualTo("person", personId).get()
+        .addOnSuccessListener { callback(it.toObjects(Notification::class.java)) }
+}
+
+fun retrieveFutureNotifications(personId: String, callback: (List<Notification>) -> Unit) {
+    FirebaseFirestore.getInstance().collection("notification")
+        .whereEqualTo("person", personId)
+        .whereGreaterThan("time", Timestamp.now())
+        .get()
         .addOnSuccessListener { callback(it.toObjects(Notification::class.java)) }
 }
 
