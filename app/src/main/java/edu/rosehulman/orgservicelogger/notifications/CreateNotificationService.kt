@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.graphics.drawable.toBitmap
 import edu.rosehulman.orgservicelogger.NoLoginActivity
+import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveNotification
 
@@ -27,10 +29,13 @@ class CreateNotificationService : IntentService("ViewEventService") {
                 intent.putExtra("notification", notification.id)
                 val pendingIntent =
                     PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                // TODO: make large icon white when in dark mode
                 val builder = NotificationCompat.Builder(this, notification.type)
-                    .setSmallIcon(notification.getIconRes())
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setContentText(description)
+                    .setLargeIcon(resources.getDrawable(notification.getIconRes())!!.toBitmap())
+                    .setColor(resources.getColor(R.color.colorPrimary))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
