@@ -25,7 +25,8 @@ class CreateNotificationService : IntentService("ViewEventService") {
             notification.getDescription { description ->
                 val intent = Intent(this, NoLoginActivity::class.java)
                 intent.putExtra("notification", notification.id)
-                val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingIntent =
+                    PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
                 val builder = NotificationCompat.Builder(this, Notification.TYPE_REMINDER)
                     .setSmallIcon(notification.getIconRes())
                     .setContentTitle(title)
@@ -41,7 +42,6 @@ class CreateNotificationService : IntentService("ViewEventService") {
     }
 
     companion object {
-        // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
         private const val ACTION_VIEW_EVENT =
             "edu.rosehulman.orgservicelogger.notifications.action.VIEW_EVENT"
 
