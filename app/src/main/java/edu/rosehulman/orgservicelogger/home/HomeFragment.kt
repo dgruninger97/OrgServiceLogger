@@ -24,7 +24,7 @@ import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment(var userId: String) : Fragment(),
+class HomeFragment(var userId: String?) : Fragment(),
     BottomNavigationView.OnNavigationItemSelectedListener {
     private var realOrganization: Organization? = null
     private var orgRef = FirebaseFirestore
@@ -93,7 +93,7 @@ class HomeFragment(var userId: String) : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        if (userId != null) {
+        if (userId == null) {
             retrieveOrganization("soup_kitchen") { organization ->
                 realOrganization = organization
             }

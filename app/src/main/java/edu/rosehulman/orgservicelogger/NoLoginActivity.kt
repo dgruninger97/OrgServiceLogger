@@ -53,7 +53,7 @@ class NoLoginActivity : AppCompatActivity() {
         }
 
         val notificationId = intent.getStringExtra("notification")
-        val fragment = HomeFragment("no_login")
+        val fragment = HomeFragment(null)
         if (notificationId != null) {
             fragment.arguments = Bundle().apply {
                 putString("notification", notificationId)
