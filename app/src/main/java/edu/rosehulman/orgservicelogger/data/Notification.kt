@@ -1,13 +1,15 @@
 package edu.rosehulman.orgservicelogger.data
 
 import android.content.Context
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import edu.rosehulman.orgservicelogger.R
 
 class Notification(
     var event: String = "",
     var type: String = "",
-    var person: String = ""
+    var person: String = "",
+    var time: Timestamp = Timestamp.now()
 ) {
     @DocumentId
     var id: String? = null

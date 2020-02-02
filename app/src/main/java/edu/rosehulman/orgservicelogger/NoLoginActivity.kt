@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import edu.rosehulman.orgservicelogger.data.Notification
+import edu.rosehulman.orgservicelogger.data.retrieveNotifications
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.notifications.CreateNotificationService
 import kotlinx.android.synthetic.main.activity_main.*
@@ -64,14 +65,20 @@ class NoLoginActivity : AppCompatActivity() {
         transaction.commit()
 
         if (notificationId == null) {
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = CreateNotificationService.createIntent(this, "sample_notification")
-            val pendingIntent = PendingIntent.getService(this, "sample_notification".hashCode(), intent, 0)
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 2000,
-                pendingIntent
-            )
+            retrieveNotifications("sample_person") { notifications: List<Notification> ->
+                for (notification in notifications) {
+                    val notificationId = notification.id!!
+                    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val intent = CreateNotificationService.createIntent(this, notificationId)
+                    val pendingIntent = PendingIntent.getService(this, notificationId.hashCode(), intent, 0)
+                    val time = notification.time.toDate().time
+                    alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        time,
+                        pendingIntent
+                    )
+                }
+            }
         }
     }
 
