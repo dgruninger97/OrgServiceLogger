@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
             Log.d(Constants.TAG, "In the auth listener, user is $user")
             val fragment = if (user != null) {
                 userId = user.uid
+                Log.d(Constants.TAG, "In the auth listener, user id is ${user.uid}")
                 HomeFragment(userId)
             } else {
+                Log.d(Constants.TAG, "Login failed")
                 SplashFragment(this)
             }
 

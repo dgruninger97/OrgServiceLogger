@@ -93,7 +93,7 @@ class HomeFragment(var userId: String) : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        if (userId.equals("no_login")) {
+        if (userId != null) {
             retrieveOrganization("soup_kitchen") { organization ->
                 realOrganization = organization
             }
@@ -109,7 +109,6 @@ class HomeFragment(var userId: String) : Fragment(),
             for (doc in snapshot!!.documents) {
                 val organization = Organization.fromSnapshot(doc)
                 var foundPerson = false
-
                 for ((name, bool) in organization.members) {
                     if (name.equals(userId) && bool) {
                         foundPerson = true
@@ -121,7 +120,9 @@ class HomeFragment(var userId: String) : Fragment(),
                     }
                 } else { //this is saying that the user is not part of an organization
                     val fragment = ChooseOrganizationFragment()
-                    launchFragment(activity!!, fragment)
+                    val transaction = activity!!.supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.activity_main_frame, fragment)
+                    transaction.commit()
                 }
             }
         }
