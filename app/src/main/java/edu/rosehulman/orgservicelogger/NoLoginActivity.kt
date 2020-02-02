@@ -13,7 +13,7 @@ class NoLoginActivity : AppCompatActivity() {
         setSupportActionBar(activity_main_toolbar)
 
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.activity_main_frame, HomeFragment())
+        transaction.replace(R.id.activity_main_frame, HomeFragment("no_login"))
         transaction.commit()
     }
 

@@ -16,6 +16,7 @@ import edu.rosehulman.orgservicelogger.data.Organization
 import edu.rosehulman.orgservicelogger.data.retrieveOrganization
 import edu.rosehulman.orgservicelogger.events.EventsFragment
 import edu.rosehulman.orgservicelogger.notifications.NotificationsFragment
+import edu.rosehulman.orgservicelogger.organization.ChooseOrganizationFragment
 import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -64,6 +65,12 @@ class HomeFragment(var userId: String) : Fragment(),
 
     override fun onResume() {
         super.onResume()
+        if(userId.equals("no_login")){
+            retrieveOrganization("soup_kitchen") { organization ->
+                realOrganization = organization
+            }
+            return
+        }
         orgRef.addSnapshotListener { snapshot, exception ->
             if (exception != null) {
                 Log.e(
@@ -73,18 +80,20 @@ class HomeFragment(var userId: String) : Fragment(),
             }
             for (doc in snapshot!!.documents) {
                 val organization = Organization.fromSnapshot(doc)
-                var foundPerson: Boolean = false
+                var foundPerson = false
+
                 for ((name, bool) in organization.members) {
                     if (name.equals(userId) && bool) {
                         foundPerson = true
                     }
                 }
                 if (foundPerson) {
-                    retrieveOrganization("soup_kitchen") { organization ->
+                    retrieveOrganization(organization.id!!) { organization ->
                         realOrganization = organization
                     }
-                } else {
-                    //TODO: Launch new user fragment
+                } else { //this is saying that the user is not part of an organization
+                    val fragment = ChooseOrganizationFragment()
+                    launchFragment(activity!!, fragment)
                 }
             }
         }
