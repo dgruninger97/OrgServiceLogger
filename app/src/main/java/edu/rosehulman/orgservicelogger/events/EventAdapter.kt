@@ -2,6 +2,7 @@ package edu.rosehulman.orgservicelogger.events
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
@@ -36,9 +37,18 @@ class EventAdapter(
     override fun getItemCount() = events.size
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        retrieveEventSeries(events[position].series) { series ->
+        val event = events[position]
+        retrieveEventSeries(event.series) { series ->
             holder.title.text = series.name
             holder.time.text = series.formatTimeSpan()
+            holder.people.removeAllViews()
+            for (x in 0 until event.people.size) {
+                holder.people.addView(context.layoutInflater.inflate(R.layout.view_event_person_present, null))
+            }
+            for (x in event.people.size until series.minPeople) {
+                holder.people.addView(context.layoutInflater.inflate(R.layout.view_event_person_not_present, null))
+            }
+            event.people
         }
     }
 
