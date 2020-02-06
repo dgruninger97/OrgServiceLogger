@@ -43,7 +43,7 @@ class OrganizationFragment(var organization: Organization) : Fragment() {
         view.see_group_members.setOnClickListener {
             launchFragment(
                 activity!!,
-                UserListFragment()
+                UserListFragment(organization.id!!)
             )
         }
 

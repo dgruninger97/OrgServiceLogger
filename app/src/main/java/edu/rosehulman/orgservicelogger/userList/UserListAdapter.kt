@@ -5,29 +5,39 @@ import android.util.Log
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.data.Organization
 import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 
-class UserListAdapter(var context: FragmentActivity, var organizationId: String) : RecyclerView.Adapter<UserNameViewHolder>() {
-    // TODO: fix this
+class UserListAdapter(var context: FragmentActivity, organizationId: String) :
+    RecyclerView.Adapter<UserNameViewHolder>() {
     private var users = mutableListOf<Person>()
-    private var userRef = FirebaseFirestore
+    private var organizationRef = FirebaseFirestore
         .getInstance()
         .collection("organization")
         .document(organizationId)
-        .collection("members")
-    init{
-        userRef.addSnapshotListener { snapshot, exception ->
-            if(exception != null){
+
+    init {
+        organizationRef.addSnapshotListener { snapshot, exception ->
+            if (exception != null) {
                 Log.d(Constants.TAG, "Error retreiving the users, exception: $exception")
                 return@addSnapshotListener
             }
-            users = snapshot!!.toObjects(Person::class.java)
+            if (snapshot != null) {
+                val userIds = (snapshot.get("members")!! as Map<String, Boolean>).keys.toList()
+                FirebaseFirestore.getInstance().collection("person")
+                    .whereIn(FieldPath.documentId(), userIds)
+                    .get()
+                    .addOnSuccessListener { snapshot ->
+                        users = snapshot.toObjects(Person::class.java)
+                        users.sortBy { it.name }
+                        notifyDataSetChanged()
+                    }
+            }
         }
     }
 

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.userList.UserListAdapter
 
-class UserListFragment : Fragment() {
+class UserListFragment(private val organizationId: String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -20,7 +20,7 @@ class UserListFragment : Fragment() {
         val recyclerView =
             inflater.inflate(R.layout.fragment_user_list, container, false) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = UserListAdapter(activity!!, "soup_kitchen")
+        recyclerView.adapter = UserListAdapter(activity!!, organizationId)
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 context,
