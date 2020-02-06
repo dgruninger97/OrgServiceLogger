@@ -12,10 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.data.Notification
-import edu.rosehulman.orgservicelogger.data.Organization
-import edu.rosehulman.orgservicelogger.data.retrieveNotification
-import edu.rosehulman.orgservicelogger.data.retrieveOrganization
+import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.events.EventsFragment
 import edu.rosehulman.orgservicelogger.notifications.NotificationsFragment
@@ -24,7 +21,7 @@ import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment(var userId: String?) : Fragment(),
+class HomeFragment(var person: Person?) : Fragment(),
     BottomNavigationView.OnNavigationItemSelectedListener {
     private var realOrganization: Organization? = null
     private var orgRef = FirebaseFirestore
@@ -93,7 +90,7 @@ class HomeFragment(var userId: String?) : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        if (userId == null) {
+        if (person?.id == null) {
             retrieveOrganization("soup_kitchen") { organization ->
                 realOrganization = organization
             }
@@ -110,7 +107,7 @@ class HomeFragment(var userId: String?) : Fragment(),
                 val organization = Organization.fromSnapshot(doc)
                 var foundPerson = false
                 for ((name, bool) in organization.members) {
-                    if (name.equals(userId) && bool) {
+                    if (name.equals(person?.id) && bool) {
                         foundPerson = true
                     }
                 }
@@ -119,7 +116,7 @@ class HomeFragment(var userId: String?) : Fragment(),
                         realOrganization = organization
                     }
                 } else { //this is saying that the user is not part of an organization
-                    val fragment = ChooseOrganizationFragment()
+                    val fragment = ChooseOrganizationFragment(person!!)
                     switchMainFragment(activity!!, fragment)
                 }
             }

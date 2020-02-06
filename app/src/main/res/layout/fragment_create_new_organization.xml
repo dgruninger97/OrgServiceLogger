@@ -51,6 +51,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="Change minimum hour requirement"
                 android:id="@+id/fragment_create_new_organization_hours"
                 />
@@ -69,6 +70,7 @@
             <EditText
                 android:id="@+id/fragment_create_new_organization_deadlineLen"
                 android:layout_width="wrap_content"
+                android:inputType="number"
                 android:layout_height="wrap_content"/>
             <Button
                 android:layout_width="wrap_content"
