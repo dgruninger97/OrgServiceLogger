@@ -6,6 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.Organization
+import edu.rosehulman.orgservicelogger.data.createOrganization
+import edu.rosehulman.orgservicelogger.data.writeOrganization
+import edu.rosehulman.orgservicelogger.home.switchMainFragment
+import kotlinx.android.synthetic.main.fragment_create_new_organization.view.*
 
 class NewOrganizationFragment : Fragment() {
     override fun onCreateView(
@@ -13,7 +18,14 @@ class NewOrganizationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.view_create_new_organization, container, false)
+        val view = inflater.inflate(R.layout.fragment_create_new_organization, container, false)
+        view.fragment_create_new_organization_fab.setOnClickListener {
+            val name = view.fragment_create_new_organization_name.text.toString()
+            val hours = view.fragment_create_new_organization_hours.text.toString().toInt()
+            val deadLine = view.fragment_create_new_organization_deadlineLen.text.toString().toInt()
+            createOrganization(Organization(name, mapOf(), hours, deadLine))
+            switchMainFragment(activity!!, this)
+        }
         return view
     }
 }

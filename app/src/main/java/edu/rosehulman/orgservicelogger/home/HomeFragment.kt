@@ -120,18 +120,22 @@ class HomeFragment(var userId: String?) : Fragment(),
                     }
                 } else { //this is saying that the user is not part of an organization
                     val fragment = ChooseOrganizationFragment()
-                    val transaction = activity!!.supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.activity_main_frame, fragment)
-                    transaction.commit()
+                    switchMainFragment(activity!!, fragment)
                 }
             }
         }
     }
 }
 
-fun launchFragment(context: FragmentActivity, fragment: Fragment) {
-    val transaction = context.supportFragmentManager.beginTransaction()
+fun launchFragment(activity: FragmentActivity, fragment: Fragment) {
+    val transaction = activity.supportFragmentManager.beginTransaction()
     transaction.replace(R.id.nav_container, fragment)
     transaction.addToBackStack(null)
+    transaction.commit()
+}
+
+fun switchMainFragment(activity: FragmentActivity, fragment: Fragment) {
+    val transaction = activity.supportFragmentManager.beginTransaction()
+    transaction.replace(R.id.activity_main_frame, fragment)
     transaction.commit()
 }

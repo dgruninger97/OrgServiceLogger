@@ -33,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Change Organization Name"
+                android:id="@+id/fragment_create_new_organization_name"
                 />
         </LinearLayout>
 
@@ -51,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Change minimum hour requirement"
+                android:id="@+id/fragment_create_new_organization_hours"
                 />
         </LinearLayout>
 
@@ -62,9 +64,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Complete by: "
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/fragment_create_new_organization_deadlineLen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <Button
@@ -78,7 +81,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fragment_edit_user_info_fab"
+        android:id="@+id/fragment_create_new_organization_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
