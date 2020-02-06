@@ -51,10 +51,6 @@ class OrganizationFragment(var organization: Organization) : Fragment() {
             launchFragment(activity!!, AddEventFragment())
         }
 
-        view.fragment_organization_edit_event.setOnClickListener {
-            //            launchFragment(activity!!, EditEventFragment())
-        }
-
         return view
     }
 }

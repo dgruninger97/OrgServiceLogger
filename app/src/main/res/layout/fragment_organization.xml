@@ -67,16 +67,6 @@
             android:text="Add Event"
             android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/fragment_organization_edit_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit/Remove Event"
-            android:textSize="24dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
-
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
