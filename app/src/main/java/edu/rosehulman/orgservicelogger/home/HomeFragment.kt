@@ -106,8 +106,8 @@ class HomeFragment(var person: Person?) : Fragment(),
             for (doc in snapshot!!.documents) {
                 val organization = Organization.fromSnapshot(doc)
                 var foundPerson = false
-                for ((name, bool) in organization.members) {
-                    if (name.equals(person?.id) && bool) {
+                for (name in organization.members.keys) {
+                    if (name == person?.id) {
                         foundPerson = true
                     }
                 }

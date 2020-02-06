@@ -20,8 +20,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_confirm_information.view.*
 import java.util.zip.Inflater
 
-private const val RC_SIGN_IN = 1
-
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private lateinit var userId: String
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -93,7 +91,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .build()
-        startActivityForResult(loginIntent, RC_SIGN_IN)
+        startActivity(loginIntent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
