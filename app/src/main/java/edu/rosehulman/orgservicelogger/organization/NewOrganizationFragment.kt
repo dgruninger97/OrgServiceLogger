@@ -22,7 +22,7 @@ class NewOrganizationFragment(var person: Person) : Fragment() {
             val name = view.fragment_create_new_organization_name.text.toString()
             val hours = view.fragment_create_new_organization_hours.text.toString().toInt()
             val deadLine = view.fragment_create_new_organization_deadlineLen.text.toString().toInt()
-            createOrganization(Organization(name, mapOf(), hours, deadLine))
+            createOrganization(Organization(name, mapOf(person.id!! to true), hours, deadLine))
             switchMainFragment(activity!!, HomeFragment(person))
         }
         return view

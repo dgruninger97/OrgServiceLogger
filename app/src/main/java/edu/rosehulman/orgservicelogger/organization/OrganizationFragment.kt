@@ -2,25 +2,62 @@ package edu.rosehulman.orgservicelogger.organization
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Organization
+import edu.rosehulman.orgservicelogger.data.Person
+import edu.rosehulman.orgservicelogger.data.retrieveOrganization
+import edu.rosehulman.orgservicelogger.data.writeOrganization
 import edu.rosehulman.orgservicelogger.event.AddEventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
+import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
 import kotlinx.android.synthetic.main.fragment_organization.view.*
 
-class OrganizationFragment(var organization: Organization) : Fragment() {
+class OrganizationFragment(var person: Person) : Fragment() {
+    private var realOrganization: Organization? = null
+    private var orgRef = FirebaseFirestore
+        .getInstance()
+        .collection("organization")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
-        view.fragment_organization_name.text = organization.name
+        orgRef.addSnapshotListener { snapshot, exception ->
+            if (exception != null) {
+                Log.e(
+                    Constants.TAG,
+                    "Error in retrieving the organization, exception is $exception"
+                )
+            }
+            for (doc in snapshot!!.documents) {
+                val organization = Organization.fromSnapshot(doc)
+                var foundPerson = false
+                for (name in organization.members.keys) {
+                    if (name == person?.id) {
+                        foundPerson = true
+                    }
+                }
+                if (foundPerson) {
+                    retrieveOrganization(organization.id!!) { organization ->
+                        realOrganization = organization
+                    }
+                } else { //this is saying that the user is not part of an organization
+                    val fragment = ChooseOrganizationFragment(person!!)
+                    switchMainFragment(activity!!, fragment)
+                }
+            }
+        }
+
+        view.fragment_organization_name.text = realOrganization?.name
         // TODO: hide fab if doesn't have organization edit permissions (see hide method)
 
         view.fragment_organization_fab.setOnClickListener {

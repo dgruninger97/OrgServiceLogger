@@ -9,8 +9,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.data.Person
+import edu.rosehulman.orgservicelogger.data.retrievePerson
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.home.switchMainFragment
@@ -23,7 +25,7 @@ import java.util.zip.Inflater
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private lateinit var userId: String
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
-    private var auth:FirebaseAuth? = null
+    private var auth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,33 +54,48 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
             val user = auth.currentUser
             this.auth = auth
             Log.d(Constants.TAG, "In the auth listener, user is $user")
-            val fragment = if (user != null) {
-                var person = Person()
-                var builder = AlertDialog.Builder(this)
-                var view = layoutInflater.inflate(R.layout.dialog_confirm_information, null, false)
-                view.dialog_confirm_information_name.setText(user.displayName.toString())
-                view.dialog_confirm_information_email.setText(user.email.toString())
-                view.dialog_confirm_information_phone.setText(user.phoneNumber.toString())
-                builder.setView(view)
-                builder.setTitle("Please confirm the info")
-                builder.setPositiveButton(android.R.string.ok) { _, _ ->
-                    person.name = view.dialog_confirm_information_name.text.toString()
-                    person.email = view.dialog_confirm_information_email.text.toString()
-                    person.phone = view.dialog_confirm_information_phone.text.toString()
-                    person.canDrive = view.dialog_confirm_information_canDrive.isChecked
-                    person.id = user.uid
-                    switchMainFragment(this, HomeFragment(person))
+            if (user != null) {
+                isLoggingIn(user.uid) { loggedIn ->
+                    if (loggedIn) {
+                        retrievePerson(user.uid) { person: Person ->
+                            switchMainFragment(this, HomeFragment(person))
+                        }
+                    } else {
+                        var builder = AlertDialog.Builder(this)
+                        var view =
+                            layoutInflater.inflate(R.layout.dialog_confirm_information, null, false)
+                        view.dialog_confirm_information_name.setText(user.displayName.toString())
+                        view.dialog_confirm_information_email.setText(user.email.toString())
+                        view.dialog_confirm_information_phone.setText(user.phoneNumber.toString())
+                        builder.setView(view)
+                        builder.setTitle("Please confirm the info")
+                        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+                            var person = Person()
+                            person.name = view.dialog_confirm_information_name.text.toString()
+                            person.email = view.dialog_confirm_information_email.text.toString()
+                            person.phone = view.dialog_confirm_information_phone.text.toString()
+                            person.canDrive = view.dialog_confirm_information_canDrive.isChecked
+                            person.id = user.uid
+                            switchMainFragment(this, HomeFragment(person))
+                        }
+                        builder.setNegativeButton(android.R.string.cancel, null)
+                        builder.create().show()
+                        userId = user.uid
+                        Log.d(Constants.TAG, "In the auth listener, user id is ${user.uid}")
+                    }
                 }
-                builder.setNegativeButton(android.R.string.cancel, null)
-                builder.create().show()
-                userId = user.uid
-                Log.d(Constants.TAG, "In the auth listener, user id is ${user.uid}")
-
             } else {
                 Log.d(Constants.TAG, "Login failed")
                 switchMainFragment(this, SplashFragment(this))
             }
+        }
+    }
 
+    private fun isLoggingIn(uid: String, callback: (Boolean) -> Unit) {
+        var personRef = FirebaseFirestore.getInstance().collection("person")
+        var x = personRef.whereEqualTo(FieldPath.documentId(), uid)
+        x.limit(1).get().addOnSuccessListener {
+            callback(!it.isEmpty)
         }
     }
 
