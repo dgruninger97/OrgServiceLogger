@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.rosehulman.orgservicelogger.*
+import com.google.firebase.auth.FirebaseAuth
+import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.retrieveOrganizationForPerson
 import kotlinx.android.synthetic.main.fragment_events.view.*
 
 class EventsFragment : Fragment() {
@@ -42,9 +44,12 @@ class EventsFragment : Fragment() {
     }
 
     private fun refreshItems() {
-        retrieveEventsForOrganization("soup_kitchen") { events, serieses ->
-            adapter.resetTo(events, serieses)
-            view?.also { view -> view.fragment_events_swipe_refresh.isRefreshing = false }
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        retrieveOrganizationForPerson(uid) { organizationId ->
+            retrieveEventsForOrganization(organizationId!!) { events, serieses ->
+                adapter.resetTo(events, serieses)
+                view?.also { view -> view.fragment_events_swipe_refresh.isRefreshing = false }
+            }
         }
     }
 }

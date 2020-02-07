@@ -1,6 +1,7 @@
 package edu.rosehulman.orgservicelogger.data
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 
 val weekDays = listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
@@ -85,4 +86,12 @@ fun retrieveOrganization(organizationId: String, callback: (Organization) -> Uni
         .addOnSuccessListener {
             callback(it.toObject(Organization::class.java)!!)
         }
+}
+
+fun retrieveOrganizationForPerson(personId: String, callback: (String?) -> Unit) {
+    FirebaseFirestore.getInstance().collection("organization")
+        .whereEqualTo(FieldPath.of("members", personId), true)
+        .limit(1)
+        .get()
+        .addOnSuccessListener { callback(it.documents.getOrNull(0)?.id) }
 }
