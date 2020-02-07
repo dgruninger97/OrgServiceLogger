@@ -12,20 +12,39 @@ import edu.rosehulman.orgservicelogger.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
 
 class EventsFragment : Fragment() {
+    private lateinit var adapter: EventGroupsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_events, container, false)
+        val swipeRefresh = root.fragment_events_swipe_refresh
+        swipeRefresh.setOnRefreshListener {
+            refreshItems()
+        }
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+
         val list = root.fragment_events_list
 
-        val adapter = EventGroupsAdapter(context!! as FragmentActivity)
+        adapter = EventGroupsAdapter(context!! as FragmentActivity)
         list.adapter = adapter
-        retrieveEventsForOrganization("soup_kitchen", adapter::resetTo)
 
         list.layoutManager = LinearLayoutManager(context)
         list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshItems()
+    }
+
+    private fun refreshItems() {
+        retrieveEventsForOrganization("soup_kitchen") { events, serieses ->
+            adapter.resetTo(events, serieses)
+            view?.also { view -> view.fragment_events_swipe_refresh.isRefreshing = false }
+        }
     }
 }
