@@ -33,6 +33,7 @@ class EventFragment(eventId: String) : Fragment() {
 
     private fun bindView(view: View) {
         val day = SimpleDateFormat("EEEE MMM/dd/yyyy").format(event.date.toDate())
+        view.fragment_event_name.text = series.name
         view.fragment_event_date.text = day + " " + series.formatTimeSpan()
         view.fragment_event_description.text = series.description
         view.fragment_event_directions.text = series.address
