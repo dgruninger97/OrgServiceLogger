@@ -11,21 +11,26 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
-import edu.rosehulman.orgservicelogger.data.Person
-import edu.rosehulman.orgservicelogger.data.retrievePerson
+import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import edu.rosehulman.orgservicelogger.login.OnLoginButtonPressedListener
 import edu.rosehulman.orgservicelogger.login.SplashFragment
+import edu.rosehulman.orgservicelogger.organization.ChooseOrganizationFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_confirm_information.view.*
 import java.util.zip.Inflater
 
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private lateinit var userId: String
+    private var realOrganization: Organization? = null
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
     private var auth: FirebaseAuth? = null
+    private var orgRef = FirebaseFirestore
+        .getInstance()
+        .collection("organization")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -76,7 +81,26 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                             person.phone = view.dialog_confirm_information_phone.text.toString()
                             person.canDrive = view.dialog_confirm_information_canDrive.isChecked
                             person.id = user.uid
-                            switchMainFragment(this, HomeFragment(person))
+                            writePerson(person)
+
+                            orgRef.get().addOnSuccessListener { snapshot ->
+                                for (doc in snapshot!!.documents) {
+                                    val organization = Organization.fromSnapshot(doc)
+                                    var foundPerson = false
+                                    for (name in organization.members.keys) {
+                                        if (name == person?.id) {
+                                            foundPerson = true
+                                        }
+                                    }
+                                    if (foundPerson) {
+                                        Log.d(Constants.TAG, "The person is $person")
+                                        switchMainFragment(this, HomeFragment(person))
+                                    } else { //this is saying that the user is not part of an organization
+                                        val fragment = ChooseOrganizationFragment(person!!)
+                                        switchMainFragment(this, fragment)
+                                    }
+                                }
+                            }
                         }
                         builder.setNegativeButton(android.R.string.cancel, null)
                         builder.create().show()

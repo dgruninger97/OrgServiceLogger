@@ -31,32 +31,6 @@ class OrganizationFragment(var person: Person) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
-        orgRef.addSnapshotListener { snapshot, exception ->
-            if (exception != null) {
-                Log.e(
-                    Constants.TAG,
-                    "Error in retrieving the organization, exception is $exception"
-                )
-            }
-            for (doc in snapshot!!.documents) {
-                val organization = Organization.fromSnapshot(doc)
-                var foundPerson = false
-                for (name in organization.members.keys) {
-                    if (name == person?.id) {
-                        foundPerson = true
-                    }
-                }
-                if (foundPerson) {
-                    retrieveOrganization(organization.id!!) { organization ->
-                        realOrganization = organization
-                    }
-                } else { //this is saying that the user is not part of an organization
-                    val fragment = ChooseOrganizationFragment(person!!)
-                    switchMainFragment(activity!!, fragment)
-                }
-            }
-        }
-
         view.fragment_organization_name.text = realOrganization?.name
         // TODO: hide fab if doesn't have organization edit permissions (see hide method)
 
