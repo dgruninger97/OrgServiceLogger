@@ -21,7 +21,7 @@ import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment(var person: Person?) : Fragment(),
+class HomeFragment(var person: Person?, val realOrganization: Organization) : Fragment(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreateView(
@@ -71,7 +71,7 @@ class HomeFragment(var person: Person?) : Fragment(),
             R.id.navigation_notifications -> NotificationsFragment()
             R.id.navigation_events -> EventsFragment()
             //TODO: Fix so that the actual organization goes here
-            R.id.navigation_organization -> OrganizationFragment(person!!)
+            R.id.navigation_organization -> OrganizationFragment(person!!, realOrganization)
             R.id.navigation_settings -> SettingsFragment()
             else -> TODO("Unimplemented navigation item")
         }

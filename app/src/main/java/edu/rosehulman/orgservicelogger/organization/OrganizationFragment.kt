@@ -21,17 +21,13 @@ import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
 import kotlinx.android.synthetic.main.fragment_organization.view.*
 
-class OrganizationFragment(var person: Person) : Fragment() {
-    private var realOrganization: Organization? = null
-    private var orgRef = FirebaseFirestore
-        .getInstance()
-        .collection("organization")
+class OrganizationFragment(var person: Person, var realOrganization: Organization) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
-        view.fragment_organization_name.text = realOrganization?.name
+        view.fragment_organization_name.text = realOrganization.name
         // TODO: hide fab if doesn't have organization edit permissions (see hide method)
 
         view.fragment_organization_fab.setOnClickListener {

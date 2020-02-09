@@ -2,7 +2,6 @@ package edu.rosehulman.orgservicelogger
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -13,14 +12,12 @@ import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.HomeFragment
-import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import edu.rosehulman.orgservicelogger.login.OnLoginButtonPressedListener
 import edu.rosehulman.orgservicelogger.login.SplashFragment
 import edu.rosehulman.orgservicelogger.organization.ChooseOrganizationFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_confirm_information.view.*
-import java.util.zip.Inflater
 
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private lateinit var userId: String
@@ -63,7 +60,13 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                 isLoggingIn(user.uid) { loggedIn ->
                     if (loggedIn) {
                         retrievePerson(user.uid) { person: Person ->
-                            switchMainFragment(this, HomeFragment(person))
+                            retrieveOrganizationForPerson(person) { organization ->
+                                if (organization != null) {
+                                    switchMainFragment(this, HomeFragment(person, organization))
+                                } else {
+                                    switchMainFragment(this, ChooseOrganizationFragment(person))
+                                }
+                            }
                         }
                     } else {
                         var builder = AlertDialog.Builder(this)
@@ -81,30 +84,19 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                         builder.setView(view)
                         builder.setTitle("Please confirm the info")
                         builder.setPositiveButton(android.R.string.ok) { _, _ ->
-                            var person = Person()
+                            val person = Person()
                             person.name = view.dialog_confirm_information_name.text.toString()
                             person.email = view.dialog_confirm_information_email.text.toString()
                             person.phone = view.dialog_confirm_information_phone.text.toString()
                             person.canDrive = view.dialog_confirm_information_canDrive.isChecked
                             person.id = user.uid
                             writePerson(person)
-
-                            orgRef.get().addOnSuccessListener { snapshot ->
-                                for (doc in snapshot!!.documents) {
-                                    val organization = Organization.fromSnapshot(doc)
-                                    var foundPerson = false
-                                    for (name in organization.members.keys) {
-                                        if (name == person?.id) {
-                                            foundPerson = true
-                                        }
-                                    }
-                                    if (foundPerson) {
-                                        Log.d(Constants.TAG, "The person is $person")
-                                        switchMainFragment(this, HomeFragment(person))
-                                    } else { //this is saying that the user is not part of an organization
-                                        val fragment = ChooseOrganizationFragment(person!!)
-                                        switchMainFragment(this, fragment)
-                                    }
+                            retrieveOrganizationForPerson(person) { organization ->
+                                if (organization != null) {
+                                    // this should never happen but it might when we add invites
+                                    switchMainFragment(this, HomeFragment(person, organization))
+                                } else {
+                                    switchMainFragment(this, ChooseOrganizationFragment(person))
                                 }
                             }
                         }
@@ -118,6 +110,20 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                 Log.d(Constants.TAG, "Login failed")
                 switchMainFragment(this, SplashFragment(this))
             }
+        }
+    }
+
+    private fun retrieveOrganizationForPerson(person: Person, callback: (Organization?) -> Unit){
+        orgRef.get().addOnSuccessListener { snapshot ->
+            for (doc in snapshot!!.documents) {
+                val organization = Organization.fromSnapshot(doc)
+                val foundPerson = organization.members.keys.contains(person.id)
+                if (foundPerson) {
+                    callback(organization)
+                    return@addOnSuccessListener
+                }
+            }
+            callback(null)
         }
     }
 
