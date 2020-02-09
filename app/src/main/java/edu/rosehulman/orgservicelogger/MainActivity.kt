@@ -69,9 +69,15 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                         var builder = AlertDialog.Builder(this)
                         var view =
                             layoutInflater.inflate(R.layout.dialog_confirm_information, null, false)
-                        view.dialog_confirm_information_name.setText(user.displayName.toString())
-                        view.dialog_confirm_information_email.setText(user.email.toString())
-                        view.dialog_confirm_information_phone.setText(user.phoneNumber.toString())
+                        if(user.displayName != null){
+                            view.dialog_confirm_information_name.setText(user.displayName.toString())
+                        }
+                        if(user.email != null){
+                            view.dialog_confirm_information_email.setText(user.email.toString())
+                        }
+                        if(user.phoneNumber != null){
+                            view.dialog_confirm_information_phone.setText(user.phoneNumber.toString())
+                        }
                         builder.setView(view)
                         builder.setTitle("Please confirm the info")
                         builder.setPositiveButton(android.R.string.ok) { _, _ ->
