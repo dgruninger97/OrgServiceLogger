@@ -11,9 +11,11 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveFutureNotifications
+import edu.rosehulman.orgservicelogger.data.retrieveOrganization
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.notifications.CreateNotificationService
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_edit_organization.*
 
 class NoLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,16 +55,19 @@ class NoLoginActivity : AppCompatActivity() {
         }
 
         val notificationId = intent.getStringExtra("notification")
-        val fragment = HomeFragment(null)
-        if (notificationId != null) {
-            fragment.arguments = Bundle().apply {
-                putString("notification", notificationId)
-            }
-        }
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.activity_main_frame, fragment)
-        transaction.commit()
+        retrieveOrganization("soup_kitchen") { organization ->
+            val fragment = HomeFragment(null, organization)
+            if (notificationId != null) {
+                fragment.arguments = Bundle().apply {
+                    putString("notification", notificationId)
+                }
+            }
+
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.activity_main_frame, fragment)
+            transaction.commit()
+        }
 
         if (notificationId == null) {
             retrieveFutureNotifications("sample_person") { notifications: List<Notification> ->

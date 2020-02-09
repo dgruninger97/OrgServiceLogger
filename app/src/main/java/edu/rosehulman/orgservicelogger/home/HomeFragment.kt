@@ -12,10 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.data.Notification
-import edu.rosehulman.orgservicelogger.data.Organization
-import edu.rosehulman.orgservicelogger.data.retrieveNotification
-import edu.rosehulman.orgservicelogger.data.retrieveOrganization
+import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.events.EventsFragment
 import edu.rosehulman.orgservicelogger.notifications.NotificationsFragment
@@ -24,12 +21,8 @@ import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment(var userId: String?) : Fragment(),
+class HomeFragment(var person: Person?, val realOrganization: Organization) : Fragment(),
     BottomNavigationView.OnNavigationItemSelectedListener {
-    private var realOrganization: Organization? = null
-    private var orgRef = FirebaseFirestore
-        .getInstance()
-        .collection("organization")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +33,6 @@ class HomeFragment(var userId: String?) : Fragment(),
         view.nav_view.setOnNavigationItemSelectedListener(this)
 
         val fragment = NotificationsFragment()
-
         val notificationId = arguments?.getString("notification")
         if (notificationId != null) {
             retrieveNotification(notificationId) { notification ->
@@ -49,7 +41,6 @@ class HomeFragment(var userId: String?) : Fragment(),
                         fragment.arguments = Bundle().apply {
                             putString("notification", notificationId)
                         }
-
                         switchToFragment(fragment)
                     }
                     Notification.TYPE_NEEDS_REPLACEMENT, Notification.TYPE_REMINDER -> {
@@ -76,12 +67,11 @@ class HomeFragment(var userId: String?) : Fragment(),
         for (i in 0..fragmentManager.backStackEntryCount) {
             fragmentManager.popBackStack()
         }
-
         val fragment = when (menuItem.itemId) {
             R.id.navigation_notifications -> NotificationsFragment()
             R.id.navigation_events -> EventsFragment()
             //TODO: Fix so that the actual organization goes here
-            R.id.navigation_organization -> OrganizationFragment(realOrganization!!)
+            R.id.navigation_organization -> OrganizationFragment(person!!, realOrganization)
             R.id.navigation_settings -> SettingsFragment()
             else -> TODO("Unimplemented navigation item")
         }
@@ -91,40 +81,6 @@ class HomeFragment(var userId: String?) : Fragment(),
         return true
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (userId == null) {
-            retrieveOrganization("soup_kitchen") { organization ->
-                realOrganization = organization
-            }
-            return
-        }
-        orgRef.addSnapshotListener { snapshot, exception ->
-            if (exception != null) {
-                Log.e(
-                    Constants.TAG,
-                    "Error in retrieving the organization, exception is $exception"
-                )
-            }
-            for (doc in snapshot!!.documents) {
-                val organization = Organization.fromSnapshot(doc)
-                var foundPerson = false
-                for ((name, bool) in organization.members) {
-                    if (name.equals(userId) && bool) {
-                        foundPerson = true
-                    }
-                }
-                if (foundPerson) {
-                    retrieveOrganization(organization.id!!) { organization ->
-                        realOrganization = organization
-                    }
-                } else { //this is saying that the user is not part of an organization
-                    val fragment = ChooseOrganizationFragment()
-                    switchMainFragment(activity!!, fragment)
-                }
-            }
-        }
-    }
 }
 
 fun launchFragment(activity: FragmentActivity, fragment: Fragment) {
