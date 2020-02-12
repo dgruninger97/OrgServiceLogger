@@ -13,7 +13,7 @@ import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.retrieveOrganizationForPerson
 import kotlinx.android.synthetic.main.fragment_events.view.*
 
-class EventsFragment : Fragment() {
+class EventsFragment(private val personId: String) : Fragment() {
     private lateinit var adapter: EventGroupsAdapter
 
     override fun onCreateView(
@@ -44,8 +44,7 @@ class EventsFragment : Fragment() {
     }
 
     private fun refreshItems() {
-        val uid = FirebaseAuth.getInstance().currentUser!!.uid
-        retrieveOrganizationForPerson(uid) { organizationId ->
+        retrieveOrganizationForPerson(personId) { organizationId ->
             retrieveEventsForOrganization(organizationId!!) { events, serieses ->
                 adapter.resetTo(events, serieses)
                 view?.also { view -> view.fragment_events_swipe_refresh.isRefreshing = false }

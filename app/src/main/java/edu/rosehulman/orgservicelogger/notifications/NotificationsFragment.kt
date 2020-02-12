@@ -11,7 +11,7 @@ import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.retrieveNotifications
 import kotlinx.android.synthetic.main.fragment_notifications.view.*
 
-class NotificationsFragment : Fragment() {
+class NotificationsFragment(private val personId: String) : Fragment() {
     lateinit var adapter: NotificationsAdapter
 
     override fun onCreateView(
@@ -46,7 +46,7 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun refreshItems() {
-        retrieveNotifications("sample_person") {
+        retrieveNotifications(personId) {
             adapter.setNotifications(it)
             view?.also { view -> view.fragment_notifications_swipe_refresh.isRefreshing = false }
         }

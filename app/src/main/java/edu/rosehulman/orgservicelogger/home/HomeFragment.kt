@@ -21,7 +21,7 @@ import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment(var person: Person?, val realOrganization: Organization) : Fragment(),
+class HomeFragment(var person: Person, val realOrganization: Organization) : Fragment(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreateView(
@@ -32,7 +32,7 @@ class HomeFragment(var person: Person?, val realOrganization: Organization) : Fr
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         view.nav_view.setOnNavigationItemSelectedListener(this)
 
-        val fragment = NotificationsFragment()
+        val fragment = NotificationsFragment(person.id!!)
         val notificationId = arguments?.getString("notification")
         if (notificationId != null) {
             retrieveNotification(notificationId) { notification ->
@@ -68,11 +68,10 @@ class HomeFragment(var person: Person?, val realOrganization: Organization) : Fr
             fragmentManager.popBackStack()
         }
         val fragment = when (menuItem.itemId) {
-            R.id.navigation_notifications -> NotificationsFragment()
-            R.id.navigation_events -> EventsFragment()
-            //TODO: Fix so that the actual organization goes here
-            R.id.navigation_organization -> OrganizationFragment(person!!, realOrganization)
-            R.id.navigation_settings -> UserInfoFragment(person!!)
+            R.id.navigation_notifications -> NotificationsFragment(person.id!!)
+            R.id.navigation_events -> EventsFragment(person.id!!)
+            R.id.navigation_organization -> OrganizationFragment(person, realOrganization)
+            R.id.navigation_settings -> UserInfoFragment(person)
             else -> TODO("Unimplemented navigation item")
         }
 
