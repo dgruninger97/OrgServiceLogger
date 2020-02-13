@@ -29,16 +29,17 @@ class CreateNotificationService : IntentService("ViewEventService") {
                 intent.putExtra("notification", notification.id)
                 val pendingIntent =
                     PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                // TODO: make large icon white when in dark mode
                 val builder = NotificationCompat.Builder(this, notification.type)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setColor(resources.getColor(R.color.colorPrimary))
                     .setContentTitle(title)
                     .setContentText(description)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(description))
                     .setLargeIcon(resources.getDrawable(notification.getIconRes())!!.toBitmap())
-                    .setColor(resources.getColor(R.color.colorPrimary))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
+                // TODO: make large icon white when in dark mode
 
                 val id = notification.id!!.hashCode()
                 NotificationManagerCompat.from(this).notify(id, builder.build())
