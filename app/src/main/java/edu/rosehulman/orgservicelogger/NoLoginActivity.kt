@@ -1,14 +1,8 @@
 package edu.rosehulman.orgservicelogger
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import edu.rosehulman.orgservicelogger.data.Notification
-import edu.rosehulman.orgservicelogger.data.retrieveFutureNotifications
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.notifications.NotificationLauncher
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,12 +26,7 @@ class NoLoginActivity : AppCompatActivity() {
         transaction.commit()
 
         NotificationLauncher.createNotificationChannels(this)
-
-        retrieveFutureNotifications("sample_person") { notifications: List<Notification> ->
-            for (notification in notifications) {
-                NotificationLauncher.launchNotification(this, notification.id!!, notification.time)
-            }
-        }
+        NotificationLauncher.scheduleNotifications(this, "sample_person")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

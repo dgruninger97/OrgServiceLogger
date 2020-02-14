@@ -8,8 +8,17 @@ import android.content.Context
 import android.os.Build
 import com.google.firebase.Timestamp
 import edu.rosehulman.orgservicelogger.data.Notification
+import edu.rosehulman.orgservicelogger.data.retrieveFutureNotifications
 
 object NotificationLauncher {
+    fun scheduleNotifications(context: Context, personId: String) {
+        retrieveFutureNotifications(personId) { notifications: List<Notification> ->
+            for (notification in notifications) {
+                launchNotification(context, notification.id!!, notification.time)
+            }
+        }
+    }
+
     fun launchNotification(context: Context, notificationId: String, time: Timestamp) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = CreateNotificationService.createIntent(context, notificationId)
