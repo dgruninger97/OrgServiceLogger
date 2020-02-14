@@ -19,10 +19,12 @@ class UserInfoEditFragment(var person: Person) : Fragment() {
         view.fragment_edit_user_info_name_edit_text.setText(person.name)
         view.fragment_edit_user_info_email_edit_text.setText(person.email)
         view.fragment_edit_user_info_phone_edit_text.setText(person.phone)
+
         view.fragment_edit_user_info_fab.setOnClickListener {
             person.name = view.fragment_edit_user_info_name_edit_text.text.toString()
             person.email = view.fragment_edit_user_info_email_edit_text.text.toString()
             person.phone = view.fragment_edit_user_info_phone_edit_text.text.toString()
+
             activity!!.supportFragmentManager.popBackStack()
             Toast.makeText(context, "User info has been updated", Toast.LENGTH_SHORT).show()
         }

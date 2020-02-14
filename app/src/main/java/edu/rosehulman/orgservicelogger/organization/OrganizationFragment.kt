@@ -2,32 +2,32 @@ package edu.rosehulman.orgservicelogger.organization
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.firebase.firestore.FirebaseFirestore
-import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Organization
 import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.data.retrieveOrganization
-import edu.rosehulman.orgservicelogger.data.writeOrganization
 import edu.rosehulman.orgservicelogger.event.AddEventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
-import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
 import kotlinx.android.synthetic.main.fragment_organization.view.*
 
-class OrganizationFragment(var person: Person, var realOrganization: Organization) : Fragment() {
+class OrganizationFragment(private val personId: String, private val organizationId: String) :
+    Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
-        view.fragment_organization_name.text = realOrganization.name
+
+        retrieveOrganization(organizationId) { organization ->
+            view.fragment_organization_name.text = organization.name
+        }
+
         // TODO: hide fab if doesn't have organization edit permissions (see hide method)
 
         view.fragment_organization_fab.setOnClickListener {
@@ -50,7 +50,7 @@ class OrganizationFragment(var person: Person, var realOrganization: Organizatio
         view.see_group_members.setOnClickListener {
             launchFragment(
                 activity!!,
-                UserListFragment(realOrganization.id!!)
+                UserListFragment(organizationId)
             )
         }
 

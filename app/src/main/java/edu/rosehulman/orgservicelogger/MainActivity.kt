@@ -22,10 +22,6 @@ import kotlinx.android.synthetic.main.dialog_confirm_information.view.*
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private lateinit var userId: String
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
-    private var auth: FirebaseAuth? = null
-    private var orgRef = FirebaseFirestore
-        .getInstance()
-        .collection("organization")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,18 +49,16 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private fun makeAuthStateListener() {
         authStateListener = FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
             val user = auth.currentUser
-            this.auth = auth
             Log.d(Constants.TAG, "In the auth listener, user is $user")
             if (user != null) {
                 isLoggingIn(user.uid) { loggedIn ->
                     if (loggedIn) {
-                        retrievePerson(user.uid) { person: Person ->
-                            retrieveOrganizationForPerson(person.id!!) { organization ->
-                                if (organization != null) {
-                                    switchMainFragment(this, HomeFragment(person, organization))
-                                } else {
-                                    switchMainFragment(this, ChooseOrganizationFragment(person))
-                                }
+                        val personId = user.uid
+                        retrieveOrganizationForPerson(personId) { organization ->
+                            if (organization != null) {
+                                switchMainFragment(this, HomeFragment(personId, organization))
+                            } else {
+                                switchMainFragment(this, ChooseOrganizationFragment(personId))
                             }
                         }
                     } else {
@@ -92,12 +86,15 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                             person.id = user.uid
                             writePerson(person)
 
-                            retrieveOrganizationForPerson(person.id!!) { organization ->
-                                if (organization != null) {
+                            retrieveOrganizationForPerson(person.id!!) { organizationId ->
+                                if (organizationId != null) {
                                     // this should never happen but it might when we add invites
-                                    switchMainFragment(this, HomeFragment(person, organization))
+                                    switchMainFragment(
+                                        this,
+                                        HomeFragment(person.id!!, organizationId)
+                                    )
                                 } else {
-                                    switchMainFragment(this, ChooseOrganizationFragment(person))
+                                    switchMainFragment(this, ChooseOrganizationFragment(person.id!!))
                                 }
                             }
                         }
@@ -114,23 +111,9 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
         }
     }
 
-    private fun retrieveOrganizationForPerson(personId: String, callback: (Organization?) -> Unit) {
-        orgRef.get().addOnSuccessListener { snapshot ->
-            for (doc in snapshot!!.documents) {
-                val organization = doc.toObject(Organization::class.java)!!
-                val foundPerson = organization.members.keys.contains(personId)
-                if (foundPerson) {
-                    callback(organization)
-                    return@addOnSuccessListener
-                }
-            }
-            callback(null)
-        }
-    }
-
     private fun isLoggingIn(uid: String, callback: (Boolean) -> Unit) {
-        var personRef = FirebaseFirestore.getInstance().collection("person")
-        var x = personRef.whereEqualTo(FieldPath.documentId(), uid)
+        val personRef = FirebaseFirestore.getInstance().collection("person")
+        val x = personRef.whereEqualTo(FieldPath.documentId(), uid)
         x.limit(1).get().addOnSuccessListener {
             callback(!it.isEmpty)
         }
@@ -154,7 +137,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_logout -> {
-                auth?.signOut()
+                FirebaseAuth.getInstance().signOut()
                 true
             }
             else -> super.onOptionsItemSelected(item)

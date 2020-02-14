@@ -11,12 +11,9 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveFutureNotifications
-import edu.rosehulman.orgservicelogger.data.retrieveOrganization
-import edu.rosehulman.orgservicelogger.data.retrievePerson
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.notifications.CreateNotificationService
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_edit_organization.*
 
 class NoLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,22 +52,17 @@ class NoLoginActivity : AppCompatActivity() {
             notificationService.createNotificationChannel(needsReplacementChannel)
         }
 
+        val fragment = HomeFragment("sample_person", "soup_kitchen")
         val notificationId = intent.getStringExtra(Constants.CLICKED_NOTIFICATION_KEY)
-
-        retrieveOrganization("soup_kitchen") { organization ->
-            retrievePerson("sample_person") { person ->
-                val fragment = HomeFragment(person, organization)
-                if (notificationId != null) {
-                    fragment.arguments = Bundle().apply {
-                        putString(Constants.CLICKED_NOTIFICATION_KEY, notificationId)
-                    }
-                }
-
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.activity_main_frame, fragment)
-                transaction.commit()
+        if (notificationId != null) {
+            fragment.arguments = Bundle().apply {
+                putString(Constants.CLICKED_NOTIFICATION_KEY, notificationId)
             }
         }
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.activity_main_frame, fragment)
+        transaction.commit()
 
         if (notificationId == null) {
             retrieveFutureNotifications("sample_person") { notifications: List<Notification> ->

@@ -64,24 +64,26 @@ fun writeEventOccurrence(event: EventOccurrence) {
     FirebaseFirestore.getInstance().collection("event_occurrence").document(event.id!!).set(event)
 }
 
-fun writePerson(person:Person){
+fun writePerson(person: Person) {
     FirebaseFirestore.getInstance().collection("person").document(person.id!!).set(person)
 }
 
-fun writeOrganization(organization: Organization){
-    FirebaseFirestore.getInstance().collection("organization").document(organization.id!!).set(organization)
+fun writeOrganization(organization: Organization) {
+    FirebaseFirestore.getInstance().collection("organization").document(organization.id!!)
+        .set(organization)
 }
 
-fun writeNotification(notification: Notification){
-    FirebaseFirestore.getInstance().collection("notification").document(notification.id!!).set(notification)
+fun writeNotification(notification: Notification) {
+    FirebaseFirestore.getInstance().collection("notification").document(notification.id!!)
+        .set(notification)
 }
 
-fun createOrganization(organization: Organization, callback: (String) -> Unit){
+fun createOrganization(organization: Organization, callback: (String) -> Unit) {
     FirebaseFirestore.getInstance().collection("organization").add(organization)
         .addOnSuccessListener { callback(it.id) }
 }
 
-fun retrieveOrganization(organizationId: String, callback: (Organization) -> Unit){
+fun retrieveOrganization(organizationId: String, callback: (Organization) -> Unit) {
     FirebaseFirestore.getInstance().collection("organization").document(organizationId).get()
         .addOnSuccessListener {
             callback(it.toObject(Organization::class.java)!!)

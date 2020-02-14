@@ -14,11 +14,7 @@ import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.login.SplashFragment
 import kotlinx.android.synthetic.main.fragment_new_organization.view.*
 
-/**
- * A simple [Fragment] subclass.
- */
-class ChooseOrganizationFragment(var person: Person) : Fragment() {
-
+class ChooseOrganizationFragment(private val personId: String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,7 +23,7 @@ class ChooseOrganizationFragment(var person: Person) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_new_organization, container, false)
         view.fragment_new_organization_create_button.setOnClickListener {
             val transaction = activity!!.supportFragmentManager.beginTransaction()
-            val fragment = NewOrganizationFragment(person)
+            val fragment = NewOrganizationFragment(personId)
             transaction.replace(R.id.activity_main_frame, fragment)
             transaction.commit()
         }
@@ -36,6 +32,4 @@ class ChooseOrganizationFragment(var person: Person) : Fragment() {
         }
         return view
     }
-
-
 }

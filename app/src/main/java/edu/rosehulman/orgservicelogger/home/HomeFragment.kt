@@ -1,7 +1,6 @@
 package edu.rosehulman.orgservicelogger.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -9,19 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
-import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.events.EventsFragment
 import edu.rosehulman.orgservicelogger.notifications.NotificationsFragment
-import edu.rosehulman.orgservicelogger.organization.ChooseOrganizationFragment
 import edu.rosehulman.orgservicelogger.organization.OrganizationFragment
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment(var person: Person, val realOrganization: Organization) : Fragment(),
+class HomeFragment(private val personId: String, private val organizationId: String) : Fragment(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreateView(
@@ -32,7 +28,7 @@ class HomeFragment(var person: Person, val realOrganization: Organization) : Fra
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         view.nav_view.setOnNavigationItemSelectedListener(this)
 
-        val fragment = NotificationsFragment(person.id!!)
+        val fragment = NotificationsFragment(personId)
         val notificationId = arguments?.getString(Constants.CLICKED_NOTIFICATION_KEY)
         if (notificationId != null) {
             fragment.arguments = Bundle().apply {
@@ -56,10 +52,10 @@ class HomeFragment(var person: Person, val realOrganization: Organization) : Fra
             fragmentManager.popBackStack()
         }
         val fragment = when (menuItem.itemId) {
-            R.id.navigation_notifications -> NotificationsFragment(person.id!!)
-            R.id.navigation_events -> EventsFragment(person.id!!)
-            R.id.navigation_organization -> OrganizationFragment(person, realOrganization)
-            R.id.navigation_settings -> UserInfoFragment(person)
+            R.id.navigation_notifications -> NotificationsFragment(personId)
+            R.id.navigation_events -> EventsFragment(personId)
+            R.id.navigation_organization -> OrganizationFragment(personId, organizationId)
+            R.id.navigation_settings -> UserInfoFragment(personId)
             else -> TODO("Unimplemented navigation item")
         }
 
