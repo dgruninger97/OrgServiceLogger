@@ -11,6 +11,15 @@ import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveFutureNotifications
 
 object NotificationLauncher {
+    fun descheduleNotifications(context: Context, personId: String) {
+        retrieveFutureNotifications(personId) { notifications ->
+            for (notification in notifications) {
+                val pendingIntent = makePendingIntent(context, notification.id!!)
+                getAlarmManager(context).cancel(pendingIntent)
+            }
+        }
+    }
+
     fun scheduleNotifications(context: Context, personId: String) {
         retrieveFutureNotifications(personId) { notifications ->
             for (notification in notifications) {

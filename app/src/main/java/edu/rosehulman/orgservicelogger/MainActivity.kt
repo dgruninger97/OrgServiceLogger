@@ -8,25 +8,25 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import edu.rosehulman.orgservicelogger.login.OnLoginButtonPressedListener
 import edu.rosehulman.orgservicelogger.login.SplashFragment
+import edu.rosehulman.orgservicelogger.notifications.NotificationLauncher
 import edu.rosehulman.orgservicelogger.organization.ChooseOrganizationFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_confirm_information.view.*
 
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
-    private lateinit var userId: String
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
+    private var userId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(activity_main_toolbar)
+        NotificationLauncher.createNotificationChannels(this)
         makeAuthStateListener()
     }
 
@@ -48,13 +48,23 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
 
     private fun makeAuthStateListener() {
         authStateListener = FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
+            val lastUserId = userId
+            if (lastUserId != null) {
+                NotificationLauncher.descheduleNotifications(this, lastUserId)
+            }
+
             val user = auth.currentUser
-            Log.d(Constants.TAG, "In the auth listener, user is $user")
             if (user != null) {
+                userId = user.uid
+                Log.d(Constants.TAG, "User logged in with id: $userId")
+
                 retrievePersonExists(user.uid) { personExists ->
                     if (personExists) {
+                        Log.d(Constants.TAG, "Logging in as $userId")
                         processLoggedIn(user.uid)
                     } else {
+                        Log.d(Constants.TAG, "Registering $userId")
+
                         val view =
                             layoutInflater.inflate(R.layout.dialog_confirm_information, null, false)
                         if (user.displayName != null) {
@@ -83,8 +93,6 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                         }
                         builder.setNegativeButton(android.R.string.cancel, null)
                         builder.create().show()
-                        userId = user.uid
-                        Log.d(Constants.TAG, "In the auth listener, user id is ${user.uid}")
                     }
                 }
             } else {
@@ -95,10 +103,13 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     }
 
     private fun processLoggedIn(personId: String) {
+        NotificationLauncher.scheduleNotifications(this, personId)
         retrieveOrganizationForPerson(personId) { organization ->
             if (organization != null) {
+                Log.d(Constants.TAG, "Person $personId is a member of organization: $organization")
                 switchMainFragment(this, HomeFragment(personId, organization))
             } else {
+                Log.d(Constants.TAG, "Person $personId is a member of no organizations")
                 switchMainFragment(this, ChooseOrganizationFragment(personId))
             }
         }
