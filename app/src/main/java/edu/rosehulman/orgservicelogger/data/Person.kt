@@ -10,5 +10,4 @@ class Person(
 ) {
     @DocumentId
     var id: String? = null
-
 }

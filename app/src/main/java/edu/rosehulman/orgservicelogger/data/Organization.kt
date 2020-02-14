@@ -11,11 +11,4 @@ class Organization(
 ) {
     @DocumentId
     var id: String? = null
-    companion object {
-        fun fromSnapshot(snapshot: DocumentSnapshot): Organization {
-            val organization = snapshot.toObject(Organization::class.java)!!
-            organization.id = snapshot.id
-            return organization
-        }
-    }
 }

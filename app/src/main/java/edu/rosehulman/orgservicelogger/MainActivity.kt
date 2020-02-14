@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.dialog_confirm_information.view.*
 
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private lateinit var userId: String
-    private var realOrganization: Organization? = null
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
     private var auth: FirebaseAuth? = null
     private var orgRef = FirebaseFirestore
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                 isLoggingIn(user.uid) { loggedIn ->
                     if (loggedIn) {
                         retrievePerson(user.uid) { person: Person ->
-                            retrieveOrganizationForPerson(person) { organization ->
+                            retrieveOrganizationForPerson(person.id!!) { organization ->
                                 if (organization != null) {
                                     switchMainFragment(this, HomeFragment(person, organization))
                                 } else {
@@ -69,18 +68,19 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                             }
                         }
                     } else {
-                        var builder = AlertDialog.Builder(this)
-                        var view =
+                        val view =
                             layoutInflater.inflate(R.layout.dialog_confirm_information, null, false)
-                        if(user.displayName != null){
+                        if (user.displayName != null) {
                             view.dialog_confirm_information_name.setText(user.displayName.toString())
                         }
-                        if(user.email != null){
+                        if (user.email != null) {
                             view.dialog_confirm_information_email.setText(user.email.toString())
                         }
-                        if(user.phoneNumber != null){
+                        if (user.phoneNumber != null) {
                             view.dialog_confirm_information_phone.setText(user.phoneNumber.toString())
                         }
+
+                        val builder = AlertDialog.Builder(this)
                         builder.setView(view)
                         builder.setTitle("Please confirm the info")
                         builder.setPositiveButton(android.R.string.ok) { _, _ ->
@@ -91,7 +91,8 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                             person.canDrive = view.dialog_confirm_information_canDrive.isChecked
                             person.id = user.uid
                             writePerson(person)
-                            retrieveOrganizationForPerson(person) { organization ->
+
+                            retrieveOrganizationForPerson(person.id!!) { organization ->
                                 if (organization != null) {
                                     // this should never happen but it might when we add invites
                                     switchMainFragment(this, HomeFragment(person, organization))
@@ -113,11 +114,11 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
         }
     }
 
-    private fun retrieveOrganizationForPerson(person: Person, callback: (Organization?) -> Unit){
+    private fun retrieveOrganizationForPerson(personId: String, callback: (Organization?) -> Unit) {
         orgRef.get().addOnSuccessListener { snapshot ->
             for (doc in snapshot!!.documents) {
-                val organization = Organization.fromSnapshot(doc)
-                val foundPerson = organization.members.keys.contains(person.id)
+                val organization = doc.toObject(Organization::class.java)!!
+                val foundPerson = organization.members.keys.contains(personId)
                 if (foundPerson) {
                     callback(organization)
                     return@addOnSuccessListener
