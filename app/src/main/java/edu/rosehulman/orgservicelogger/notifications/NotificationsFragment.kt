@@ -7,8 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.Notification
+import edu.rosehulman.orgservicelogger.data.retrieveNotification
 import edu.rosehulman.orgservicelogger.data.retrieveNotifications
+import edu.rosehulman.orgservicelogger.event.EventFragment
+import edu.rosehulman.orgservicelogger.home.launchFragment
 import kotlinx.android.synthetic.main.fragment_notifications.view.*
 
 class NotificationsFragment(private val personId: String) : Fragment() {
@@ -36,6 +41,14 @@ class NotificationsFragment(private val personId: String) : Fragment() {
             refreshItems()
         }
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+
+        // Notification is clicked and we have to deal with it
+        val notificationId = arguments?.getString(Constants.CLICKED_NOTIFICATION_KEY)
+        if (notificationId != null) {
+            retrieveNotification(notificationId) { notification ->
+                NotificationAction.performNotification(activity!!, notification)
+            }
+        }
 
         return view
     }

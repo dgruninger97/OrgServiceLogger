@@ -33,25 +33,13 @@ class HomeFragment(var person: Person, val realOrganization: Organization) : Fra
         view.nav_view.setOnNavigationItemSelectedListener(this)
 
         val fragment = NotificationsFragment(person.id!!)
-        val notificationId = arguments?.getString("notification")
+        val notificationId = arguments?.getString(Constants.CLICKED_NOTIFICATION_KEY)
         if (notificationId != null) {
-            retrieveNotification(notificationId) { notification ->
-                when (notification.type) {
-                    Notification.TYPE_CONFIRM -> {
-                        fragment.arguments = Bundle().apply {
-                            putString("notification", notificationId)
-                        }
-                        switchToFragment(fragment)
-                    }
-                    Notification.TYPE_NEEDS_REPLACEMENT, Notification.TYPE_REMINDER -> {
-                        switchToFragment(fragment)
-                        launchFragment(activity!!, EventFragment(notification.event))
-                    }
-                }
+            fragment.arguments = Bundle().apply {
+                putString(Constants.CLICKED_NOTIFICATION_KEY, notificationId)
             }
-        } else {
-            switchToFragment(fragment)
         }
+        switchToFragment(fragment)
 
         return view
     }

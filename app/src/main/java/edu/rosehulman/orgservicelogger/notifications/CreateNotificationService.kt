@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
+import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.NoLoginActivity
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Notification
@@ -29,7 +30,7 @@ class CreateNotificationService : IntentService("ViewEventService") {
             notification.getDescription { description ->
                 retrieveEvent(notification.event) { _, series ->
                     val intent = Intent(this, NoLoginActivity::class.java)
-                    intent.putExtra("notification", notification.id)
+                    intent.putExtra(Constants.CLICKED_NOTIFICATION_KEY, notification.id)
                     val pendingIntent =
                         PendingIntent.getActivity(
                             this,

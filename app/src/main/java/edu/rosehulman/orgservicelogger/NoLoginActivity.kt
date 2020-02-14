@@ -55,14 +55,14 @@ class NoLoginActivity : AppCompatActivity() {
             notificationService.createNotificationChannel(needsReplacementChannel)
         }
 
-        val notificationId = intent.getStringExtra("notification")
+        val notificationId = intent.getStringExtra(Constants.CLICKED_NOTIFICATION_KEY)
 
         retrieveOrganization("soup_kitchen") { organization ->
             retrievePerson("sample_person") { person ->
                 val fragment = HomeFragment(person, organization)
                 if (notificationId != null) {
                     fragment.arguments = Bundle().apply {
-                        putString("notification", notificationId)
+                        putString(Constants.CLICKED_NOTIFICATION_KEY, notificationId)
                     }
                 }
 
