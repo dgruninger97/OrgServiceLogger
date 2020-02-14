@@ -1,9 +1,7 @@
 package edu.rosehulman.orgservicelogger
 
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -12,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveFutureNotifications
 import edu.rosehulman.orgservicelogger.home.HomeFragment
-import edu.rosehulman.orgservicelogger.notifications.CreateNotificationService
+import edu.rosehulman.orgservicelogger.notifications.NotificationLauncher
 import kotlinx.android.synthetic.main.activity_main.*
 
 class NoLoginActivity : AppCompatActivity() {
@@ -48,7 +46,8 @@ class NoLoginActivity : AppCompatActivity() {
                     "Needs Replacement",
                     NotificationManager.IMPORTANCE_HIGH
                 )
-            needsReplacementChannel.description = "A member of your organization needs a replacement"
+            needsReplacementChannel.description =
+                "A member of your organization needs a replacement"
             notificationService.createNotificationChannel(needsReplacementChannel)
         }
 
@@ -67,16 +66,7 @@ class NoLoginActivity : AppCompatActivity() {
         if (notificationId == null) {
             retrieveFutureNotifications("sample_person") { notifications: List<Notification> ->
                 for (notification in notifications) {
-                    val notificationId = notification.id!!
-                    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    val intent = CreateNotificationService.createIntent(this, notificationId)
-                    val pendingIntent = PendingIntent.getService(this, notificationId.hashCode(), intent, 0)
-                    val time = notification.time.toDate().time
-                    alarmManager.set(
-                        AlarmManager.RTC_WAKEUP,
-                        time,
-                        pendingIntent
-                    )
+                    NotificationLauncher.launchNotification(this, notification.id!!, notification.time)
                 }
             }
         }
