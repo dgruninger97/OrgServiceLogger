@@ -19,8 +19,6 @@ class NoLoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(activity_main_toolbar)
 
-        NotificationLauncher.createNotificationChannels(this)
-
         val fragment = HomeFragment("sample_person", "soup_kitchen")
         val notificationId = intent.getStringExtra(Constants.CLICKED_NOTIFICATION_KEY)
         if (notificationId != null) {
@@ -33,11 +31,11 @@ class NoLoginActivity : AppCompatActivity() {
         transaction.replace(R.id.activity_main_frame, fragment)
         transaction.commit()
 
-        if (notificationId == null) {
-            retrieveFutureNotifications("sample_person") { notifications: List<Notification> ->
-                for (notification in notifications) {
-                    NotificationLauncher.launchNotification(this, notification.id!!, notification.time)
-                }
+        NotificationLauncher.createNotificationChannels(this)
+
+        retrieveFutureNotifications("sample_person") { notifications: List<Notification> ->
+            for (notification in notifications) {
+                NotificationLauncher.launchNotification(this, notification.id!!, notification.time)
             }
         }
     }
