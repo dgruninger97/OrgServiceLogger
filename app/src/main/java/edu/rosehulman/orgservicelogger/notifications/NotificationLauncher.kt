@@ -14,12 +14,12 @@ object NotificationLauncher {
     fun scheduleNotifications(context: Context, personId: String) {
         retrieveFutureNotifications(personId) { notifications: List<Notification> ->
             for (notification in notifications) {
-                launchNotification(context, notification.id!!, notification.time)
+                scheduleNotification(context, notification.id!!, notification.time)
             }
         }
     }
 
-    fun launchNotification(context: Context, notificationId: String, time: Timestamp) {
+    fun scheduleNotification(context: Context, notificationId: String, time: Timestamp) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = CreateNotificationService.createIntent(context, notificationId)
         val pendingIntent = PendingIntent.getService(context, notificationId.hashCode(), intent, 0)
