@@ -12,7 +12,7 @@ import edu.rosehulman.orgservicelogger.data.retrieveFutureNotifications
 
 object NotificationLauncher {
     fun scheduleNotifications(context: Context, personId: String) {
-        retrieveFutureNotifications(personId) { notifications: List<Notification> ->
+        retrieveFutureNotifications(personId) { notifications ->
             for (notification in notifications) {
                 scheduleNotification(context, notification.id!!, notification.time)
             }
@@ -20,11 +20,18 @@ object NotificationLauncher {
     }
 
     fun scheduleNotification(context: Context, notificationId: String, time: Timestamp) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = CreateNotificationService.createIntent(context, notificationId)
-        val pendingIntent = PendingIntent.getService(context, notificationId.hashCode(), intent, 0)
-        alarmManager.set(AlarmManager.RTC_WAKEUP, time.toDate().time, pendingIntent)
+        val pendingIntent = makePendingIntent(context, notificationId)
+        getAlarmManager(context).set(AlarmManager.RTC_WAKEUP, time.toDate().time, pendingIntent)
     }
+
+    private fun getAlarmManager(context: Context) =
+        context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    private fun makePendingIntent(context: Context, notificationId: String) =
+        PendingIntent.getService(
+            context, notificationId.hashCode(),
+            CreateNotificationService.createIntent(context, notificationId), 0
+        )
 
     fun createNotificationChannels(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
