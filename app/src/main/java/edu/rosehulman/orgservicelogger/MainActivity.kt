@@ -51,16 +51,9 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
             val user = auth.currentUser
             Log.d(Constants.TAG, "In the auth listener, user is $user")
             if (user != null) {
-                isLoggingIn(user.uid) { loggedIn ->
-                    if (loggedIn) {
-                        val personId = user.uid
-                        retrieveOrganizationForPerson(personId) { organization ->
-                            if (organization != null) {
-                                switchMainFragment(this, HomeFragment(personId, organization))
-                            } else {
-                                switchMainFragment(this, ChooseOrganizationFragment(personId))
-                            }
-                        }
+                retrievePersonExists(user.uid) { personExists ->
+                    if (personExists) {
+                        processLoggedIn(user.uid)
                     } else {
                         val view =
                             layoutInflater.inflate(R.layout.dialog_confirm_information, null, false)
@@ -86,17 +79,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                             person.id = user.uid
                             writePerson(person)
 
-                            retrieveOrganizationForPerson(person.id!!) { organizationId ->
-                                if (organizationId != null) {
-                                    // this should never happen but it might when we add invites
-                                    switchMainFragment(
-                                        this,
-                                        HomeFragment(person.id!!, organizationId)
-                                    )
-                                } else {
-                                    switchMainFragment(this, ChooseOrganizationFragment(person.id!!))
-                                }
-                            }
+                            processLoggedIn(person.id!!)
                         }
                         builder.setNegativeButton(android.R.string.cancel, null)
                         builder.create().show()
@@ -111,11 +94,13 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
         }
     }
 
-    private fun isLoggingIn(uid: String, callback: (Boolean) -> Unit) {
-        val personRef = FirebaseFirestore.getInstance().collection("person")
-        val x = personRef.whereEqualTo(FieldPath.documentId(), uid)
-        x.limit(1).get().addOnSuccessListener {
-            callback(!it.isEmpty)
+    private fun processLoggedIn(personId: String) {
+        retrieveOrganizationForPerson(personId) { organization ->
+            if (organization != null) {
+                switchMainFragment(this, HomeFragment(personId, organization))
+            } else {
+                switchMainFragment(this, ChooseOrganizationFragment(personId))
+            }
         }
     }
 

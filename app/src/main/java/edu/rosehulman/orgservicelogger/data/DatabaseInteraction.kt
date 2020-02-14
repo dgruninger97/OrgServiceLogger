@@ -97,3 +97,11 @@ fun retrieveOrganizationForPerson(personId: String, callback: (String?) -> Unit)
         .get()
         .addOnSuccessListener { callback(it.documents.getOrNull(0)?.id) }
 }
+
+fun retrievePersonExists(uid: String, callback: (Boolean) -> Unit) {
+    FirebaseFirestore.getInstance().collection("person")
+        .whereEqualTo(FieldPath.documentId(), uid).limit(1).get()
+        .addOnSuccessListener {
+            callback(!it.isEmpty)
+        }
+}
