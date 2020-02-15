@@ -26,6 +26,7 @@ class OrganizationFragment(private val personId: String, private val organizatio
 
         retrieveOrganization(organizationId) { organization ->
             view.fragment_organization_name.text = organization.name
+            view.fragment_organization_min_hours.text = organization.hoursRequirement.toString()
         }
 
         // TODO: hide fab if doesn't have organization edit permissions (see hide method)

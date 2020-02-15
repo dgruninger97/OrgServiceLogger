@@ -19,4 +19,13 @@
     <string name="text_can_drive">Can drive to events</string>
     <string name="text_can_not_drive">Can\'t drive to events</string>
     <string name="text_user_info_updated">User info has been updated</string>
+    <string name="text_notification_view_title">Title</string>
+    <string name="text_notification_view_description">Description</string>
+    <string name="text_edit_organization_dialog_min_hours_hint">No requirement</string>
+    <string name="text_edit_organization_dialog_min_hours">Minimum Hour Requirement:</string>
+    <string name="text_edit_organization_dialog_organization_name">Organization Name:</string>
+    <string name="text_organization_fragment_minimum_hour_requirement">Minimum hour requirement:</string>
+    <string name="text_organization_fragment_actions">Actions:</string>
+    <string name="text_organization_fragment_see_group_members">See Group Members</string>
+    <string name="text_organization_fragment_add_event">Add Event</string>
 </resources>

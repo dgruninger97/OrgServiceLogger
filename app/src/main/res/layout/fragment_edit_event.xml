@@ -24,14 +24,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event Name: "
+                android:text="Event Name:"
+                android:paddingEnd="4dp"
                 android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/fragment_edit_event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Event Name"
                 android:inputType="text" />
         </LinearLayout>
 
@@ -42,14 +42,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address: "
+                android:text="Address:"
+                android:paddingEnd="4dp"
                 android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/fragment_edit_event_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Address"
                 android:inputType="text" />
         </LinearLayout>
 
@@ -62,8 +62,7 @@
         <EditText
             android:id="@+id/fragment_edit_event_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description" />
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
