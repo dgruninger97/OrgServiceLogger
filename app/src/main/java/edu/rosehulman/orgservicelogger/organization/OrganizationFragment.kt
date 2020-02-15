@@ -50,7 +50,7 @@ class OrganizationFragment(var person: Person, var realOrganization: Organizatio
         view.see_group_members.setOnClickListener {
             launchFragment(
                 activity!!,
-                UserListFragment(realOrganization.id!!)
+                UserListFragment(realOrganization)
             )
         }
 

@@ -68,6 +68,10 @@ fun writePerson(person:Person){
     FirebaseFirestore.getInstance().collection("person").document(person.id!!).set(person)
 }
 
+fun addInvite(person:Person){
+    FirebaseFirestore.getInstance().collection("invite").add(person)
+}
+
 fun writeOrganization(organization: Organization){
     FirebaseFirestore.getInstance().collection("organization").document(organization.id!!).set(organization)
 }
