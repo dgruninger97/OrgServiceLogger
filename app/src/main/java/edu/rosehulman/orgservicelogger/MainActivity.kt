@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
 
                         val builder = AlertDialog.Builder(this)
                         builder.setView(view)
-                        builder.setTitle("Please confirm the info")
+                        builder.setTitle(getString(R.string.text_dialog_confirm_user_info))
                         builder.setPositiveButton(android.R.string.ok) { _, _ ->
                             val person = Person()
                             person.name = view.dialog_confirm_information_name.text.toString()

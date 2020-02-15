@@ -10,27 +10,26 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Organization Name:"
+        android:text="@string/text_edit_organization_dialog_organization_name"
         android:textSize="20sp" />
 
     <EditText
         android:id="@+id/dialog_edit_organization_org_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:hint="Your organization name here"
         android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Minimum Hour Requirement:"
+        android:text="@string/text_edit_organization_dialog_min_hours"
         android:textSize="20sp" />
 
     <EditText
         android:id="@+id/dialog_edit_organization_min_hours"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Leave blank for none"
+        android:hint="@string/text_edit_organization_dialog_min_hours_hint"
         android:textSize="18sp" />
 </LinearLayout>

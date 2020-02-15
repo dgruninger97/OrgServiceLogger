@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text=""
+            android:text="Organization name"
             android:textSize="40sp" />
 
         <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="4dp"
-                android:text="Minimum hour requirement:"
+                android:text="@string/text_organization_fragment_minimum_hour_requirement"
                 android:textSize="22sp" />
 
             <TextView
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Actions:"
+            android:text="@string/text_organization_fragment_actions"
             android:textSize="26sp" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="See Group Members"
+            android:text="@string/text_organization_fragment_see_group_members"
             android:textSize="24sp" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="Add Event"
+            android:text="@string/text_organization_fragment_add_event"
             android:textSize="24sp" />
 
     </LinearLayout>
