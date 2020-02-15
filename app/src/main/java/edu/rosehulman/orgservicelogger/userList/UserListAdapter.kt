@@ -56,7 +56,7 @@ class UserListAdapter(var context: FragmentActivity, organizationId: String) :
     }
 
     private fun showUserInfo(position: Int) {
-        launchFragment(context, UserInfoFragment(users[position]))
+        launchFragment(context, UserInfoFragment(users[position].id!!))
     }
 
     override fun getItemCount() = users.size

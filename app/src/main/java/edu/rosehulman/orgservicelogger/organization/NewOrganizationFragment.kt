@@ -11,7 +11,7 @@ import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import kotlinx.android.synthetic.main.fragment_create_new_organization.view.*
 
-class NewOrganizationFragment(var person: Person) : Fragment() {
+class NewOrganizationFragment(private val personId: String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,10 +23,9 @@ class NewOrganizationFragment(var person: Person) : Fragment() {
             val hours = view.fragment_create_new_organization_hours.text.toString().toInt()
             val deadLine = view.fragment_create_new_organization_deadlineLen.text.toString().toInt()
 
-            val organization = Organization(name, mutableMapOf(person.id!! to true), hours, deadLine)
+            val organization = Organization(name, mutableMapOf(personId to true), hours, deadLine)
             createOrganization(organization) { organizationId ->
-                organization.id = organizationId
-                switchMainFragment(activity!!, HomeFragment(person, organization))
+                switchMainFragment(activity!!, HomeFragment(personId, organizationId))
             }
         }
         return view

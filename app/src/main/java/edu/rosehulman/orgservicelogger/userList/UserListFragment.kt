@@ -14,7 +14,7 @@ import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userInfo.CreateUserFragment
 import kotlinx.android.synthetic.main.fragment_user_list.view.*
 
-class UserListFragment(private val organization: Organization) : Fragment() {
+class UserListFragment(private val organizationId: String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,7 +24,7 @@ class UserListFragment(private val organization: Organization) : Fragment() {
             inflater.inflate(R.layout.fragment_user_list, container, false)
         val recyclerView = view.fragment_user_list_recycler_view as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = UserListAdapter(activity!!, organization.id!!)
+        recyclerView.adapter = UserListAdapter(activity!!, organizationId)
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 context,
@@ -32,7 +32,7 @@ class UserListFragment(private val organization: Organization) : Fragment() {
             )
         )
         view.fragment_user_list_fab.setOnClickListener {
-            launchFragment(activity!!, CreateUserFragment(organization))
+            launchFragment(activity!!, CreateUserFragment(organizationId))
         }
         return view
     }

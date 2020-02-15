@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_create_new_user.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class CreateUserFragment(val organization: Organization) : Fragment() {
+class CreateUserFragment(val organizationId: String) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,9 +29,10 @@ class CreateUserFragment(val organization: Organization) : Fragment() {
             person.name = view.fragment_create_new_user_name_edit_text.toString()
             person.phone = view.fragment_create_new_user_phone_edit_text.toString()
             val isOrganizer = view.fragment_create_new_user_organizer_checkbox.isChecked
-            addInvite(person)
+            val invite = Invite(person, isOrganizer)
+            addInvite(invite)
             Toast.makeText(context, "User info has been added to the database", Toast.LENGTH_SHORT).show()
-            organization.members.put(person.name, isOrganizer)
+
         }
         return view
     }
