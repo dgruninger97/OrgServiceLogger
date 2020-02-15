@@ -26,10 +26,10 @@ class CreateUserFragment(val organizationId: String) : Fragment() {
             val person = Person()
             person.canDrive = view.fragment_create_new_user_info_checkbox.isChecked
             person.email = view.fragment_create_new_user_email_edit_text.text.toString()
-            person.name = view.fragment_create_new_user_name_edit_text.toString()
-            person.phone = view.fragment_create_new_user_phone_edit_text.toString()
+            person.name = view.fragment_create_new_user_name_edit_text.text.toString()
+            person.phone = view.fragment_create_new_user_phone_edit_text.text.toString()
             val isOrganizer = view.fragment_create_new_user_organizer_checkbox.isChecked
-            val invite = Invite(person, isOrganizer)
+            val invite = Invite(person, isOrganizer, organizationId)
             addInvite(invite)
             Toast.makeText(context, "User info has been added to the database", Toast.LENGTH_SHORT).show()
 

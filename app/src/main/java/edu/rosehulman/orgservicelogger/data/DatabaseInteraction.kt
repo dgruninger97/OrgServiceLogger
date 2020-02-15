@@ -110,6 +110,15 @@ fun retrievePersonExists(uid: String, callback: (Boolean) -> Unit) {
         }
 }
 
+fun retrieveInviteExists(email:String, callback: (Boolean) -> Unit){
+    FirebaseFirestore.getInstance().collection("invite")
+        .whereEqualTo(FieldPath.of("person", "email"), email)
+        .get()
+        .addOnSuccessListener {
+            callback(!it.isEmpty)
+        }
+}
+
 fun addMemberToOrganization(organizationId: String, personId: String, isOrganizer:Boolean){
     FirebaseFirestore.getInstance().collection("organization").document(organizationId)
         .update("members", mapOf(personId to true))

@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
             if (lastUserId != null) {
                 NotificationLauncher.descheduleNotifications(this, lastUserId)
             }
-
             val user = auth.currentUser
             if (user != null) {
                 userId = user.uid
@@ -64,7 +63,6 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                         processLoggedIn(user.uid)
                     } else {
                         Log.d(Constants.TAG, "Registering $userId")
-
                         val view =
                             layoutInflater.inflate(R.layout.dialog_confirm_information, null, false)
                         if (user.displayName != null) {
