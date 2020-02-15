@@ -36,7 +36,7 @@ class OrganizationFragment(private val personId: String, private val organizatio
             dialogView.dialog_edit_organization_min_hours.setText(view.fragment_organization_min_hours.text)
 
             AlertDialog.Builder(context)
-                .setTitle("Edit Organization")
+                .setTitle(getString(R.string.text_dialog_edit_organization))
                 .setView(dialogView)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     // TODO: Edit organization

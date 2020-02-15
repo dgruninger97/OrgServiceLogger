@@ -60,7 +60,7 @@ class CreateNotificationService : IntentService("ViewEventService") {
 
                         builder.addAction(
                             android.R.drawable.ic_dialog_map,
-                            "Directions",
+                            getString(R.string.text_notification_directions_button),
                             directionsPendingIntent
                         )
                     }

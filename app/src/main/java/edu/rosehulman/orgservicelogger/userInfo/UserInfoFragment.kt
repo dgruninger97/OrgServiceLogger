@@ -22,9 +22,9 @@ class UserInfoFragment(var personId: String) : Fragment() {
             view.fragment_user_info_name_text_view.text = person.name
             view.fragment_user_info_drive_text_view.text =
                 if (person.canDrive) {
-                    "Can drive to events"
+                    getString(R.string.text_can_drive)
                 } else {
-                    "Can't drive to events"
+                    getString(R.string.text_can_not_drive)
                 }
             view.fragment_user_info_email_text_view.text = person.email
             view.fragment_user_info_phone_text_view.text = person.phone

@@ -8,9 +8,15 @@
     <string name="text_notification_confirm">Confirm Event Attendance</string>
     <string name="text_notification_reminder">Event Reminder</string>
     <string name="text_notification_replacement">%s needs a replacement</string>
+    <string name="text_notification_replacement_default">Someone needs a replacement</string>
     <string name="text_directions">Directions:</string>
     <string name="text_attendees">Attendees:</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_dialog_confirm_user_info">Please confirm the info</string>
+    <string name="text_dialog_edit_organization">Edit Organization</string>
+    <string name="text_notification_directions_button">Directions</string>
+    <string name="text_event_updated">Event has been updated</string>
+    <string name="text_event_error_end_after_start">End must be after start</string>
+    <string name="text_can_drive">Can drive to events</string>
+    <string name="text_can_not_drive">Can\'t drive to events</string>
+    <string name="text_user_info_updated">User info has been updated</string>
 </resources>

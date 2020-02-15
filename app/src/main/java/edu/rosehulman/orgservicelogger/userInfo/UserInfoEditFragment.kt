@@ -26,7 +26,8 @@ class UserInfoEditFragment(var person: Person) : Fragment() {
             person.phone = view.fragment_edit_user_info_phone_edit_text.text.toString()
 
             activity!!.supportFragmentManager.popBackStack()
-            Toast.makeText(context, "User info has been updated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.text_user_info_updated), Toast.LENGTH_SHORT)
+                .show()
         }
         return view
     }

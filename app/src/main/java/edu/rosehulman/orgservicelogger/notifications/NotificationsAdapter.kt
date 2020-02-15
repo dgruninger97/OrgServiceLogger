@@ -34,8 +34,7 @@ class NotificationsAdapter(private val context: FragmentActivity) :
         holder.icon.setImageResource(notification.getIconRes())
 
         if (notification.type == Notification.TYPE_NEEDS_REPLACEMENT) {
-            holder.title.text = context.getString(R.string.text_notification_replacement)
-                .format("Someone")
+            holder.title.text = context.getString(R.string.text_notification_replacement_default)
         }
         notification.getTitle(context) { holder.title.text = it }
 

@@ -95,7 +95,7 @@ class EditEventFragment(eventId: String) : Fragment() {
                     if (end.toDate().before(start.toDate())) {
                         Snackbar.make(
                             view.fragment_edit_event_coordinator,
-                            "End must be after start",
+                            getString(R.string.text_event_error_end_after_start),
                             Snackbar.LENGTH_LONG
                         ).show()
                         return@showTimePicker
@@ -117,7 +117,7 @@ class EditEventFragment(eventId: String) : Fragment() {
             writeEventSeries(series)
 
             activity!!.supportFragmentManager.popBackStack()
-            Toast.makeText(context, "Event has been updated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.text_event_updated), Toast.LENGTH_SHORT).show()
         }
     }
 
