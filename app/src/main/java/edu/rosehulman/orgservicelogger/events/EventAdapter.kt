@@ -12,6 +12,7 @@ import edu.rosehulman.orgservicelogger.event.EventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 
 class EventAdapter(
+    private val userId: String,
     private val context: FragmentActivity
 ) : RecyclerView.Adapter<EventViewHolder>() {
     private lateinit var events: List<EventOccurrence>
@@ -31,7 +32,7 @@ class EventAdapter(
     }
 
     private fun launchEvent(index: Int) {
-        launchFragment(context, EventFragment(events[index].id!!))
+        launchFragment(context, EventFragment(userId, events[index].id!!))
     }
 
     override fun getItemCount() = events.size

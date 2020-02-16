@@ -30,7 +30,7 @@ class EventsFragment(private val personId: String) : Fragment() {
 
         val list = root.fragment_events_list
 
-        adapter = EventGroupsAdapter(context!! as FragmentActivity)
+        adapter = EventGroupsAdapter(context!! as FragmentActivity, personId)
         list.adapter = adapter
 
         list.layoutManager = LinearLayoutManager(context)

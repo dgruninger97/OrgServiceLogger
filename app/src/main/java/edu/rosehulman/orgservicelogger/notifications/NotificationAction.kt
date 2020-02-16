@@ -21,7 +21,7 @@ object NotificationAction {
                 showConfirmDialog(activity, notification)
             }
             Notification.TYPE_REMINDER, Notification.TYPE_NEEDS_REPLACEMENT -> {
-                launchFragment(activity, EventFragment(notification.event))
+                launchFragment(activity, EventFragment(notification.person, notification.event))
             }
         }
     }

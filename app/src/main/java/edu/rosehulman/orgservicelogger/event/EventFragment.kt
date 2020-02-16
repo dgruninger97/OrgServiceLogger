@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.Constants
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.view_event_attendee.view.*
 import kotlinx.android.synthetic.main.view_event_attendee_signup.view.*
 import java.text.SimpleDateFormat
 
-class EventFragment(private val eventId: String) : Fragment() {
+class EventFragment(private val userId: String, private val eventId: String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,33 +34,53 @@ class EventFragment(private val eventId: String) : Fragment() {
                 launchFragment(activity!!, EditEventFragment(event.id!!))
             }
 
-            val attendees = view.fragment_event_attendees
-            FirebaseFirestore.getInstance().collection("person")
-                .whereIn(FieldPath.documentId(), event.people.keys.toList())
-                .get()
-                .addOnSuccessListener { snapshot ->
-                    val people = snapshot.toObjects(Person::class.java)
-                    for (person in people) {
-                        val view = layoutInflater.inflate(R.layout.view_event_attendee, null, false)
-                        view.view_event_attendee_name.text = person.name
-                        if (!person.canDrive) {
-                            view.view_event_attendee_driving_icon.visibility = View.GONE
-                        }
-                        attendees.addView(view)
-                    }
-
-                    for (x in people.size until series.maxPeople) {
-                        val view =
-                            layoutInflater.inflate(R.layout.view_event_attendee_signup, null, false)
-                        view.view_event_attendee_signup_button.setOnClickListener {
-                            val personId = FirebaseAuth.getInstance().currentUser!!.uid
-                            Log.d(Constants.TAG, "Signing up $personId for event $eventId")
-                            TODO()
-                        }
-                        attendees.addView(view)
-                    }
-                }
+            loadAttendees(view, event, series)
         }
         return view
+    }
+
+    private fun loadAttendees(
+        view: View,
+        event: EventOccurrence,
+        series: EventSeries
+    ) {
+        FirebaseFirestore.getInstance().collection("person")
+            .whereIn(FieldPath.documentId(), event.people.keys.toList())
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val attendees = view.fragment_event_attendees
+                attendees.removeAllViews()
+
+                val people = snapshot.toObjects(Person::class.java)
+                for (person in people) {
+                    val view = layoutInflater.inflate(R.layout.view_event_attendee, null, false)
+                    view.view_event_attendee_name.text = person.name
+                    if (!person.canDrive) {
+                        view.view_event_attendee_driving_icon.visibility = View.GONE
+                    }
+                    attendees.addView(view)
+                }
+
+                for (x in people.size until series.maxPeople) {
+                    val view =
+                        layoutInflater.inflate(R.layout.view_event_attendee_signup, null, false)
+                    view.view_event_attendee_signup_button.setOnClickListener {
+                        signupForEvent()
+                    }
+                    attendees.addView(view)
+                }
+            }
+    }
+
+    private fun signupForEvent() {
+        Log.d(Constants.TAG, "Signing up $userId for event $eventId")
+        addPersonToEvent(userId, eventId)
+            .continueWith {
+                retrieveEvent(eventId) { event, series ->
+                    loadAttendees(view!!, event, series)
+                }
+            }
+        addNotification(Notification.reminder(eventId, userId))
+        addNotification(Notification.confirm(eventId, userId))
     }
 }

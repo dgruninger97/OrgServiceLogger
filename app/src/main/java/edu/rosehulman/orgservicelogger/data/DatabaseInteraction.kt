@@ -1,9 +1,11 @@
 package edu.rosehulman.orgservicelogger.data
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Transaction
 import edu.rosehulman.orgservicelogger.Constants
 
 val weekDays = listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
@@ -131,4 +133,17 @@ fun addMemberToOrganization(organizationId: String, personId: String, isOrganize
         newOrganizationMembers.put(personId, isOrganizer)
         transaction.update(docRef, "members", newOrganizationMembers)
     }
+}
+
+fun addPersonToEvent(personId: String, eventId: String): Task<Transaction> {
+    val eventRef = FirebaseFirestore.getInstance().collection("event_occurrence").document(eventId)
+    return FirebaseFirestore.getInstance().runTransaction { transaction ->
+        val members = transaction.get(eventRef)["members"]!! as MutableMap<String, Boolean>
+        members[personId] = true
+        transaction.update(eventRef, "members", members)
+    }
+}
+
+fun addNotification(notification: Notification) {
+    FirebaseFirestore.getInstance().collection("notification").add(notification)
 }

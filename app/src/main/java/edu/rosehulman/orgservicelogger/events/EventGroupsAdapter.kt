@@ -13,7 +13,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class EventGroupsAdapter(
-    private val context: FragmentActivity
+    private val context: FragmentActivity,
+    private val userId: String
 ) :
     RecyclerView.Adapter<EventGroupViewHolder>() {
     private var events = listOf<EventOccurrence>()
@@ -43,7 +44,7 @@ class EventGroupsAdapter(
                 false
             )
         )
-        holder.events.adapter = EventAdapter(context)
+        holder.events.adapter = EventAdapter(userId, context)
         holder.events.layoutManager = LinearLayoutManager(context)
         holder.events.addItemDecoration(
             DividerItemDecoration(
