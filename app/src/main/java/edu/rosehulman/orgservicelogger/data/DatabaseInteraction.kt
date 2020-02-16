@@ -1,9 +1,11 @@
 package edu.rosehulman.orgservicelogger.data
 
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.orgservicelogger.Constants
 
 val weekDays = listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
 
@@ -53,6 +55,7 @@ fun retrieveFutureNotifications(personId: String, callback: (List<Notification>)
 fun retrievePerson(personId: String, callback: (Person) -> Unit) {
     FirebaseFirestore.getInstance().collection("person").document(personId).get()
         .addOnSuccessListener {
+            Log.d(Constants.TAG, "Getting person $personId")
             callback(it.toObject(Person::class.java)!!)
         }
 }
