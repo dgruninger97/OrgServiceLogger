@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.dialog_confirm_information.view.*
 class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
     private var userId: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,7 +30,6 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -57,10 +55,10 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                 userId = user.uid
                 Log.d(Constants.TAG, "User logged in with id: $userId")
 
-                retrievePersonExists(user.uid) { personExists ->
-                    if (personExists) {
+                retrievePersonExists(user.uid) { person ->
+                    if (person != null) {
                         Log.d(Constants.TAG, "Logging in as $userId")
-                        processLoggedIn(user.uid)
+                        processLoggedIn(person)
                     } else {
                         Log.d(Constants.TAG, "Registering $userId")
                         val view =
@@ -87,7 +85,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                             person.id = user.uid
                             writePerson(person)
 
-                            processLoggedIn(person.id!!)
+                            processLoggedIn(person)
                         }
                         builder.setNegativeButton(android.R.string.cancel, null)
                         builder.create().show()
@@ -100,15 +98,33 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
         }
     }
 
-    private fun processLoggedIn(personId: String) {
-        NotificationLauncher.scheduleNotifications(this, personId)
-        retrieveOrganizationForPerson(personId) { organization ->
+    private fun processLoggedIn(person: Person) {
+        NotificationLauncher.scheduleNotifications(this, person.id!!)
+        retrieveOrganizationForPerson(person.id!!) { organization ->
             if (organization != null) {
-                Log.d(Constants.TAG, "Person $personId is a member of organization: $organization")
-                switchMainFragment(this, HomeFragment(personId, organization))
+                Log.d(
+                    Constants.TAG,
+                    "Person ${person.id!!} is a member of organization: $organization"
+                )
+                switchMainFragment(this, HomeFragment(person.id!!, organization))
             } else {
-                Log.d(Constants.TAG, "Person $personId is a member of no organizations")
-                switchMainFragment(this, ChooseOrganizationFragment(personId))
+                retrieveInviteExists(person.email!!) { invite ->
+                    if (invite != null) {
+                        Log.d(Constants.TAG, "Logging in as $userId")
+                        addMemberToOrganization(
+                            invite.organizationId,
+                            person.id!!,
+                            invite.isOrganizer
+                        )
+                        switchMainFragment(this, HomeFragment(person.id!!, invite.organizationId))
+                    } else {
+                        Log.d(
+                            Constants.TAG,
+                            "Person ${person.id!!} is a member of no organizations"
+                        )
+                        switchMainFragment(this, ChooseOrganizationFragment(person.id!!))
+                    }
+                }
             }
         }
     }

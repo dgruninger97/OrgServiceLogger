@@ -69,9 +69,10 @@ fun writePerson(person: Person) {
     FirebaseFirestore.getInstance().collection("person").document(person.id!!).set(person)
 }
 
-fun addInvite(invite: Invite){
+fun addInvite(invite: Invite) {
     FirebaseFirestore.getInstance().collection("invite").add(invite)
 }
+
 fun writeOrganization(organization: Organization) {
     FirebaseFirestore.getInstance().collection("organization").document(organization.id!!)
         .set(organization)
@@ -102,24 +103,25 @@ fun retrieveOrganizationForPerson(personId: String, callback: (String?) -> Unit)
         .addOnSuccessListener { callback(it.documents.getOrNull(0)?.id) }
 }
 
-fun retrievePersonExists(uid: String, callback: (Boolean) -> Unit) {
+fun retrievePersonExists(uid: String, callback: (Person?) -> Unit) {
     FirebaseFirestore.getInstance().collection("person")
-        .whereEqualTo(FieldPath.documentId(), uid).limit(1).get()
+        .document(uid)
+        .get()
         .addOnSuccessListener {
-            callback(!it.isEmpty)
+            callback(it.toObject(Person::class.java))
         }
 }
 
-fun retrieveInviteExists(email:String, callback: (Boolean) -> Unit){
+fun retrieveInviteExists(email: String, callback: (Invite?) -> Unit) {
     FirebaseFirestore.getInstance().collection("invite")
         .whereEqualTo(FieldPath.of("person", "email"), email)
         .get()
         .addOnSuccessListener {
-            callback(!it.isEmpty)
+            callback(it.documents.getOrNull(0)?.toObject(Invite::class.java))
         }
 }
 
-fun addMemberToOrganization(organizationId: String, personId: String, isOrganizer:Boolean){
+fun addMemberToOrganization(organizationId: String, personId: String, isOrganizer: Boolean) {
     FirebaseFirestore.getInstance().collection("organization").document(organizationId)
         .update("members", mapOf(personId to true))
 }
