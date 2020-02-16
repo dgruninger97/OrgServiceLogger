@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.data.Organization
-import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.data.retrieveOrganization
-import edu.rosehulman.orgservicelogger.event.AddEventFragment
+import edu.rosehulman.orgservicelogger.event.EditEventFragment
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
@@ -56,7 +54,7 @@ class OrganizationFragment(private val personId: String, private val organizatio
         }
 
         view.fragment_organization_add_event.setOnClickListener {
-            launchFragment(activity!!, AddEventFragment())
+            launchFragment(activity!!, EditEventFragment(null))
         }
 
         return view

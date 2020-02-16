@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_edit_event.view.*
 import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
 import java.util.*
 
-class EditEventFragment(eventId: String) : Fragment() {
+class EditEventFragment(eventId: String?) : Fragment() {
     private var event = EventOccurrence().also { it.id = eventId }
     private var series = EventSeries()
 
@@ -47,6 +47,7 @@ class EditEventFragment(eventId: String) : Fragment() {
             this.series = series
             bindView(view)
         }
+        addListeners(view)
         return view
     }
 
@@ -74,7 +75,9 @@ class EditEventFragment(eventId: String) : Fragment() {
 
             view.fragment_edit_event_weekly_recurrence_container.addView(recurrenceView)
         }
+    }
 
+    private fun addListeners(view: View) {
         view.fragment_edit_event_date.setOnClickListener {
             DatePickerDialog(
                 context!!,
@@ -117,7 +120,8 @@ class EditEventFragment(eventId: String) : Fragment() {
             writeEventSeries(series)
 
             activity!!.supportFragmentManager.popBackStack()
-            Toast.makeText(context, getString(R.string.text_event_updated), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.text_event_updated), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
