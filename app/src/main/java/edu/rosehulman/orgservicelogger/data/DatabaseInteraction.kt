@@ -3,7 +3,6 @@ package edu.rosehulman.orgservicelogger.data
 import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.Constants
 
@@ -125,6 +124,11 @@ fun retrieveInviteExists(email: String, callback: (Invite?) -> Unit) {
 }
 
 fun addMemberToOrganization(organizationId: String, personId: String, isOrganizer: Boolean) {
-    FirebaseFirestore.getInstance().collection("organization").document(organizationId)
-        .update("members", mapOf(personId to true))
+    val docRef = FirebaseFirestore.getInstance().collection("organization").document(organizationId)
+    FirebaseFirestore.getInstance().runTransaction { transaction ->
+        val snapshot = transaction.get(docRef)
+        val newOrganizationMembers = snapshot.get("members") as MutableMap<String, Boolean>
+        newOrganizationMembers.put(personId, isOrganizer)
+        transaction.update(docRef, "members", newOrganizationMembers)
+    }
 }
