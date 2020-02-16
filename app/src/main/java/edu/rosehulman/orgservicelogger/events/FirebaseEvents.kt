@@ -18,11 +18,9 @@ fun retrieveEventsForOrganization(
 
             val events = snapshot.toObjects(EventOccurrence::class.java)
             val series = mutableListOf<EventSeries?>()
-
             for (localEvent in events) {
                 series.add(null)
             }
-
             for ((index, event) in events.withIndex()) {
                 FirebaseFirestore.getInstance().collection("event_series").document(event.series)
                     .get()
@@ -31,7 +29,6 @@ fun retrieveEventsForOrganization(
                         if (s.organization == organization) {
                             series[index] = s
                         }
-
                         val current = seriesCollected.incrementAndGet()
                         if (current == events.size) {
                             val occurrences = mutableListOf<EventOccurrence>()

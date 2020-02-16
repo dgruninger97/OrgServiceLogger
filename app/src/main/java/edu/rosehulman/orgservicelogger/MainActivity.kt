@@ -10,7 +10,9 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.HomeFragment
+import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.home.switchMainFragment
+import edu.rosehulman.orgservicelogger.login.LoggedInSplashFragment
 import edu.rosehulman.orgservicelogger.login.OnLoginButtonPressedListener
 import edu.rosehulman.orgservicelogger.login.SplashFragment
 import edu.rosehulman.orgservicelogger.notifications.NotificationLauncher
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                 retrievePersonExists(user.uid) { person ->
                     if (person != null) {
                         Log.d(Constants.TAG, "Logging in as $userId")
-                        processLoggedIn(person)
+                        switchMainFragment(this, LoggedInSplashFragment(person))
                     } else {
                         Log.d(Constants.TAG, "Registering $userId")
                         val view =
@@ -85,7 +87,7 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
                             person.id = user.uid
                             writePerson(person)
 
-                            processLoggedIn(person)
+                            switchMainFragment(this, LoggedInSplashFragment(person))
                         }
                         builder.setNegativeButton(android.R.string.cancel, null)
                         builder.create().show()
@@ -98,36 +100,6 @@ class MainActivity : AppCompatActivity(), OnLoginButtonPressedListener {
         }
     }
 
-    private fun processLoggedIn(person: Person) {
-        NotificationLauncher.scheduleNotifications(this, person.id!!)
-        retrieveOrganizationForPerson(person.id!!) { organization ->
-            if (organization != null) {
-                Log.d(
-                    Constants.TAG,
-                    "Person ${person.id!!} is a member of organization: $organization"
-                )
-                switchMainFragment(this, HomeFragment(person.id!!, organization))
-            } else {
-                retrieveInviteExists(person.email!!) { invite ->
-                    if (invite != null) {
-                        Log.d(Constants.TAG, "Logging in as $userId")
-                        addMemberToOrganization(
-                            invite.organizationId,
-                            person.id!!,
-                            invite.isOrganizer
-                        )
-                        switchMainFragment(this, HomeFragment(person.id!!, invite.organizationId))
-                    } else {
-                        Log.d(
-                            Constants.TAG,
-                            "Person ${person.id!!} is a member of no organizations"
-                        )
-                        switchMainFragment(this, ChooseOrganizationFragment(person.id!!))
-                    }
-                }
-            }
-        }
-    }
 
     override fun onLoginButtonPressed() {
         val providers = arrayListOf(

@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.Organization
 import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.data.retrievePerson
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import kotlinx.android.synthetic.main.fragment_user_info.view.*
 
-class UserInfoFragment(var personId: String) : Fragment() {
+class UserInfoFragment(var personId: String, var organizationId:String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,7 +30,7 @@ class UserInfoFragment(var personId: String) : Fragment() {
             view.fragment_user_info_email_text_view.text = person.email
             view.fragment_user_info_phone_text_view.text = person.phone
             view.user_info_edit_fab.setOnClickListener {
-                launchFragment(activity!!, UserInfoEditFragment(person))
+                launchFragment(activity!!, UserInfoEditFragment(person, organizationId))
             }
         }
 

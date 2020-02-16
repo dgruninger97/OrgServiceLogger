@@ -13,7 +13,7 @@ import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 
-class UserListAdapter(var context: FragmentActivity, organizationId: String) :
+class UserListAdapter(var context: FragmentActivity, var organizationId: String) :
     RecyclerView.Adapter<UserNameViewHolder>() {
     private var users = mutableListOf<Person>()
     private var organizationRef = FirebaseFirestore
@@ -22,11 +22,7 @@ class UserListAdapter(var context: FragmentActivity, organizationId: String) :
         .document(organizationId)
 
     init {
-        organizationRef.addSnapshotListener { snapshot, exception ->
-            if (exception != null) {
-                Log.d(Constants.TAG, "Error retreiving the users, exception: $exception")
-                return@addSnapshotListener
-            }
+        organizationRef.get().addOnSuccessListener { snapshot ->
             if (snapshot != null) {
                 val userIds = (snapshot.get("members")!! as Map<String, Boolean>).keys.toList()
                 FirebaseFirestore.getInstance().collection("person")
@@ -56,7 +52,7 @@ class UserListAdapter(var context: FragmentActivity, organizationId: String) :
     }
 
     private fun showUserInfo(position: Int) {
-        launchFragment(context, UserInfoFragment(users[position].id!!))
+        launchFragment(context, UserInfoFragment(users[position].id!!, organizationId))
     }
 
     override fun getItemCount() = users.size
