@@ -44,6 +44,12 @@ class EventFragment(private val userId: String, private val eventId: String) : F
         event: EventOccurrence,
         series: EventSeries
     ) {
+        if (event.people.isEmpty()) {
+            val attendees = view.fragment_event_attendees
+            attendees.removeAllViews()
+            return
+        }
+
         FirebaseFirestore.getInstance().collection("person")
             .whereIn(FieldPath.documentId(), event.people.keys.toList())
             .get()
