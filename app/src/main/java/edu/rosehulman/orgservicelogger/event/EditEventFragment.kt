@@ -19,6 +19,9 @@ import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
 import java.util.*
 
 class EditEventFragment(eventId: String?) : Fragment() {
+    private val weekDays =
+        listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
+
     private var event = EventOccurrence().also { it.id = eventId }
     private var series = EventSeries()
 

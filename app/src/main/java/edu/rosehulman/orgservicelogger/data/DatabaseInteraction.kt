@@ -8,8 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import edu.rosehulman.orgservicelogger.Constants
 
-val weekDays = listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
-
 fun retrieveEventSeries(seriesId: String, callback: (EventSeries) -> Unit) {
     FirebaseFirestore.getInstance().collection("event_series").document(seriesId).get()
         .addOnSuccessListener {
