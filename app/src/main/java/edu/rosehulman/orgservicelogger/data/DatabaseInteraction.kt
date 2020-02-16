@@ -146,9 +146,9 @@ fun removeMemberFromOrganization(organizationId: String, personId: String): Task
 fun addPersonToEvent(personId: String, eventId: String): Task<Transaction> {
     val eventRef = FirebaseFirestore.getInstance().collection("event_occurrence").document(eventId)
     return FirebaseFirestore.getInstance().runTransaction { transaction ->
-        val members = transaction.get(eventRef)["members"]!! as MutableMap<String, Boolean>
-        members[personId] = true
-        transaction.update(eventRef, "members", members)
+        val people = transaction.get(eventRef)["people"]!! as MutableMap<String, Boolean>
+        people[personId] = true
+        transaction.update(eventRef, "people", people)
     }
 }
 
