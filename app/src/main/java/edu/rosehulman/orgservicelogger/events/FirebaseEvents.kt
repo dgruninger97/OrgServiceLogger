@@ -34,9 +34,15 @@ fun retrieveEventsForOrganization(
 
                         val current = seriesCollected.incrementAndGet()
                         if (current == events.size) {
+                            val occurrences = mutableListOf<EventOccurrence>()
                             val seriesNonNull = mutableListOf<EventSeries>()
-                            series.filterNotNullTo(seriesNonNull)
-                            callback(events, seriesNonNull)
+                            for (index in series.indices) {
+                                if (series[index] != null) {
+                                    occurrences.add(events[index])
+                                    seriesNonNull.add(series[index]!!)
+                                }
+                            }
+                            callback(occurrences, seriesNonNull)
                         }
                     }
             }
