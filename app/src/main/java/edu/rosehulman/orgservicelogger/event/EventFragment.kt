@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,6 +48,7 @@ class EventFragment(private val userId: String, private val eventId: String) : F
         if (event.people.isEmpty()) {
             val attendees = view.fragment_event_attendees
             attendees.removeAllViews()
+            addEmptySlots(0, series, attendees)
             return
         }
 
@@ -67,15 +69,23 @@ class EventFragment(private val userId: String, private val eventId: String) : F
                     attendees.addView(view)
                 }
 
-                for (x in people.size until series.maxPeople) {
-                    val view =
-                        layoutInflater.inflate(R.layout.view_event_attendee_signup, null, false)
-                    view.view_event_attendee_signup_button.setOnClickListener {
-                        signupForEvent()
-                    }
-                    attendees.addView(view)
-                }
+                addEmptySlots(people.size, series, attendees)
             }
+    }
+
+    private fun addEmptySlots(
+        peopleSize: Int,
+        series: EventSeries,
+        attendees: LinearLayout
+    ) {
+        for (x in peopleSize until series.maxPeople) {
+            val view =
+                layoutInflater.inflate(R.layout.view_event_attendee_signup, null, false)
+            view.view_event_attendee_signup_button.setOnClickListener {
+                signupForEvent()
+            }
+            attendees.addView(view)
+        }
     }
 
     private fun signupForEvent() {
