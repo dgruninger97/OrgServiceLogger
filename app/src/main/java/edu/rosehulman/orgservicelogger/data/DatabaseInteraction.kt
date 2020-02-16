@@ -155,3 +155,11 @@ fun addPersonToEvent(personId: String, eventId: String): Task<Transaction> {
 fun addNotification(notification: Notification) {
     FirebaseFirestore.getInstance().collection("notification").add(notification)
 }
+
+fun createEvent(series: EventSeries, occurrence: EventOccurrence) {
+    FirebaseFirestore.getInstance().collection("event_series").add(series)
+        .addOnSuccessListener {
+            occurrence.series = it.id
+            FirebaseFirestore.getInstance().collection("event_occurrence").add(occurrence)
+        }
+}

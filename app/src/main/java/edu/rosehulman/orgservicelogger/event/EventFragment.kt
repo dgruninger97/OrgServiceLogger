@@ -31,7 +31,7 @@ class EventFragment(private val userId: String, private val eventId: String) : F
             view.fragment_event_description.text = series.description
             view.fragment_event_directions.text = series.address
             view.fragment_event_fab.setOnClickListener {
-                launchFragment(activity!!, EditEventFragment(event.id!!))
+                launchFragment(activity!!, EditEventFragment(event.id!!, null))
             }
 
             loadAttendees(view, event, series)

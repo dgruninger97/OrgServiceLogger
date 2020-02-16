@@ -18,12 +18,16 @@ import kotlinx.android.synthetic.main.fragment_edit_event.view.*
 import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
 import java.util.*
 
-class EditEventFragment(eventId: String?) : Fragment() {
+class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() {
     private val weekDays =
         listOf("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
 
     private var event = EventOccurrence().also { it.id = eventId }
-    private var series = EventSeries()
+    private var series = EventSeries().also {
+        if (organizationId != null) {
+            it.organization = organizationId
+        }
+    }
 
     private val recurrences = listOf(
         Recurrence("S"),
@@ -45,12 +49,24 @@ class EditEventFragment(eventId: String?) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_event, container, false)
-        retrieveEvent(event.id!!) { event, series ->
-            this.event = event
-            this.series = series
-            bindView(view)
+
+        val eventId = event.id
+        if (eventId != null) {
+            retrieveEvent(eventId) { event, series ->
+                this.event = event
+                this.series = series
+                bindView(view)
+                bindRecurrences(view)
+            }
+        } else {
+            for (weekday in weekDays) {
+                series.weeklyRecurrence[weekday] = false
+            }
+            bindRecurrences(view)
         }
+
         addListeners(view)
+
         return view
     }
 
@@ -60,7 +76,9 @@ class EditEventFragment(eventId: String?) : Fragment() {
         view.fragment_edit_event_description.setText(series.description)
         view.fragment_edit_event_time.text = formatTimeSpan(series.timeStart, series.timeEnd)
         view.fragment_edit_event_date.text = formatDate(event.date)
+    }
 
+    private fun bindRecurrences(view: View) {
         view.fragment_edit_event_weekly_recurrence_container.removeAllViews()
         for ((index, recurrence) in recurrences.withIndex()) {
             val recurrenceView = layoutInflater.inflate(R.layout.view_edit_recurrence_day, null)
@@ -119,8 +137,12 @@ class EditEventFragment(eventId: String?) : Fragment() {
             series.address = view.fragment_edit_event_address.text.toString()
             series.description = view.fragment_edit_event_description.text.toString()
 
-            writeEventOccurrence(event)
-            writeEventSeries(series)
+            if (event.id == null) {
+                createEvent(series, event)
+            } else {
+                writeEventOccurrence(event)
+                writeEventSeries(series)
+            }
 
             activity!!.supportFragmentManager.popBackStack()
             Toast.makeText(context, getString(R.string.text_event_updated), Toast.LENGTH_SHORT)

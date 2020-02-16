@@ -54,7 +54,7 @@ class OrganizationFragment(private val personId: String, private val organizatio
         }
 
         view.fragment_organization_add_event.setOnClickListener {
-            launchFragment(activity!!, EditEventFragment(null))
+            launchFragment(activity!!, EditEventFragment(null, organizationId))
         }
 
         return view
