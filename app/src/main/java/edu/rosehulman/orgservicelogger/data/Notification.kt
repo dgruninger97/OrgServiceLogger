@@ -64,12 +64,12 @@ class Notification(
             }
         }
 
-        fun confirm(event: String, person: String): Notification {
-            return Notification(event, TYPE_CONFIRM, person)
+        fun confirm(event: String, person: String, time: Timestamp): Notification {
+            return Notification(event, TYPE_CONFIRM, person, time)
         }
 
-        fun reminder(event: String, person: String): Notification {
-            return Notification(event, TYPE_REMINDER, person)
+        fun reminder(event: String, person: String, time: Timestamp): Notification {
+            return Notification(event, TYPE_REMINDER, person, time)
         }
     }
 }

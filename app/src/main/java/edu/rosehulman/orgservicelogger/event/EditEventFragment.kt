@@ -16,6 +16,7 @@ import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
 import kotlinx.android.synthetic.main.fragment_edit_event.view.*
 import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
+import java.time.ZoneId
 import java.util.*
 
 class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() {
@@ -154,7 +155,7 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
         TimePickerDialog(
             context!!,
             { _, hour, minute ->
-                callback(Timestamp(Date(0, 0, 0, hour, minute, 0)))
+                callback(Timestamp(Date(70, 0, 1, hour, minute, 0)))
             },
             date.hours,
             date.minutes,

@@ -7,18 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.launchFragment
+import edu.rosehulman.orgservicelogger.notifications.NotificationLauncher
 import edu.rosehulman.orgservicelogger.notifications.makeDirectionsIntent
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.view_event_attendee.view.*
 import kotlinx.android.synthetic.main.view_event_attendee_signup.view.*
 import java.text.SimpleDateFormat
+import java.util.*
 
 class EventFragment(private val userId: String, private val eventId: String) : Fragment() {
     override fun onCreateView(
@@ -115,9 +118,35 @@ class EventFragment(private val userId: String, private val eventId: String) : F
             .continueWith {
                 retrieveEvent(eventId) { event, series ->
                     loadAttendees(view!!, event, series)
+
+                    Log.d(
+                        Constants.TAG,
+                        "Series time: ${series.timeStart.toDate()} to ${series.timeEnd.toDate()}"
+                    )
+                    Log.d(
+                        Constants.TAG,
+                        "Series values: ${series.timeStart.toDate().time} to ${series.timeEnd.toDate().time}"
+                    )
+
+                    val reminderTime =
+                        Timestamp(Date(event.date.toDate().time + series.timeStart.toDate().time - 30 * 60 * 1000 - 5 * 60 * 60 * 1000))
+                    Log.d(
+                        Constants.TAG,
+                        "Reminder set for $reminderTime (${reminderTime.toDate()})"
+                    )
+                    addNotification(Notification.reminder(eventId, userId, reminderTime))
+                        .continueWithTask {
+                            val confirmationTime =
+                                Timestamp(Date(event.date.toDate().time + series.timeEnd.toDate().time))
+                            Log.d(
+                                Constants.TAG,
+                                "Confirmation set for $confirmationTime (${confirmationTime.toDate()})"
+                            )
+                            addNotification(Notification.confirm(eventId, userId, confirmationTime))
+                        }.continueWith {
+                            NotificationLauncher.scheduleNotifications(context!!, userId)
+                        }
                 }
             }
-        addNotification(Notification.reminder(eventId, userId))
-        addNotification(Notification.confirm(eventId, userId))
     }
 }
