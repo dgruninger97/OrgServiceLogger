@@ -163,3 +163,12 @@ fun createEvent(series: EventSeries, occurrence: EventOccurrence) {
             FirebaseFirestore.getInstance().collection("event_occurrence").add(occurrence)
         }
 }
+
+fun retrieveIsOrganizer(personId: String, organizationId: String, callback: (Boolean) -> Unit) {
+    FirebaseFirestore.getInstance().collection("organization").document(organizationId)
+        .get()
+        .addOnSuccessListener { snapshot ->
+            val organization = snapshot.toObject(Organization::class.java)!!
+            callback(organization.members[personId]!!)
+        }
+}
