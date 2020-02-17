@@ -46,7 +46,7 @@ class EventAdapter(
             for (x in 0 until event.people.size) {
                 holder.people.addView(context.layoutInflater.inflate(R.layout.view_event_person_present, null))
             }
-            for (x in event.people.size until series.minPeople) {
+            for (x in event.people.size until series.maxPeople) {
                 holder.people.addView(context.layoutInflater.inflate(R.layout.view_event_person_not_present, null))
             }
             event.people
