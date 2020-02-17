@@ -35,6 +35,12 @@ class EventFragment(private val userId: String, private val eventId: String) : F
                 launchFragment(activity!!, EditEventFragment(event.id!!, null))
             }
 
+            retrieveIsOrganizer(userId, series.organization) { isOrganizer ->
+                if (isOrganizer) {
+                    view.fragment_event_fab.show()
+                }
+            }
+
             loadAttendees(view, event, series)
         }
         return view

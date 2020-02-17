@@ -26,7 +26,7 @@ class UserListFragment(private val personId: String, private val organizationId:
             inflater.inflate(R.layout.fragment_user_list, container, false)
         val recyclerView = view.fragment_user_list_recycler_view as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = UserListAdapter(activity!!, organizationId)
+        recyclerView.adapter = UserListAdapter(activity!!, personId, organizationId)
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 context,

@@ -55,7 +55,7 @@ class HomeFragment(private val personId: String, private val organizationId: Str
             R.id.navigation_notifications -> NotificationsFragment(personId)
             R.id.navigation_events -> EventsFragment(personId)
             R.id.navigation_organization -> OrganizationFragment(personId, organizationId)
-            R.id.navigation_settings -> UserInfoFragment(personId, organizationId)
+            R.id.navigation_settings -> UserInfoFragment(personId, personId, organizationId)
             else -> TODO("Unimplemented navigation item")
         }
 

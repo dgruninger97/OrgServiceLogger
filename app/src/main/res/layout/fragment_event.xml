@@ -12,9 +12,9 @@
 
         <TextView
             android:id="@+id/fragment_event_name"
-            android:textSize="22sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/fragment_event_date"
@@ -63,5 +63,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:tint="#FFFFFF"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_edit" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

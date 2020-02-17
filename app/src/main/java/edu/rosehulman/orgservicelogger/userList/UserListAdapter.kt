@@ -1,19 +1,21 @@
 package edu.rosehulman.orgservicelogger.userList
 
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
-import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Person
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 
-class UserListAdapter(var context: FragmentActivity, var organizationId: String) :
+class UserListAdapter(
+    private val context: FragmentActivity,
+    private val userId: String,
+    private val organizationId: String
+) :
     RecyclerView.Adapter<UserNameViewHolder>() {
     private var users = mutableListOf<Person>()
     private var organizationRef = FirebaseFirestore
@@ -52,7 +54,7 @@ class UserListAdapter(var context: FragmentActivity, var organizationId: String)
     }
 
     private fun showUserInfo(position: Int) {
-        launchFragment(context, UserInfoFragment(users[position].id!!, organizationId))
+        launchFragment(context, UserInfoFragment(userId, users[position].id!!, organizationId))
     }
 
     override fun getItemCount() = users.size
