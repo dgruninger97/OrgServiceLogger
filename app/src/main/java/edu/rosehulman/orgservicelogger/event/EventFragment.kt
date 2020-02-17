@@ -13,6 +13,7 @@ import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.launchFragment
+import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.view_event_attendee.view.*
 import kotlinx.android.synthetic.main.view_event_attendee_signup.view.*
@@ -69,6 +70,12 @@ class EventFragment(private val userId: String, private val eventId: String) : F
                 for (person in people) {
                     val view = layoutInflater.inflate(R.layout.view_event_attendee, null, false)
                     view.view_event_attendee_name.text = person.name
+                    view.view_event_attendee_name.setOnClickListener {
+                        launchFragment(
+                            activity!!,
+                            UserInfoFragment(userId, person.id!!, series.organization)
+                        )
+                    }
                     if (!person.canDrive) {
                         view.view_event_attendee_driving_icon.visibility = View.GONE
                     }
