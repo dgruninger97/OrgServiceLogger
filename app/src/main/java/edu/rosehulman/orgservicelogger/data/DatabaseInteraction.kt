@@ -99,7 +99,7 @@ fun retrieveOrganization(organizationId: String, callback: (Organization) -> Uni
 
 fun retrieveOrganizationForPerson(personId: String, callback: (String?) -> Unit) {
     FirebaseFirestore.getInstance().collection("organization")
-        .whereEqualTo(FieldPath.of("members", personId), true)
+        .whereIn(FieldPath.of("members", personId), mutableListOf(true, false))
         .limit(1)
         .get()
         .addOnSuccessListener { callback(it.documents.getOrNull(0)?.id) }
