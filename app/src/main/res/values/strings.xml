@@ -28,8 +28,4 @@
     <string name="text_organization_fragment_actions">Actions:</string>
     <string name="text_organization_fragment_see_group_members">See Group Members</string>
     <string name="text_organization_fragment_add_event">Add Event</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="checking_log_in_status">Checking log in status</string>
 </resources>
