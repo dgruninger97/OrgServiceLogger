@@ -36,7 +36,9 @@ class UserInfoEditFragment(var person: Person, var organizationId:String) : Frag
             person.name = view.fragment_edit_user_info_name_edit_text.text.toString()
             person.email = view.fragment_edit_user_info_email_edit_text.text.toString()
             person.phone = view.fragment_edit_user_info_phone_edit_text.text.toString()
+            person.canDrive = view.fragment_edit_user_info_checkbox.isChecked
             writePerson(person)
+
             activity!!.supportFragmentManager.popBackStack()
             Toast.makeText(context, getString(R.string.text_user_info_updated), Toast.LENGTH_SHORT)
                 .show()
