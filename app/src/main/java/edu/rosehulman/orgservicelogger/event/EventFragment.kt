@@ -13,6 +13,7 @@ import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.launchFragment
+import edu.rosehulman.orgservicelogger.notifications.makeDirectionsIntent
 import edu.rosehulman.orgservicelogger.userInfo.UserInfoFragment
 import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.view_event_attendee.view.*
@@ -31,10 +32,13 @@ class EventFragment(private val userId: String, private val eventId: String) : F
             view.fragment_event_name.text = series.name
             view.fragment_event_date.text = day + " " + series.formatTimeSpan()
             view.fragment_event_description.text = series.description
-            view.fragment_event_directions.text = series.address
+            view.fragment_event_address.text = series.address
             view.fragment_event_fab.setOnClickListener {
                 launchFragment(activity!!, EditEventFragment(event.id!!, null))
             }
+
+            view.fragment_event_address.setOnClickListener { launchMaps(series.address) }
+            view.fragment_event_address_label.setOnClickListener { launchMaps(series.address) }
 
             retrieveIsOrganizer(userId, series.organization) { isOrganizer ->
                 if (isOrganizer) {
@@ -45,6 +49,10 @@ class EventFragment(private val userId: String, private val eventId: String) : F
             loadAttendees(view, event, series)
         }
         return view
+    }
+
+    private fun launchMaps(address: String) {
+        activity!!.startActivity(makeDirectionsIntent(address))
     }
 
     private fun loadAttendees(

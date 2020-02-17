@@ -9,7 +9,7 @@
     <string name="text_notification_reminder">Event Reminder</string>
     <string name="text_notification_replacement">%s needs a replacement</string>
     <string name="text_notification_replacement_default">Someone needs a replacement</string>
-    <string name="text_directions">Directions:</string>
+    <string name="text_address">Address:</string>
     <string name="text_attendees">Attendees:</string>
     <string name="text_dialog_confirm_user_info">Please confirm the info</string>
     <string name="text_dialog_edit_organization">Edit Organization</string>

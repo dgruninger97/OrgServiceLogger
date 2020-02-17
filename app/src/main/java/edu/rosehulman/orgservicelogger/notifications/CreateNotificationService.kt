@@ -11,6 +11,7 @@ import androidx.core.graphics.drawable.toBitmap
 import edu.rosehulman.orgservicelogger.Constants
 import edu.rosehulman.orgservicelogger.NoLoginActivity
 import edu.rosehulman.orgservicelogger.R
+import edu.rosehulman.orgservicelogger.data.EventSeries
 import edu.rosehulman.orgservicelogger.data.Notification
 import edu.rosehulman.orgservicelogger.data.retrieveEvent
 import edu.rosehulman.orgservicelogger.data.retrieveNotification
@@ -52,9 +53,7 @@ class CreateNotificationService : IntentService("ViewEventService") {
                         .setContentIntent(pendingIntent)
 
                     if (notification.type == Notification.TYPE_REMINDER) {
-                        val directionsIntent = Intent(Intent.ACTION_VIEW)
-                        directionsIntent.data =
-                            Uri.parse("geo:0,0?q=${series.address.replace(' ', '+')}")
+                        val directionsIntent = makeDirectionsIntent(series.address)
                         val directionsPendingIntent =
                             PendingIntent.getActivity(this, 0, directionsIntent, 0)
 
@@ -86,4 +85,11 @@ class CreateNotificationService : IntentService("ViewEventService") {
             }
         }
     }
+}
+
+fun makeDirectionsIntent(address: String): Intent {
+    val directionsIntent = Intent(Intent.ACTION_VIEW)
+    directionsIntent.data =
+        Uri.parse("geo:0,0?q=${address.replace(' ', '+')}")
+    return directionsIntent
 }
