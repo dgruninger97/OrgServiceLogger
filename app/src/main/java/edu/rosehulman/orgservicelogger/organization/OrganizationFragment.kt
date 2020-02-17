@@ -48,7 +48,7 @@ class OrganizationFragment(private val personId: String, private val organizatio
         view.see_group_members.setOnClickListener {
             launchFragment(
                 activity!!,
-                UserListFragment(organizationId)
+                UserListFragment(personId, organizationId)
             )
         }
 

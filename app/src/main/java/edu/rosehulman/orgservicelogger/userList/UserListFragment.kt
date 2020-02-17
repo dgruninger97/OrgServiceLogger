@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.Organization
+import edu.rosehulman.orgservicelogger.data.retrieveIsOrganizer
 import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userInfo.CreateUserFragment
 import kotlinx.android.synthetic.main.fragment_user_list.view.*
 
-class UserListFragment(private val organizationId: String) : Fragment() {
+class UserListFragment(private val personId: String, private val organizationId: String) :
+    Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +36,13 @@ class UserListFragment(private val organizationId: String) : Fragment() {
         view.fragment_user_list_fab.setOnClickListener {
             launchFragment(activity!!, CreateUserFragment(organizationId))
         }
+
+        retrieveIsOrganizer(personId, organizationId) { isOrganizer ->
+            if (isOrganizer) {
+                view.fragment_user_list_fab.show()
+            }
+        }
+
         return view
     }
 }
