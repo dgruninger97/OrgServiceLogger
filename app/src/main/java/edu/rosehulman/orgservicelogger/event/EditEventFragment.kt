@@ -14,6 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
+import edu.rosehulman.orgservicelogger.events.EventsFragment
+import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import kotlinx.android.synthetic.main.fragment_edit_event.view.*
 import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
 import java.time.ZoneId
@@ -141,9 +143,13 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
         if (event.id != null) {
             view.fragment_edit_event_delete_button.setOnClickListener {
                 removeEvent(event.id!!)
+                activity!!.supportFragmentManager.popBackStack()
+                activity!!.supportFragmentManager.popBackStack()
+                Toast.makeText(context, "Event has been removed from the database", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
-        
+
         view.fragment_edit_event_fab.setOnClickListener {
             series.name = view.fragment_edit_event_name.text.toString()
             series.address = view.fragment_edit_event_address.text.toString()

@@ -4,58 +4,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/fragment_event_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/fragment_event_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/fragment_event_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textSize="22sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_address"
-            android:id="@+id/fragment_event_address_label"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/fragment_event_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textSize="22sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_attendees"
-            android:textSize="22sp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/fragment_event_attendees"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/fragment_event_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/fragment_event_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/fragment_event_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/fragment_event_address_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_address"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/fragment_event_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_attendees"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:id="@+id/fragment_event_attendees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fragment_event_fab"

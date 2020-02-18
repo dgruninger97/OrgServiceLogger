@@ -175,5 +175,5 @@ fun retrieveIsOrganizer(personId: String, organizationId: String, callback: (Boo
 }
 
 fun removeEvent(eventId:String){
-    FirebaseFirestore.getInstance().collection("event_occurence").document(eventId).delete()
+    FirebaseFirestore.getInstance().collection("event_series").document(eventId).delete()
 }
