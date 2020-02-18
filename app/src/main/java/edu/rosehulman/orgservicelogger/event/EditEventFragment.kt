@@ -142,19 +142,32 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
                 removeEventOccurrence(event.id!!)
                 activity!!.supportFragmentManager.popBackStack()
                 activity!!.supportFragmentManager.popBackStack()
-                Toast.makeText(context, "Event occurrence has been removed from the database", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "Event occurrence has been removed from the database",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
             view.fragment_edit_event_delete_button_series.setOnClickListener {
                 removeEventSeries(series.id!!)
                 activity!!.supportFragmentManager.popBackStack()
                 activity!!.supportFragmentManager.popBackStack()
-                Toast.makeText(context, "Event series has been removed from the database", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "Event series has been removed from the database",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }
 
         view.fragment_edit_event_fab.setOnClickListener {
+            if (view.fragment_edit_event_address.text.isEmpty() || view.fragment_edit_event_address.text.isEmpty() || view.fragment_edit_event_description.text.isEmpty() || view.fragment_edit_event_max.text.isEmpty() || view.fragment_edit_event_min.text.isEmpty()) {
+                Toast.makeText(context, "You must enter all fields to add an event", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
             series.name = view.fragment_edit_event_name.text.toString()
             series.address = view.fragment_edit_event_address.text.toString()
             series.description = view.fragment_edit_event_description.text.toString()
