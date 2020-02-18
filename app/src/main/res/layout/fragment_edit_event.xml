@@ -5,171 +5,185 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Series:"
-            android:textSize="30sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="4dp"
-                android:text="Event Name:"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/fragment_edit_event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
-        </LinearLayout>
+                android:text="Series:"
+                android:textSize="30sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="4dp"
-                android:text="Address:"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/fragment_edit_event_address"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-        </LinearLayout>
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Description:"
-            android:textSize="20sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="4dp"
+                    android:text="Event Name:"
+                    android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/fragment_edit_event_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/fragment_edit_event_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="4dp"
+                    android:text="Address:"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/fragment_edit_event_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number of Attendees -- "
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Min: "
+                android:text="Description:"
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/fragment_edit_event_min"
-                android:layout_width="wrap_content"
-                android:inputType="number"
+                android:id="@+id/fragment_edit_event_description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Number of Attendees -- "
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min: "
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/fragment_edit_event_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Max: "
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/fragment_edit_event_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time: "
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/fragment_edit_event_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Max: "
+                android:text="Weekly recurrence:"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/fragment_edit_event_max"
-                android:layout_width="wrap_content"
-                android:inputType="number"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time: "
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/fragment_edit_event_time"
+            <LinearLayout
+                android:id="@+id/fragment_edit_event_weekly_recurrence_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Time"
-                android:textColor="#000"
-                android:textSize="18sp" />
-        </LinearLayout>
+                android:orientation="horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Weekly recurrence:"
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:id="@+id/fragment_edit_event_weekly_recurrence_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Occurrence:"
-            android:textSize="30sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
+            <Button
+                android:id="@+id/fragment_edit_event_delete_button_series"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date: "
-                android:textSize="20sp" />
+                android:layout_marginTop="10dp"
+                android:text="Delete Event Series" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
 
             <TextView
-                android:id="@+id/fragment_edit_event_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date"
-                android:textColor="#000"
-                android:textSize="18sp" />
+                android:text="Occurrence:"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date: "
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/fragment_edit_event_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fragment_edit_event_delete_button_occurrence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Delete Event Occurrence" />
+
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/fragment_edit_event_delete_button"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Event"/>
-    </LinearLayout>
-
-
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fragment_edit_event_fab"
