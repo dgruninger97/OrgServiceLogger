@@ -14,6 +14,10 @@ import edu.rosehulman.orgservicelogger.home.launchFragment
 import edu.rosehulman.orgservicelogger.userList.UserListFragment
 import kotlinx.android.synthetic.main.dialog_edit_organization.view.*
 import kotlinx.android.synthetic.main.fragment_organization.view.*
+import android.text.style.UnderlineSpan
+import android.text.SpannableString
+
+
 
 class OrganizationFragment(private val personId: String, private val organizationId: String) :
     Fragment() {
@@ -22,6 +26,16 @@ class OrganizationFragment(private val personId: String, private val organizatio
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
+
+        val seeGroupText = view.see_group_members.text
+        val content = SpannableString(seeGroupText)
+        content.setSpan(UnderlineSpan(), 0, seeGroupText.length, 0)
+        view.see_group_members.setText(content)
+
+        val seeAddEventText = view.fragment_organization_add_event.text
+        val contentAdd = SpannableString(seeAddEventText)
+        contentAdd.setSpan(UnderlineSpan(), 0, seeAddEventText.length, 0)
+        view.fragment_organization_add_event.setText(contentAdd)
 
         retrieveOrganization(organizationId) { organization ->
             view.fragment_organization_name.text = organization.name
@@ -37,7 +51,6 @@ class OrganizationFragment(private val personId: String, private val organizatio
                 .setTitle(getString(R.string.text_dialog_edit_organization))
                 .setView(dialogView)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    // TODO: Edit organization
                     view.fragment_organization_name.setText(dialogView.dialog_edit_organization_org_name.text)
                     view.fragment_organization_min_hours.setText(dialogView.dialog_edit_organization_min_hours.text)
                 }

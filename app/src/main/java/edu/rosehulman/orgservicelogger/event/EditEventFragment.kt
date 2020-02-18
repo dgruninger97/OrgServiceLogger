@@ -49,13 +49,18 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_edit_event, container, false)
+        val view = if (event.id == null) {
+            inflater.inflate(R.layout.fragment_add_event, container, false)
+        } else {
+            inflater.inflate(R.layout.fragment_edit_event, container, false)
+        }
 
         val eventId = event.id
         if (eventId != null) {
             retrieveEvent(eventId) { event, series ->
                 this.event = event
                 this.series = series
+
                 bindView(view)
                 bindRecurrences(view)
             }
@@ -133,18 +138,24 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
             }
         }
 
+        if (event.id != null) {
+            view.fragment_edit_event_delete_button.setOnClickListener {
+                removeEvent(event.id!!)
+            }
+        }
+        
         view.fragment_edit_event_fab.setOnClickListener {
             series.name = view.fragment_edit_event_name.text.toString()
             series.address = view.fragment_edit_event_address.text.toString()
             series.description = view.fragment_edit_event_description.text.toString()
-
+            series.maxPeople = view.fragment_edit_event_max.text.toString().toInt()
+            series.minPeople = view.fragment_edit_event_min.text.toString().toInt()
             if (event.id == null) {
                 createEvent(series, event)
             } else {
                 writeEventOccurrence(event)
                 writeEventSeries(series)
             }
-
             activity!!.supportFragmentManager.popBackStack()
             Toast.makeText(context, getString(R.string.text_event_updated), Toast.LENGTH_SHORT)
                 .show()

@@ -13,6 +13,7 @@
         <TextView
             android:id="@+id/fragment_organization_name"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="Organization name"

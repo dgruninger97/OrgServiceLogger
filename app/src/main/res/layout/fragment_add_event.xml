@@ -64,6 +64,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of Attendees -- "
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Min: "
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/fragment_edit_event_min"
+                android:layout_width="wrap_content"
+                android:inputType="number"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max: "
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/fragment_edit_event_max"
+                android:layout_width="wrap_content"
+                android:inputType="number"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="16dp" />
