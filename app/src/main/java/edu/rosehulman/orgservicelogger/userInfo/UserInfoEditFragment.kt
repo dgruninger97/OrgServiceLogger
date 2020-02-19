@@ -12,10 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.MainActivity
 import edu.rosehulman.orgservicelogger.R
-import edu.rosehulman.orgservicelogger.data.Organization
-import edu.rosehulman.orgservicelogger.data.Person
-import edu.rosehulman.orgservicelogger.data.removeMemberFromOrganization
-import edu.rosehulman.orgservicelogger.data.writePerson
+import edu.rosehulman.orgservicelogger.data.*
 import edu.rosehulman.orgservicelogger.home.HomeFragment
 import edu.rosehulman.orgservicelogger.home.switchMainFragment
 import edu.rosehulman.orgservicelogger.login.LoggedInSplashFragment
@@ -31,7 +28,9 @@ class UserInfoEditFragment(var person: Person, var organizationId:String) : Frag
         view.fragment_edit_user_info_name_edit_text.setText(person.name)
         view.fragment_edit_user_info_email_edit_text.setText(person.email)
         view.fragment_edit_user_info_phone_edit_text.setText(person.phone)
-
+        retrieveOrganization(organizationId){
+            organization: Organization -> view.fragment_edit_user_info_organization_name.setText(organization.name)
+        }
         view.fragment_edit_user_info_fab.setOnClickListener {
             person.name = view.fragment_edit_user_info_name_edit_text.text.toString()
             person.email = view.fragment_edit_user_info_email_edit_text.text.toString()
