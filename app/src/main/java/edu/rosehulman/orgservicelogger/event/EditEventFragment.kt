@@ -14,7 +14,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import edu.rosehulman.orgservicelogger.R
 import edu.rosehulman.orgservicelogger.data.*
+import kotlinx.android.synthetic.main.fragment_add_event.view.*
 import kotlinx.android.synthetic.main.fragment_edit_event.view.*
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_address
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_coordinator
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_date
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_description
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_fab
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_max
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_min
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_name
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_time
+import kotlinx.android.synthetic.main.fragment_edit_event.view.fragment_edit_event_weekly_recurrence_container
 import kotlinx.android.synthetic.main.view_edit_recurrence_day.view.*
 import java.util.*
 
@@ -162,9 +173,15 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
             }
         }
 
+
+
         view.fragment_edit_event_fab.setOnClickListener {
             if (view.fragment_edit_event_address.text.isEmpty() || view.fragment_edit_event_address.text.isEmpty() || view.fragment_edit_event_description.text.isEmpty() || view.fragment_edit_event_max.text.isEmpty() || view.fragment_edit_event_min.text.isEmpty()) {
-                Toast.makeText(context, "You must enter all fields to add an event", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "You must enter all fields to add an event",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
                 return@setOnClickListener
             }
@@ -174,7 +191,26 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
             series.maxPeople = view.fragment_edit_event_max.text.toString().toInt()
             series.minPeople = view.fragment_edit_event_min.text.toString().toInt()
             if (event.id == null) {
-                createEvent(series, event)
+                createEventSeries(series) { seriesId ->
+                    event.series = seriesId
+                    val initialDate =
+                        Timestamp(Date(event.date.toDate().time - event.date.toDate().day * 24 * 60 * 60 * 1000))
+                    for (day in 0 until 7) {
+                        if (recurrences[day].checkBox.isChecked) {
+                            val weeks = view.fragment_add_event_week_count.text.toString().toInt()
+                            if(weeks <= 0){
+                                Toast.makeText(context, "Must be more than 1 week", Toast.LENGTH_SHORT)
+                                    .show()
+                                return@createEventSeries
+                            }
+                            for (week in 0 until weeks) {
+                                event.date =
+                                    Timestamp(Date(initialDate.toDate().time + (week * 7 + day) * 24 * 60 * 60 * 1000))
+                                createEventOccurrence(event)
+                            }
+                        }
+                    }
+                }
             } else {
                 writeEventOccurrence(event)
                 writeEventSeries(series)

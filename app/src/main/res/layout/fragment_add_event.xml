@@ -24,8 +24,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event Name:"
                 android:paddingEnd="4dp"
+                android:text="Event Name:"
                 android:textSize="20sp" />
 
             <EditText
@@ -42,8 +42,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address:"
                 android:paddingEnd="4dp"
+                android:text="Address:"
                 android:textSize="20sp" />
 
             <EditText
@@ -83,8 +83,8 @@
             <EditText
                 android:id="@+id/fragment_edit_event_min"
                 android:layout_width="wrap_content"
-                android:inputType="number"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,8 +95,8 @@
             <EditText
                 android:id="@+id/fragment_edit_event_max"
                 android:layout_width="wrap_content"
-                android:inputType="number"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number" />
 
 
         </LinearLayout>
@@ -154,6 +154,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="For how many weeks?"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/fragment_add_event_week_count"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

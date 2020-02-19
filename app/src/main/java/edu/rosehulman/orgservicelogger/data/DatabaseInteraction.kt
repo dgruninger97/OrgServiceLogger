@@ -157,12 +157,15 @@ fun addNotification(notification: Notification): Task<DocumentReference> {
     return FirebaseFirestore.getInstance().collection("notification").add(notification)
 }
 
-fun createEvent(series: EventSeries, occurrence: EventOccurrence) {
+fun createEventSeries(series: EventSeries, callback: (String) -> Unit) {
     FirebaseFirestore.getInstance().collection("event_series").add(series)
         .addOnSuccessListener {
-            occurrence.series = it.id
-            FirebaseFirestore.getInstance().collection("event_occurrence").add(occurrence)
+            callback(it.id)
         }
+}
+
+fun createEventOccurrence(occurrence: EventOccurrence){
+    FirebaseFirestore.getInstance().collection("event_occurrence").add(occurrence)
 }
 
 fun retrieveIsOrganizer(personId: String, organizationId: String, callback: (Boolean) -> Unit) {
