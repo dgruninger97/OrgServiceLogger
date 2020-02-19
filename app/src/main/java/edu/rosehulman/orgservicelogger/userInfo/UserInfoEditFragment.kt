@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.orgservicelogger.MainActivity
 import edu.rosehulman.orgservicelogger.R
@@ -47,7 +48,7 @@ class UserInfoEditFragment(var person: Person, var organizationId:String) : Frag
             builder.setMessage("Are you sure that you want to leave this organization? This action cannot be undone")
             builder.setPositiveButton(android.R.string.yes){ dialog: DialogInterface?, which: Int ->
                 removeMemberFromOrganization(organizationId, person.id!!).continueWith{
-                    switchMainFragment(activity!!, LoggedInSplashFragment(person))
+                    FirebaseAuth.getInstance().signOut()
                 }
             }
             builder.setNegativeButton(android.R.string.cancel,null)
