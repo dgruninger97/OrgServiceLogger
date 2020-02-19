@@ -75,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Change user Phone"
+                android:inputType="number"
                 android:id="@+id/fragment_edit_user_info_phone_edit_text"/>
 
         </LinearLayout>

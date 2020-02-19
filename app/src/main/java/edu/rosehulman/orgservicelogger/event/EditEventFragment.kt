@@ -92,6 +92,8 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
         view.fragment_edit_event_description.setText(series.description)
         view.fragment_edit_event_time.text = formatTimeSpan(series.timeStart, series.timeEnd)
         view.fragment_edit_event_date.text = formatDate(event.date)
+        view.fragment_edit_event_max.setText(series.maxPeople.toString())
+        view.fragment_edit_event_min.setText(series.minPeople.toString())
     }
 
     private fun bindRecurrences(view: View) {
@@ -101,7 +103,6 @@ class EditEventFragment(eventId: String?, organizationId: String?) : Fragment() 
             recurrenceView.view_edit_recurrence_day_text.text = recurrence.title
             recurrence.checkBox = recurrenceView.view_edit_recurrence_day_check
             recurrence.checkBox.isChecked = series.weeklyRecurrence.containsKey(weekDays[index])
-
             recurrence.checkBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     series.weeklyRecurrence[weekDays[index]] = true
